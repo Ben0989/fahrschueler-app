@@ -1,11 +1,16 @@
+
 <!DOCTYPE html>
 <html lang="de">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Fahrschüler Ausbildung</title>
+
 <link rel="manifest" href="manifest.json">
 <link rel="stylesheet" href="style.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
 </head>
 
 <body>
@@ -17,46 +22,104 @@
 
 <div class="searchContainer">
 <span class="searchIcon">🔍</span>
-<input 
-type="text" 
-id="searchBox" 
-placeholder="Name, Vorname, Telefon oder Klasse suchen..."
-/>
+<input id="searchBox" placeholder="Name, Vorname, Telefon suchen...">
 </div>
 
 <ul id="studentList"></ul>
 
 <div id="modal" class="modal hidden">
+
 <h2>Fahrschüler anlegen</h2>
 
 <input id="name" placeholder="Name">
 <input id="vorname" placeholder="Vorname">
-<input id="anschrift" placeholder="Anschrift">
 <input id="telefon" placeholder="Telefon">
 
 <label>Klasse</label>
 <select id="klasse">
 <option>B</option>
 <option>BE</option>
-<option>L</option>
-</select>
-
-<label>Sehhilfe</label>
-<select id="sehhilfe">
-<option>Nein</option>
-<option>Ja</option>
 </select>
 
 <label>Beginn Fahrausbildung</label>
 <input type="date" id="beginn">
 
-<label>Termin praktische Prüfung</label>
-<input type="date" id="pruefung">
-
 <div class="buttons">
 <button id="saveBtn">Speichern</button>
 <button id="cancelBtn">Abbrechen</button>
 </div>
+
+</div>
+
+<div id="profile" class="hidden">
+
+<div class="tabs">
+<button class="tabBtn" data-tab="infos">Infos</button>
+<button class="tabBtn" data-tab="diagramm">Diagrammkarte</button>
+<button class="tabBtn" data-tab="export">PDF Export</button>
+</div>
+
+<div id="infos" class="tab"></div>
+
+<div id="diagramm" class="tab hidden">
+
+<h2>Ausbildungsdiagramm</h2>
+
+<div class="diagramBlock">
+<h3>Grundstufe</h3>
+<div class="checkboxGrid" id="grundstufe"></div>
+</div>
+
+<div class="diagramBlock">
+<h3>Aufbaustufe</h3>
+<div class="checkboxGrid" id="aufbaustufe"></div>
+</div>
+
+<div class="diagramBlock">
+<h3>Leistungsstufe</h3>
+<div class="checkboxGrid" id="leistungsstufe"></div>
+</div>
+
+<div class="diagramBlock">
+<h3>Grundfahraufgaben</h3>
+<div class="checkboxGrid" id="grundaufgaben"></div>
+</div>
+
+<div class="diagramBlock">
+<h3>Situative Bausteine</h3>
+<div class="checkboxGrid" id="situativ"></div>
+</div>
+
+<div class="diagramBlock">
+<h3>Sonderfahrten</h3>
+
+Überland
+<button onclick="change('ue',-1)">-</button>
+<span id="ue"></span>
+<button onclick="change('ue',1)">+</button>
+
+Autobahn
+<button onclick="change('ab',-1)">-</button>
+<span id="ab"></span>
+<button onclick="change('ab',1)">+</button>
+
+Nacht
+<button onclick="change('na',-1)">-</button>
+<span id="na"></span>
+<button onclick="change('na',1)">+</button>
+
+</div>
+
+</div>
+
+<div id="export" class="tab hidden">
+
+<button onclick="exportPDF()">Diagrammkarte als PDF exportieren</button>
+
+</div>
+
+<button id="backBtn">← Zurück</button>
+
 </div>
 
 <script src="app.js"></script>
