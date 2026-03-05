@@ -6,14 +6,23 @@
 <title>Fahrschüler Ausbildung</title>
 <link rel="manifest" href="manifest.json">
 <link rel="stylesheet" href="style.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
+
 <body>
 
 <header>
 <h1>Fahrschüler</h1>
 <button id="addBtn">+</button>
 </header>
+
+<div class="searchContainer">
+<span class="searchIcon">🔍</span>
+<input 
+type="text" 
+id="searchBox" 
+placeholder="Name, Vorname, Telefon oder Klasse suchen..."
+/>
+</div>
 
 <ul id="studentList"></ul>
 
@@ -50,59 +59,7 @@
 </div>
 </div>
 
-<div id="profile" class="hidden">
-
-<div class="tabs">
-<button class="tabBtn" data-tab="infos">Infos</button>
-<button class="tabBtn" data-tab="diagramm">Diagrammkarte</button>
-<button class="tabBtn" data-tab="stand">Ausbildungsstand</button>
-</div>
-
-<div id="infos" class="tab"></div>
-
-<div id="diagramm" class="tab hidden">
-
-<h3>Ausbildungsdiagramm</h3>
-<div id="checkboxContainer"></div>
-
-<h3>Sonderfahrten</h3>
-
-<div class="counter">
-Überland: 
-<button onclick="change('ue',-1)">-</button>
-<span id="ue"></span>
-<button onclick="change('ue',1)">+</button>
-</div>
-
-<div class="counter">
-Autobahn: 
-<button onclick="change('ab',-1)">-</button>
-<span id="ab"></span>
-<button onclick="change('ab',1)">+</button>
-</div>
-
-<div class="counter">
-Nacht: 
-<button onclick="change('na',-1)">-</button>
-<span id="na"></span>
-<button onclick="change('na',1)">+</button>
-</div>
-
-<button onclick="exportPDF()">Diagramm als PDF exportieren</button>
-
-</div>
-
-<div id="stand" class="tab hidden">
-
-<h3>Ausbildungsübersicht</h3>
-<div id="summary"></div>
-
-</div>
-
-<button id="backBtn">← Zurück</button>
-
-</div>
-
 <script src="app.js"></script>
+
 </body>
 </html>
