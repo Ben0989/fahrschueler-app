@@ -1,32 +1,46 @@
 
 let students = JSON.parse(localStorage.getItem("students")) || []
-let activeStudent=null
+let activeStudent = null
 
-const list=document.getElementById("studentList")
-const modal=document.getElementById("modal")
-const searchBox=document.getElementById("searchBox")
+const list = document.getElementById("studentList")
+const modal = document.getElementById("modal")
+const searchBox = document.getElementById("searchBox")
+
+const addBtn = document.getElementById("addBtn")
+const cancelBtn = document.getElementById("cancelBtn")
+const saveBtn = document.getElementById("saveBtn")
+
+const studentList = document.getElementById("studentList")
+const profile = document.getElementById("profile")
+const infos = document.getElementById("infos")
+
+const ue = document.getElementById("ue")
+const ab = document.getElementById("ab")
+const na = document.getElementById("na")
+
+const backBtn = document.getElementById("backBtn")
 
 function save(){
-localStorage.setItem("students",JSON.stringify(students))
+localStorage.setItem("students", JSON.stringify(students))
 }
 
 function renderList(){
 
 list.innerHTML=""
-let filter=searchBox.value.toLowerCase()
+let filter = searchBox.value.toLowerCase()
 
 students.forEach((s,i)=>{
 
-let match=
-s.name.toLowerCase().includes(filter)||
-s.vorname.toLowerCase().includes(filter)||
+let match =
+s.name.toLowerCase().includes(filter) ||
+s.vorname.toLowerCase().includes(filter) ||
 s.telefon.toLowerCase().includes(filter)
 
 if(match){
 
-let li=document.createElement("li")
-li.innerHTML=`${s.name} ${s.vorname} (${s.klasse})`
-li.onclick=()=>openProfile(i)
+let li = document.createElement("li")
+li.innerHTML = `${s.name} ${s.vorname} (${s.klasse})`
+li.onclick = ()=>openProfile(i)
 
 list.appendChild(li)
 
@@ -37,15 +51,14 @@ list.appendChild(li)
 }
 
 renderList()
+searchBox.addEventListener("input", renderList)
 
-searchBox.addEventListener("input",renderList)
+addBtn.onclick = ()=> modal.classList.remove("hidden")
+cancelBtn.onclick = ()=> modal.classList.add("hidden")
 
-addBtn.onclick=()=>modal.classList.remove("hidden")
-cancelBtn.onclick=()=>modal.classList.add("hidden")
+saveBtn.onclick = ()=>{
 
-saveBtn.onclick=()=>{
-
-let s={
+let s = {
 name:name.value,
 vorname:vorname.value,
 telefon:telefon.value,
@@ -72,10 +85,12 @@ activeStudent=i
 studentList.style.display="none"
 profile.classList.remove("hidden")
 
-infos.innerHTML=`
-<b>${students[i].name} ${students[i].vorname}</b><br>
-Telefon: ${students[i].telefon}<br>
-Klasse: ${students[i].klasse}
+let s = students[i]
+
+infos.innerHTML = `
+<b>${s.name} ${s.vorname}</b><br>
+Telefon: ${s.telefon}<br>
+Klasse: ${s.klasse}
 `
 
 buildCheckboxes()
@@ -84,32 +99,31 @@ buildCheckboxes()
 
 function buildCheckboxes(){
 
-let sections=[
-"grundstufe",
-"aufbaustufe",
-"leistungsstufe",
-"grundaufgaben",
-"situativ"
+const sections = [
+["grundstufe",50],
+["aufbaustufe",50],
+["leistungsstufe",50],
+["grundaufgaben",40],
+["situativ",45]
 ]
 
-let index=0
+let index = 0
+let s = students[activeStudent]
 
 sections.forEach(sec=>{
 
-let container=document.getElementById(sec)
+let container=document.getElementById(sec[0])
 container.innerHTML=""
 
-for(let i=0;i<20;i++){
+for(let i=0;i<sec[1];i++){
 
 let c=document.createElement("input")
 c.type="checkbox"
-c.checked=students[activeStudent].checkboxes[index]
+c.checked=s.checkboxes[index]
 
 c.onchange=()=>{
-
-students[activeStudent].checkboxes[index]=c.checked
+s.checkboxes[index]=c.checked
 save()
-
 }
 
 container.appendChild(c)
@@ -119,9 +133,9 @@ index++
 
 })
 
-ue.innerText=students[activeStudent].ue
-ab.innerText=students[activeStudent].ab
-na.innerText=students[activeStudent].na
+ue.innerText=s.ue
+ab.innerText=s.ab
+na.innerText=s.na
 
 }
 
@@ -150,13 +164,11 @@ na.innerText=s.na
 function exportPDF(){
 
 const { jsPDF } = window.jspdf
+let s = students[activeStudent]
 
-let s=students[activeStudent]
-
-let pdf=new jsPDF()
+let pdf = new jsPDF()
 
 pdf.text("BVF Ausbildungsdiagrammkarte",20,20)
-
 pdf.text("Name: "+s.name+" "+s.vorname,20,40)
 pdf.text("Telefon: "+s.telefon,20,50)
 pdf.text("Klasse: "+s.klasse,20,60)
@@ -171,11 +183,9 @@ pdf.save("diagrammkarte.pdf")
 
 }
 
-backBtn.onclick=()=>{
-
+backBtn.onclick = ()=>{
 profile.classList.add("hidden")
 studentList.style.display="block"
-
 }
 
 document.querySelectorAll(".tabBtn").forEach(b=>{
