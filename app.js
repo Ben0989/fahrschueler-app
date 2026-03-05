@@ -1,109 +1,135 @@
 
-let students = JSON.parse(localStorage.getItem("students")) || []
-let activeStudent = null
+let students = JSON.parse(localStorage.getItem("fahrschuelerDB")) || [];
 
-const list = document.getElementById("studentList")
-const search = document.getElementById("search")
-const modal = document.getElementById("modal")
+let current = null;
 
-const addBtn = document.getElementById("addBtn")
-const saveBtn = document.getElementById("saveBtn")
-const cancelBtn = document.getElementById("cancelBtn")
-
-const profile = document.getElementById("profile")
-const backBtn = document.getElementById("backBtn")
-const studentTitle = document.getElementById("studentTitle")
-
-function save(){
-localStorage.setItem("students",JSON.stringify(students))
+function saveDB(){
+localStorage.setItem("fahrschuelerDB", JSON.stringify(students));
 }
 
-function render(){
+function renderList(){
 
-list.innerHTML=""
-let q = search.value.toLowerCase()
+let list = document.getElementById("studentList");
+list.innerHTML = "";
 
 students.forEach((s,i)=>{
 
-let match =
-s.name.toLowerCase().includes(q) ||
-s.vorname.toLowerCase().includes(q) ||
-s.telefon.toLowerCase().includes(q)
+let div = document.createElement("div");
+div.innerText = s.name+" "+s.vorname;
 
-if(match){
+div.onclick=()=>openStudent(i);
 
-let li=document.createElement("li")
-li.innerText=s.name+" "+s.vorname+" ("+s.klasse+")"
-li.onclick=()=>openStudent(i)
+list.appendChild(div);
 
-list.appendChild(li)
+});
 
 }
 
-})
+document.getElementById("addBtn").onclick=()=>{
 
-}
+document.getElementById("formModal").classList.remove("hidden");
 
-render()
+};
 
-search.addEventListener("input",render)
+document.getElementById("cancel").onclick=()=>{
 
-addBtn.onclick=()=>modal.classList.remove("hidden")
-cancelBtn.onclick=()=>modal.classList.add("hidden")
+document.getElementById("formModal").classList.add("hidden");
 
-saveBtn.onclick=()=>{
+};
 
-let s={
-name:name.value,
-vorname:vorname.value,
-telefon:telefon.value,
-klasse:klasse.value,
-checkboxes:Array(100).fill(false)
-}
+document.getElementById("saveStudent").onclick=()=>{
 
-students.push(s)
-save()
-modal.classList.add("hidden")
-render()
+let student={
 
-}
+name:document.getElementById("name").value,
+vorname:document.getElementById("vorname").value,
+anschrift:document.getElementById("anschrift").value,
+geburt:document.getElementById("geburt").value,
+telefon:document.getElementById("telefon").value,
+vorbesitz:document.getElementById("vorbesitz").value,
+klasse:document.getElementById("klasse").value,
+seh:document.getElementById("sehJa").checked?"ja":"nein",
+beginn:document.getElementById("beginn").value,
+pruefung:document.getElementById("pruefung").value,
+
+checkboxes:Array(235).fill(false),
+
+sonder:{ue:0,ab:0,nacht:0}
+
+};
+
+students.push(student);
+
+saveDB();
+
+document.getElementById("formModal").classList.add("hidden");
+
+renderList();
+
+};
 
 function openStudent(i){
 
-activeStudent=i
+current=i;
 
-document.querySelector("header").style.display="none"
-document.querySelector(".searchBox").style.display="none"
-list.style.display="none"
+document.getElementById("profile").classList.remove("hidden");
 
-profile.classList.remove("hidden")
+showTab("infos");
 
-studentTitle.innerText =
-students[i].name+" "+students[i].vorname
+renderInfos();
 
-document.querySelectorAll("input[type=checkbox]").forEach(cb=>{
-
-let id=cb.dataset.id
-
-cb.checked = students[i].checkboxes[id]
-
-cb.onchange=()=>{
-
-students[i].checkboxes[id]=cb.checked
-save()
+renderCounters();
 
 }
 
-})
+function renderInfos(){
+
+let s = students[current];
+
+document.getElementById("infos").innerHTML = `
+<h3>${s.name} ${s.vorname}</h3>
+<p>${s.anschrift}</p>
+<p>${s.telefon}</p>
+<p>Klasse: ${s.klasse}</p>
+`;
 
 }
 
-backBtn.onclick=()=>{
+function showTab(t){
 
-profile.classList.add("hidden")
+document.querySelectorAll(".tab").forEach(x=>x.style.display="none");
 
-document.querySelector("header").style.display="flex"
-document.querySelector(".searchBox").style.display="block"
-list.style.display="block"
+document.getElementById(t).style.display="block";
 
 }
+
+function change(type,val){
+
+let s = students[current];
+
+let max={B:{ue:5,ab:4,nacht:3},BE:{ue:3,ab:1,nacht:1},L:{ue:0,ab:0,nacht:0}};
+
+let limit=max[s.klasse][type];
+
+s.sonder[type]+=val;
+
+if(s.sonder[type]<0)s.sonder[type]=0;
+if(s.sonder[type]>limit)s.sonder[type]=limit;
+
+saveDB();
+
+renderCounters();
+
+}
+
+function renderCounters(){
+
+let s=students[current];
+
+document.getElementById("ue").innerText=s.sonder.ue;
+document.getElementById("ab").innerText=s.sonder.ab;
+document.getElementById("nacht").innerText=s.sonder.nacht;
+
+}
+
+renderList();
