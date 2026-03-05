@@ -26,10 +26,7 @@
 </section>
 
 <section id="formView" class="hidden">
-
 <h2>Fahrschüler anlegen</h2>
-
-<div class="formgrid">
 
 <label>Name</label>
 <input id="name">
@@ -57,9 +54,9 @@
 </select>
 
 <label>Sehhilfe</label>
-<div class="row">
-<label><input type="checkbox" id="sehJa">Ja</label>
-<label><input type="checkbox" id="sehNein">Nein</label>
+<div>
+<label><input type="checkbox" id="sehJa"> Ja</label>
+<label><input type="checkbox" id="sehNein"> Nein</label>
 </div>
 
 <label>Beginn Fahrausbildung</label>
@@ -68,13 +65,10 @@
 <label>Praktische Prüfung</label>
 <input id="pruefung" type="date">
 
-</div>
-
 <div class="buttons">
 <button id="saveStudent">Speichern</button>
 <button id="cancelStudent">Abbrechen</button>
 </div>
-
 </section>
 
 <section id="studentView" class="hidden">
@@ -86,53 +80,14 @@
 </div>
 
 <div id="info" class="tab"></div>
-
-<div id="diagramm" class="tab hidden">
-
-<h2>Grundstufe</h2>
-<div class="box">
-<label><input type="checkbox" class="cb"> Sitz</label>
-<label><input type="checkbox" class="cb"> Lenkrad</label>
-<label><input type="checkbox" class="cb"> Spiegel</label>
-<label><input type="checkbox" class="cb"> Motor anlassen</label>
-</div>
-
-<h2>Aufbaustufe</h2>
-<div class="box">
-<label><input type="checkbox" class="cb"> Rollen und Schalten</label>
-<label><input type="checkbox" class="cb"> Abbremsen und Schalten</label>
-<label><input type="checkbox" class="cb"> Bremsübungen</label>
-<label><input type="checkbox" class="cb"> Gefahrsituationen</label>
-</div>
-
-<h2>Leistungsstufe</h2>
-<div class="box">
-<label><input type="checkbox" class="cb"> Fahrstreifenwechsel</label>
-<label><input type="checkbox" class="cb"> Überholen</label>
-<label><input type="checkbox" class="cb"> Vorfahrt</label>
-<label><input type="checkbox" class="cb"> Schwierige Verkehrsführung</label>
-</div>
-
-<h2>Besondere Ausbildungsfahrten</h2>
-
-<div class="sonder">
-Überland <button class="minus" data-type="ue">-</button> <span id="ue">0</span> <button class="plus" data-type="ue">+</button>
-<br>
-Autobahn <button class="minus" data-type="ab">-</button> <span id="ab">0</span> <button class="plus" data-type="ab">+</button>
-<br>
-Dunkelheit <button class="minus" data-type="nacht">-</button> <span id="nacht">0</span> <button class="plus" data-type="nacht">+</button>
-</div>
-
-<button id="saveDiagramm">Diagramm speichern</button>
-
-</div>
-
+<div id="diagramm" class="tab hidden"></div>
 <div id="status" class="tab hidden"></div>
 
 </section>
 
 </main>
 
+<script src="diagrammData.js"></script>
 <script src="app.js"></script>
 
 </body>
