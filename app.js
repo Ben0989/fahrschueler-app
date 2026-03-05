@@ -1,200 +1,25 @@
 
-let students = JSON.parse(localStorage.getItem("students")) || []
-let activeStudent = null
+let data = JSON.parse(localStorage.getItem("checkboxes")) || Array(235).fill(false)
 
-const list = document.getElementById("studentList")
-const modal = document.getElementById("modal")
-const searchBox = document.getElementById("searchBox")
+const layer = document.getElementById("checkboxLayer")
 
-const addBtn = document.getElementById("addBtn")
-const cancelBtn = document.getElementById("cancelBtn")
-const saveBtn = document.getElementById("saveBtn")
+let positions = [{'x': 2, 'y': 2}, {'x': 10, 'y': 2}, {'x': 18, 'y': 2}, {'x': 26, 'y': 2}, {'x': 34, 'y': 2}, {'x': 42, 'y': 2}, {'x': 50, 'y': 2}, {'x': 58, 'y': 2}, {'x': 66, 'y': 2}, {'x': 74, 'y': 2}, {'x': 82, 'y': 2}, {'x': 90, 'y': 2}, {'x': 2, 'y': 6}, {'x': 10, 'y': 6}, {'x': 18, 'y': 6}, {'x': 26, 'y': 6}, {'x': 34, 'y': 6}, {'x': 42, 'y': 6}, {'x': 50, 'y': 6}, {'x': 58, 'y': 6}, {'x': 66, 'y': 6}, {'x': 74, 'y': 6}, {'x': 82, 'y': 6}, {'x': 90, 'y': 6}, {'x': 2, 'y': 10}, {'x': 10, 'y': 10}, {'x': 18, 'y': 10}, {'x': 26, 'y': 10}, {'x': 34, 'y': 10}, {'x': 42, 'y': 10}, {'x': 50, 'y': 10}, {'x': 58, 'y': 10}, {'x': 66, 'y': 10}, {'x': 74, 'y': 10}, {'x': 82, 'y': 10}, {'x': 90, 'y': 10}, {'x': 2, 'y': 14}, {'x': 10, 'y': 14}, {'x': 18, 'y': 14}, {'x': 26, 'y': 14}, {'x': 34, 'y': 14}, {'x': 42, 'y': 14}, {'x': 50, 'y': 14}, {'x': 58, 'y': 14}, {'x': 66, 'y': 14}, {'x': 74, 'y': 14}, {'x': 82, 'y': 14}, {'x': 90, 'y': 14}, {'x': 2, 'y': 18}, {'x': 10, 'y': 18}, {'x': 18, 'y': 18}, {'x': 26, 'y': 18}, {'x': 34, 'y': 18}, {'x': 42, 'y': 18}, {'x': 50, 'y': 18}, {'x': 58, 'y': 18}, {'x': 66, 'y': 18}, {'x': 74, 'y': 18}, {'x': 82, 'y': 18}, {'x': 90, 'y': 18}, {'x': 2, 'y': 22}, {'x': 10, 'y': 22}, {'x': 18, 'y': 22}, {'x': 26, 'y': 22}, {'x': 34, 'y': 22}, {'x': 42, 'y': 22}, {'x': 50, 'y': 22}, {'x': 58, 'y': 22}, {'x': 66, 'y': 22}, {'x': 74, 'y': 22}, {'x': 82, 'y': 22}, {'x': 90, 'y': 22}, {'x': 2, 'y': 26}, {'x': 10, 'y': 26}, {'x': 18, 'y': 26}, {'x': 26, 'y': 26}, {'x': 34, 'y': 26}, {'x': 42, 'y': 26}, {'x': 50, 'y': 26}, {'x': 58, 'y': 26}, {'x': 66, 'y': 26}, {'x': 74, 'y': 26}, {'x': 82, 'y': 26}, {'x': 90, 'y': 26}, {'x': 2, 'y': 30}, {'x': 10, 'y': 30}, {'x': 18, 'y': 30}, {'x': 26, 'y': 30}, {'x': 34, 'y': 30}, {'x': 42, 'y': 30}, {'x': 50, 'y': 30}, {'x': 58, 'y': 30}, {'x': 66, 'y': 30}, {'x': 74, 'y': 30}, {'x': 82, 'y': 30}, {'x': 90, 'y': 30}, {'x': 2, 'y': 34}, {'x': 10, 'y': 34}, {'x': 18, 'y': 34}, {'x': 26, 'y': 34}, {'x': 34, 'y': 34}, {'x': 42, 'y': 34}, {'x': 50, 'y': 34}, {'x': 58, 'y': 34}, {'x': 66, 'y': 34}, {'x': 74, 'y': 34}, {'x': 82, 'y': 34}, {'x': 90, 'y': 34}, {'x': 2, 'y': 38}, {'x': 10, 'y': 38}, {'x': 18, 'y': 38}, {'x': 26, 'y': 38}, {'x': 34, 'y': 38}, {'x': 42, 'y': 38}, {'x': 50, 'y': 38}, {'x': 58, 'y': 38}, {'x': 66, 'y': 38}, {'x': 74, 'y': 38}, {'x': 82, 'y': 38}, {'x': 90, 'y': 38}, {'x': 2, 'y': 42}, {'x': 10, 'y': 42}, {'x': 18, 'y': 42}, {'x': 26, 'y': 42}, {'x': 34, 'y': 42}, {'x': 42, 'y': 42}, {'x': 50, 'y': 42}, {'x': 58, 'y': 42}, {'x': 66, 'y': 42}, {'x': 74, 'y': 42}, {'x': 82, 'y': 42}, {'x': 90, 'y': 42}, {'x': 2, 'y': 46}, {'x': 10, 'y': 46}, {'x': 18, 'y': 46}, {'x': 26, 'y': 46}, {'x': 34, 'y': 46}, {'x': 42, 'y': 46}, {'x': 50, 'y': 46}, {'x': 58, 'y': 46}, {'x': 66, 'y': 46}, {'x': 74, 'y': 46}, {'x': 82, 'y': 46}, {'x': 90, 'y': 46}, {'x': 2, 'y': 50}, {'x': 10, 'y': 50}, {'x': 18, 'y': 50}, {'x': 26, 'y': 50}, {'x': 34, 'y': 50}, {'x': 42, 'y': 50}, {'x': 50, 'y': 50}, {'x': 58, 'y': 50}, {'x': 66, 'y': 50}, {'x': 74, 'y': 50}, {'x': 82, 'y': 50}, {'x': 90, 'y': 50}, {'x': 2, 'y': 54}, {'x': 10, 'y': 54}, {'x': 18, 'y': 54}, {'x': 26, 'y': 54}, {'x': 34, 'y': 54}, {'x': 42, 'y': 54}, {'x': 50, 'y': 54}, {'x': 58, 'y': 54}, {'x': 66, 'y': 54}, {'x': 74, 'y': 54}, {'x': 82, 'y': 54}, {'x': 90, 'y': 54}, {'x': 2, 'y': 58}, {'x': 10, 'y': 58}, {'x': 18, 'y': 58}, {'x': 26, 'y': 58}, {'x': 34, 'y': 58}, {'x': 42, 'y': 58}, {'x': 50, 'y': 58}, {'x': 58, 'y': 58}, {'x': 66, 'y': 58}, {'x': 74, 'y': 58}, {'x': 82, 'y': 58}, {'x': 90, 'y': 58}, {'x': 2, 'y': 62}, {'x': 10, 'y': 62}, {'x': 18, 'y': 62}, {'x': 26, 'y': 62}, {'x': 34, 'y': 62}, {'x': 42, 'y': 62}, {'x': 50, 'y': 62}, {'x': 58, 'y': 62}, {'x': 66, 'y': 62}, {'x': 74, 'y': 62}, {'x': 82, 'y': 62}, {'x': 90, 'y': 62}, {'x': 2, 'y': 66}, {'x': 10, 'y': 66}, {'x': 18, 'y': 66}, {'x': 26, 'y': 66}, {'x': 34, 'y': 66}, {'x': 42, 'y': 66}, {'x': 50, 'y': 66}, {'x': 58, 'y': 66}, {'x': 66, 'y': 66}, {'x': 74, 'y': 66}, {'x': 82, 'y': 66}, {'x': 90, 'y': 66}, {'x': 2, 'y': 70}, {'x': 10, 'y': 70}, {'x': 18, 'y': 70}, {'x': 26, 'y': 70}, {'x': 34, 'y': 70}, {'x': 42, 'y': 70}, {'x': 50, 'y': 70}, {'x': 58, 'y': 70}, {'x': 66, 'y': 70}, {'x': 74, 'y': 70}, {'x': 82, 'y': 70}, {'x': 90, 'y': 70}, {'x': 2, 'y': 74}, {'x': 10, 'y': 74}, {'x': 18, 'y': 74}, {'x': 26, 'y': 74}, {'x': 34, 'y': 74}, {'x': 42, 'y': 74}, {'x': 50, 'y': 74}, {'x': 58, 'y': 74}, {'x': 66, 'y': 74}, {'x': 74, 'y': 74}, {'x': 82, 'y': 74}, {'x': 90, 'y': 74}, {'x': 2, 'y': 78}, {'x': 10, 'y': 78}, {'x': 18, 'y': 78}, {'x': 26, 'y': 78}, {'x': 34, 'y': 78}, {'x': 42, 'y': 78}, {'x': 50, 'y': 78}]
 
-const studentList = document.getElementById("studentList")
-const profile = document.getElementById("profile")
-const infos = document.getElementById("infos")
+positions.forEach((p,i)=>{
 
-const ue = document.getElementById("ue")
-const ab = document.getElementById("ab")
-const na = document.getElementById("na")
+let cb=document.createElement("input")
+cb.type="checkbox"
+cb.className="cb"
+cb.style.left=p.x+"%"
+cb.style.top=p.y+"%"
 
-const backBtn = document.getElementById("backBtn")
+cb.checked=data[i]
 
-function save(){
-localStorage.setItem("students", JSON.stringify(students))
+cb.onchange=()=>{
+data[i]=cb.checked
+localStorage.setItem("checkboxes",JSON.stringify(data))
 }
 
-function renderList(){
-
-list.innerHTML=""
-let filter = searchBox.value.toLowerCase()
-
-students.forEach((s,i)=>{
-
-let match =
-s.name.toLowerCase().includes(filter) ||
-s.vorname.toLowerCase().includes(filter) ||
-s.telefon.toLowerCase().includes(filter)
-
-if(match){
-
-let li = document.createElement("li")
-li.innerHTML = `${s.name} ${s.vorname} (${s.klasse})`
-li.onclick = ()=>openProfile(i)
-
-list.appendChild(li)
-
-}
-
-})
-
-}
-
-renderList()
-searchBox.addEventListener("input", renderList)
-
-addBtn.onclick = ()=> modal.classList.remove("hidden")
-cancelBtn.onclick = ()=> modal.classList.add("hidden")
-
-saveBtn.onclick = ()=>{
-
-let s = {
-name:name.value,
-vorname:vorname.value,
-telefon:telefon.value,
-klasse:klasse.value,
-beginn:beginn.value,
-
-checkboxes:Array(235).fill(false),
-ue:0,
-ab:0,
-na:0
-
-}
-
-students.push(s)
-save()
-modal.classList.add("hidden")
-renderList()
-
-}
-
-function openProfile(i){
-
-activeStudent=i
-studentList.style.display="none"
-profile.classList.remove("hidden")
-
-let s = students[i]
-
-infos.innerHTML = `
-<b>${s.name} ${s.vorname}</b><br>
-Telefon: ${s.telefon}<br>
-Klasse: ${s.klasse}
-`
-
-buildCheckboxes()
-
-}
-
-function buildCheckboxes(){
-
-const sections = [
-["grundstufe",50],
-["aufbaustufe",50],
-["leistungsstufe",50],
-["grundaufgaben",40],
-["situativ",45]
-]
-
-let index = 0
-let s = students[activeStudent]
-
-sections.forEach(sec=>{
-
-let container=document.getElementById(sec[0])
-container.innerHTML=""
-
-for(let i=0;i<sec[1];i++){
-
-let c=document.createElement("input")
-c.type="checkbox"
-c.checked=s.checkboxes[index]
-
-c.onchange=()=>{
-s.checkboxes[index]=c.checked
-save()
-}
-
-container.appendChild(c)
-index++
-
-}
-
-})
-
-ue.innerText=s.ue
-ab.innerText=s.ab
-na.innerText=s.na
-
-}
-
-function change(type,val){
-
-let s=students[activeStudent]
-
-let max={ue:5,ab:4,na:3}
-
-if(s.klasse=="BE"){
-max={ue:3,ab:1,na:1}
-}
-
-if(type=="ue") s.ue=Math.min(max.ue,Math.max(0,s.ue+val))
-if(type=="ab") s.ab=Math.min(max.ab,Math.max(0,s.ab+val))
-if(type=="na") s.na=Math.min(max.na,Math.max(0,s.na+val))
-
-save()
-
-ue.innerText=s.ue
-ab.innerText=s.ab
-na.innerText=s.na
-
-}
-
-function exportPDF(){
-
-const { jsPDF } = window.jspdf
-let s = students[activeStudent]
-
-let pdf = new jsPDF()
-
-pdf.text("BVF Ausbildungsdiagrammkarte",20,20)
-pdf.text("Name: "+s.name+" "+s.vorname,20,40)
-pdf.text("Telefon: "+s.telefon,20,50)
-pdf.text("Klasse: "+s.klasse,20,60)
-
-pdf.text("Überland: "+s.ue,20,80)
-pdf.text("Autobahn: "+s.ab,20,90)
-pdf.text("Nacht: "+s.na,20,100)
-
-pdf.text("Erledigte Aufgaben: "+s.checkboxes.filter(x=>x).length+"/235",20,120)
-
-pdf.save("diagrammkarte.pdf")
-
-}
-
-backBtn.onclick = ()=>{
-profile.classList.add("hidden")
-studentList.style.display="block"
-}
-
-document.querySelectorAll(".tabBtn").forEach(b=>{
-
-b.onclick=()=>{
-
-document.querySelectorAll(".tab").forEach(t=>t.classList.add("hidden"))
-document.getElementById(b.dataset.tab).classList.remove("hidden")
-
-}
+layer.appendChild(cb)
 
 })

@@ -1,6 +1,6 @@
 {
-  "name": "Fahrsch\u00fcler Ausbildung",
-  "short_name": "Fahrsch\u00fcler",
+  "name": "BVF Diagrammkarte",
+  "short_name": "BVF Karte",
   "start_url": "index.html",
   "display": "standalone",
   "background_color": "#ffffff",
