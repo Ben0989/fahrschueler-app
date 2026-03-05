@@ -21,6 +21,7 @@
 <div id="studentList"></div>
 
 <div id="formModal" class="modal hidden">
+
 <h2>Fahrschüler anlegen</h2>
 
 <input id="name" placeholder="Name">
@@ -68,45 +69,76 @@
 
 <div id="diagramm" class="tab">
 
-<div class="box">
+<div class="diagram">
+
+<div class="box grundstufe">
 <h3>Grundstufe</h3>
-<div id="grund"></div>
+
+<div class="item"><span>Sitz einstellen</span><input type="checkbox" data-id="0"></div>
+<div class="item"><span>Spiegel einstellen</span><input type="checkbox" data-id="1"></div>
+<div class="item"><span>Lenkradhaltung</span><input type="checkbox" data-id="2"></div>
+<div class="item"><span>Pedale</span><input type="checkbox" data-id="3"></div>
+<div class="item"><span>Gurt anlegen</span><input type="checkbox" data-id="4"></div>
+
 </div>
 
-<div class="box">
+<div class="box aufbaustufe">
+
 <h3>Aufbaustufe</h3>
-<div id="aufbau"></div>
+
+<div class="item"><span>Rollen und Schalten</span><input type="checkbox" data-id="5"></div>
+<div class="item"><span>Bremsübungen</span><input type="checkbox" data-id="6"></div>
+<div class="item"><span>Gefälle</span><input type="checkbox" data-id="7"></div>
+<div class="item"><span>Steigung</span><input type="checkbox" data-id="8"></div>
+
 </div>
 
-<div class="box">
+<div class="box leistungsstufe">
+
 <h3>Leistungsstufe</h3>
-<div id="leistung"></div>
+
+<div class="item"><span>Abbiegen</span><input type="checkbox" data-id="9"></div>
+<div class="item"><span>Fahrstreifenwechsel</span><input type="checkbox" data-id="10"></div>
+<div class="item"><span>Kreisverkehr</span><input type="checkbox" data-id="11"></div>
+<div class="item"><span>Bahnübergang</span><input type="checkbox" data-id="12"></div>
+
 </div>
 
-<div class="box">
+<div class="box grundaufgaben">
+
 <h3>Grundfahraufgaben</h3>
-<div id="grundauf"></div>
+
+<div class="item"><span>Rückwärtsfahren</span><input type="checkbox" data-id="13"></div>
+<div class="item"><span>Umkehren</span><input type="checkbox" data-id="14"></div>
+<div class="item"><span>Gefahrenbremsung</span><input type="checkbox" data-id="15"></div>
+
 </div>
 
-<div class="box">
+<div class="box sonderfahrten">
+
 <h3>Besondere Ausbildungsfahrten</h3>
 
 <div class="counter">
-Überland <button onclick="change('ue',-1)">-</button>
+<span>Überland</span>
+<button onclick="change('ue',-1)">-</button>
 <span id="ue"></span>
 <button onclick="change('ue',1)">+</button>
 </div>
 
 <div class="counter">
-Autobahn <button onclick="change('ab',-1)">-</button>
+<span>Autobahn</span>
+<button onclick="change('ab',-1)">-</button>
 <span id="ab"></span>
 <button onclick="change('ab',1)">+</button>
 </div>
 
 <div class="counter">
-Nacht <button onclick="change('nacht',-1)">-</button>
+<span>Nacht</span>
+<button onclick="change('nacht',-1)">-</button>
 <span id="nacht"></span>
 <button onclick="change('nacht',1)">+</button>
+</div>
+
 </div>
 
 </div>

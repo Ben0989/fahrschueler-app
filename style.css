@@ -1,52 +1,22 @@
 
-body{
-font-family:Arial;
-margin:0;
-background:#f2f2f2;
-}
+body{font-family:Arial;margin:0;background:#f2f2f2;}
+header{background:#222;color:white;padding:15px;}
+.topbar{display:flex;gap:10px}
+#studentList div{background:white;padding:10px;margin:5px;cursor:pointer}
 
-header{
-background:#222;
-color:white;
-padding:15px;
-}
+.modal{background:white;padding:20px;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:320px}
+.hidden{display:none}
 
-.topbar{
-display:flex;
-gap:10px;
-}
+.diagram{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:15px;padding:15px}
 
-#studentList div{
-background:white;
-padding:10px;
-margin:5px;
-cursor:pointer;
-}
+.box{border-radius:8px;padding:12px}
 
-.modal{
-background:white;
-padding:20px;
-position:fixed;
-top:50%;
-left:50%;
-transform:translate(-50%,-50%);
-width:320px;
-}
+.grundstufe{background:#fff3a6}
+.aufbaustufe{background:#ffc48c}
+.leistungsstufe{background:#ff9b9b}
+.grundaufgaben{background:#fff8cc}
+.sonderfahrten{background:#a9d8ff}
 
-.hidden{
-display:none;
-}
+.item{display:flex;justify-content:space-between;padding:4px 0}
 
-.box{
-background:white;
-margin:10px;
-padding:10px;
-}
-
-.tabs button{
-margin:5px;
-}
-
-.counter{
-margin:8px 0;
-}
+.counter{margin:8px 0}
