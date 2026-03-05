@@ -4,28 +4,31 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>BVF Fahrschüler App</title>
+<title>Fahrschüler Ausbildung</title>
 <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
 <header>
 <h1>Fahrschüler</h1>
+<input id="search" placeholder="Suche Name / Telefon">
 <button onclick="showAdd()">+</button>
 </header>
 
 <div id="list"></div>
 
-<div id="add" class="hidden">
-<h2>Fahrschüler anlegen</h2>
+<div id="add" class="panel hidden">
+<h2>Fahrschüler anlegen / bearbeiten</h2>
 <input id="name" placeholder="Name">
 <input id="vorname" placeholder="Vorname">
 <input id="telefon" placeholder="Telefon">
 <button onclick="saveStudent()">Speichern</button>
 </div>
 
-<div id="student" class="hidden">
-<h2 id="studentName"></h2>
+<div id="studentPanel" class="hidden">
+<h2 id="studentTitle"></h2>
+<div id="progress"></div>
 <div id="diagramm"></div>
 </div>
 
