@@ -3,9 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Fahrschüler App</title>
+<title>Fahrschüler Ausbildung</title>
 <link rel="manifest" href="manifest.json">
 <link rel="stylesheet" href="style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
 
@@ -16,7 +17,6 @@
 
 <ul id="studentList"></ul>
 
-<!-- Schüler anlegen -->
 <div id="modal" class="modal hidden">
 <h2>Fahrschüler anlegen</h2>
 
@@ -41,7 +41,7 @@
 <label>Beginn Fahrausbildung</label>
 <input type="date" id="beginn">
 
-<label>Termin Praktische Prüfung</label>
+<label>Termin praktische Prüfung</label>
 <input type="date" id="pruefung">
 
 <div class="buttons">
@@ -50,7 +50,6 @@
 </div>
 </div>
 
-<!-- Profilansicht -->
 <div id="profile" class="hidden">
 
 <div class="tabs">
@@ -62,34 +61,42 @@
 <div id="infos" class="tab"></div>
 
 <div id="diagramm" class="tab hidden">
-<h3>Diagrammkarte</h3>
+
+<h3>Ausbildungsdiagramm</h3>
 <div id="checkboxContainer"></div>
 
 <h3>Sonderfahrten</h3>
 
 <div class="counter">
-Überland: <button onclick="change('ue',-1)">-</button>
-<span id="ue">0</span>
+Überland: 
+<button onclick="change('ue',-1)">-</button>
+<span id="ue"></span>
 <button onclick="change('ue',1)">+</button>
 </div>
 
 <div class="counter">
-Autobahn: <button onclick="change('ab',-1)">-</button>
-<span id="ab">0</span>
+Autobahn: 
+<button onclick="change('ab',-1)">-</button>
+<span id="ab"></span>
 <button onclick="change('ab',1)">+</button>
 </div>
 
 <div class="counter">
-Nacht: <button onclick="change('na',-1)">-</button>
-<span id="na">0</span>
+Nacht: 
+<button onclick="change('na',-1)">-</button>
+<span id="na"></span>
 <button onclick="change('na',1)">+</button>
 </div>
+
+<button onclick="exportPDF()">Diagramm als PDF exportieren</button>
 
 </div>
 
 <div id="stand" class="tab hidden">
-<h3>Ausbildungsstand</h3>
+
+<h3>Ausbildungsübersicht</h3>
 <div id="summary"></div>
+
 </div>
 
 <button id="backBtn">← Zurück</button>

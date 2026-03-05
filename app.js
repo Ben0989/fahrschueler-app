@@ -2,16 +2,18 @@
 let students = JSON.parse(localStorage.getItem("students")) || []
 let activeStudent = null
 
-const list = document.getElementById("studentList")
-const modal = document.getElementById("modal")
-const profile = document.getElementById("profile")
+const list=document.getElementById("studentList")
+const modal=document.getElementById("modal")
+const profile=document.getElementById("profile")
 
 function save(){
 localStorage.setItem("students",JSON.stringify(students))
 }
 
 function renderList(){
+
 list.innerHTML=""
+
 students.forEach((s,i)=>{
 
 let li=document.createElement("li")
@@ -21,19 +23,16 @@ li.onclick=()=>openProfile(i)
 list.appendChild(li)
 
 })
+
 }
 
 renderList()
 
-document.getElementById("addBtn").onclick=()=>{
-modal.classList.remove("hidden")
-}
+addBtn.onclick=()=>modal.classList.remove("hidden")
 
-document.getElementById("cancelBtn").onclick=()=>{
-modal.classList.add("hidden")
-}
+cancelBtn.onclick=()=>modal.classList.add("hidden")
 
-document.getElementById("saveBtn").onclick=()=>{
+saveBtn.onclick=()=>{
 
 let s={
 
@@ -47,6 +46,7 @@ beginn:beginn.value,
 pruefung:pruefung.value,
 
 checkboxes:Array(235).fill(false),
+
 ue:0,
 ab:0,
 na:0
@@ -54,8 +54,11 @@ na:0
 }
 
 students.push(s)
+
 save()
+
 modal.classList.add("hidden")
+
 renderList()
 
 }
@@ -68,7 +71,8 @@ list.style.display="none"
 profile.classList.remove("hidden")
 
 loadInfos()
-loadCheckboxes()
+loadDiagramm()
+loadSummary()
 
 }
 
@@ -87,7 +91,7 @@ Prüfung: ${s.pruefung}
 
 }
 
-function loadCheckboxes(){
+function loadDiagramm(){
 
 let s=students[activeStudent]
 
@@ -103,6 +107,7 @@ c.onchange=()=>{
 
 s.checkboxes[i]=c.checked
 save()
+loadSummary()
 
 }
 
@@ -120,16 +125,69 @@ function change(type,val){
 
 let s=students[activeStudent]
 
-if(type=="ue"){ s.ue=Math.max(0,s.ue+val) }
-if(type=="ab"){ s.ab=Math.max(0,s.ab+val) }
-if(type=="na"){ s.na=Math.max(0,s.na+val) }
+let max={}
+
+if(s.klasse=="B"){
+max={ue:5,ab:4,na:3}
+}
+
+if(s.klasse=="BE"){
+max={ue:3,ab:1,na:1}
+}
+
+if(type=="ue"){
+s.ue=Math.min(max.ue,Math.max(0,s.ue+val))
+}
+
+if(type=="ab"){
+s.ab=Math.min(max.ab,Math.max(0,s.ab+val))
+}
+
+if(type=="na"){
+s.na=Math.min(max.na,Math.max(0,s.na+val))
+}
 
 save()
-loadCheckboxes()
+
+loadDiagramm()
+loadSummary()
 
 }
 
-document.getElementById("backBtn").onclick=()=>{
+function loadSummary(){
+
+let s=students[activeStudent]
+
+summary.innerHTML=`
+Überland: ${s.ue} <br>
+Autobahn: ${s.ab} <br>
+Nacht: ${s.na} <br>
+Erledigte Aufgaben: ${s.checkboxes.filter(x=>x).length}/235
+`
+
+}
+
+function exportPDF(){
+
+const { jsPDF } = window.jspdf
+
+let pdf=new jsPDF()
+
+pdf.text("Ausbildungsdiagramm Fahrschüler",20,20)
+
+let s=students[activeStudent]
+
+pdf.text("Name: "+s.name+" "+s.vorname,20,40)
+
+pdf.text("Überland: "+s.ue,20,60)
+pdf.text("Autobahn: "+s.ab,20,70)
+pdf.text("Nacht: "+s.na,20,80)
+
+pdf.save("diagrammkarte.pdf")
+
+}
+
+backBtn.onclick=()=>{
 
 profile.classList.add("hidden")
 list.style.display="block"
