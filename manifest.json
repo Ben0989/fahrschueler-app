@@ -1,8 +1,8 @@
 {
   "name": "Fahrsch\u00fcler App",
   "short_name": "Fahrsch\u00fcler",
-  "start_url": "./index.html",
   "display": "standalone",
+  "start_url": "./index.html",
   "background_color": "#ffffff",
   "theme_color": "#222222"
 }
