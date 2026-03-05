@@ -17,7 +17,7 @@
 </header>
 
 <div class="searchBox">
-<input id="search" placeholder="Name, Vorname, Telefon">
+<input id="search" placeholder="Name, Vorname, Telefon suchen">
 </div>
 
 <ul id="studentList"></ul>
@@ -35,23 +35,92 @@
 <option>BE</option>
 </select>
 
+<div class="buttons">
 <button id="saveBtn">Speichern</button>
 <button id="cancelBtn">Abbrechen</button>
+</div>
 </div>
 
 <div id="profile" class="hidden">
 
 <button id="backBtn">← Zurück</button>
-
 <h2 id="studentTitle"></h2>
 
-<div id="diagramContainer">
-<img src="diagramm.jpg" id="diagramImage">
-<div id="checkboxLayer"></div>
+<div class="diagram">
+
+<div class="box grund">
+<h3>Grundstufe</h3>
+<label><input type="checkbox" data-id="0"> Besonderheiten beim Einsteigen</label>
+<label><input type="checkbox" data-id="1"> Sitz einstellen</label>
+<label><input type="checkbox" data-id="2"> Spiegel einstellen</label>
+<label><input type="checkbox" data-id="3"> Lenkradhaltung</label>
+<label><input type="checkbox" data-id="4"> Pedale</label>
+<label><input type="checkbox" data-id="5"> Gurt anlegen</label>
+<label><input type="checkbox" data-id="6"> Schalt-/Wählhebel</label>
+<label><input type="checkbox" data-id="7"> Motor anlassen</label>
+<label><input type="checkbox" data-id="8"> Anfahren / Anhalten</label>
+</div>
+
+<div class="box aufbau">
+<h3>Aufbaustufe</h3>
+<label><input type="checkbox" data-id="9"> Rollen und Schalten</label>
+<label><input type="checkbox" data-id="10"> Bremsübungen</label>
+<label><input type="checkbox" data-id="11"> Gefahrsituationen</label>
+<label><input type="checkbox" data-id="12"> Gefälle</label>
+<label><input type="checkbox" data-id="13"> Steigung</label>
+<label><input type="checkbox" data-id="14"> Rückwärtsfahren</label>
+<label><input type="checkbox" data-id="15"> Sichern</label>
+</div>
+
+<div class="box leistungs">
+<h3>Leistungsstufe</h3>
+<label><input type="checkbox" data-id="16"> Fahrbahnbenutzung</label>
+<label><input type="checkbox" data-id="17"> Fahrstreifenwechsel</label>
+<label><input type="checkbox" data-id="18"> Abbiegen</label>
+<label><input type="checkbox" data-id="19"> Vorfahrt</label>
+<label><input type="checkbox" data-id="20"> Geschwindigkeit / Abstand</label>
+<label><input type="checkbox" data-id="21"> Kreisverkehr</label>
+<label><input type="checkbox" data-id="22"> Bahnübergang</label>
+<label><input type="checkbox" data-id="23"> Kritische Verkehrssituationen</label>
+</div>
+
+<div class="box grundaufgaben">
+<h3>Grundfahraufgaben</h3>
+<label><input type="checkbox" data-id="24"> Rückwärtsfahren</label>
+<label><input type="checkbox" data-id="25"> Umkehren</label>
+<label><input type="checkbox" data-id="26"> Gefahrenbremsung</label>
+<label><input type="checkbox" data-id="27"> Einparken längs</label>
+<label><input type="checkbox" data-id="28"> Einparken quer</label>
+</div>
+
+<div class="box sonder">
+<h3>Besondere Ausbildungsfahrten</h3>
+<label><input type="checkbox" data-id="29"> Überlandfahrt</label>
+<label><input type="checkbox" data-id="30"> Autobahnfahrt</label>
+<label><input type="checkbox" data-id="31"> Nachtfahrt</label>
+</div>
+
+<div class="box reife">
+<h3>Reife- und Teststufe</h3>
+<label><input type="checkbox" data-id="32"> Selbstständiges Fahren</label>
+<label><input type="checkbox" data-id="33"> Testfahrt</label>
+<label><input type="checkbox" data-id="34"> Leistungsbewertung</label>
+</div>
+
+<div class="box situativ">
+<h3>Situative Bausteine</h3>
+<label><input type="checkbox" data-id="35"> Reifen prüfen</label>
+<label><input type="checkbox" data-id="36"> Beleuchtung prüfen</label>
+<label><input type="checkbox" data-id="37"> Bremsen prüfen</label>
+<label><input type="checkbox" data-id="38"> Motorraum prüfen</label>
+<label><input type="checkbox" data-id="39"> Witterung</label>
+</div>
+
 </div>
 
 </div>
 
 <script src="app.js"></script>
+
 </body>
 </html>

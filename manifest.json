@@ -1,6 +1,6 @@
 {
-  "name": "BVF Diagrammkarte",
-  "short_name": "BVF Karte",
+  "name": "Fahrsch\u00fcler App",
+  "short_name": "Fahrsch\u00fcler",
   "start_url": "index.html",
   "display": "standalone",
   "background_color": "#ffffff",
