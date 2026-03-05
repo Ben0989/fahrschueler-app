@@ -3,8 +3,9 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Fahrschüler App</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fahrschüler Ausbildung</title>
+<link rel="manifest" href="manifest.json">
 <link rel="stylesheet" href="style.css">
 </head>
 
@@ -18,18 +19,35 @@
 </div>
 </header>
 
-<div id="studentList"></div>
+<main>
 
-<div id="formModal" class="modal hidden">
+<section id="listView">
+<ul id="studentList"></ul>
+</section>
+
+<section id="formView" class="hidden">
 
 <h2>Fahrschüler anlegen</h2>
 
-<input id="name" placeholder="Name">
-<input id="vorname" placeholder="Vorname">
-<input id="anschrift" placeholder="Anschrift">
+<div class="formgrid">
+
+<label>Name</label>
+<input id="name">
+
+<label>Vorname</label>
+<input id="vorname">
+
+<label>Anschrift</label>
+<input id="anschrift">
+
+<label>Geburtsdatum</label>
 <input id="geburt" type="date">
-<input id="telefon" placeholder="Telefonnummer">
-<input id="vorbesitz" placeholder="Vorbesitz">
+
+<label>Telefon</label>
+<input id="telefon">
+
+<label>Vorbesitz</label>
+<input id="vorbesitz">
 
 <label>Klasse</label>
 <select id="klasse">
@@ -40,114 +58,80 @@
 
 <label>Sehhilfe</label>
 <div class="row">
-<label><input type="checkbox" id="sehJa"> Ja</label>
-<label><input type="checkbox" id="sehNein"> Nein</label>
+<label><input type="checkbox" id="sehJa">Ja</label>
+<label><input type="checkbox" id="sehNein">Nein</label>
 </div>
 
-<label>Beginn Ausbildung</label>
+<label>Beginn Fahrausbildung</label>
 <input id="beginn" type="date">
 
 <label>Praktische Prüfung</label>
 <input id="pruefung" type="date">
 
+</div>
+
 <div class="buttons">
 <button id="saveStudent">Speichern</button>
-<button id="cancel">Abbrechen</button>
+<button id="cancelStudent">Abbrechen</button>
 </div>
 
-</div>
+</section>
 
-<div id="profile" class="hidden">
+<section id="studentView" class="hidden">
 
 <div class="tabs">
-<button onclick="showTab('infos')">Infos</button>
-<button onclick="showTab('diagramm')">Diagrammkarte</button>
-<button onclick="showTab('status')">Ausbildungsstand</button>
+<button data-tab="info">Infos</button>
+<button data-tab="diagramm">Diagrammkarte</button>
+<button data-tab="status">Ausbildungsstand</button>
 </div>
 
-<div id="infos" class="tab"></div>
+<div id="info" class="tab"></div>
 
-<div id="diagramm" class="tab">
+<div id="diagramm" class="tab hidden">
 
-<div class="diagram">
-
-<div class="box grundstufe">
-<h3>Grundstufe</h3>
-
-<div class="item"><span>Sitz einstellen</span><input type="checkbox" data-id="0"></div>
-<div class="item"><span>Spiegel einstellen</span><input type="checkbox" data-id="1"></div>
-<div class="item"><span>Lenkradhaltung</span><input type="checkbox" data-id="2"></div>
-<div class="item"><span>Pedale</span><input type="checkbox" data-id="3"></div>
-<div class="item"><span>Gurt anlegen</span><input type="checkbox" data-id="4"></div>
-
+<h2>Grundstufe</h2>
+<div class="box">
+<label><input type="checkbox" class="cb"> Sitz</label>
+<label><input type="checkbox" class="cb"> Lenkrad</label>
+<label><input type="checkbox" class="cb"> Spiegel</label>
+<label><input type="checkbox" class="cb"> Motor anlassen</label>
 </div>
 
-<div class="box aufbaustufe">
-
-<h3>Aufbaustufe</h3>
-
-<div class="item"><span>Rollen und Schalten</span><input type="checkbox" data-id="5"></div>
-<div class="item"><span>Bremsübungen</span><input type="checkbox" data-id="6"></div>
-<div class="item"><span>Gefälle</span><input type="checkbox" data-id="7"></div>
-<div class="item"><span>Steigung</span><input type="checkbox" data-id="8"></div>
-
+<h2>Aufbaustufe</h2>
+<div class="box">
+<label><input type="checkbox" class="cb"> Rollen und Schalten</label>
+<label><input type="checkbox" class="cb"> Abbremsen und Schalten</label>
+<label><input type="checkbox" class="cb"> Bremsübungen</label>
+<label><input type="checkbox" class="cb"> Gefahrsituationen</label>
 </div>
 
-<div class="box leistungsstufe">
-
-<h3>Leistungsstufe</h3>
-
-<div class="item"><span>Abbiegen</span><input type="checkbox" data-id="9"></div>
-<div class="item"><span>Fahrstreifenwechsel</span><input type="checkbox" data-id="10"></div>
-<div class="item"><span>Kreisverkehr</span><input type="checkbox" data-id="11"></div>
-<div class="item"><span>Bahnübergang</span><input type="checkbox" data-id="12"></div>
-
+<h2>Leistungsstufe</h2>
+<div class="box">
+<label><input type="checkbox" class="cb"> Fahrstreifenwechsel</label>
+<label><input type="checkbox" class="cb"> Überholen</label>
+<label><input type="checkbox" class="cb"> Vorfahrt</label>
+<label><input type="checkbox" class="cb"> Schwierige Verkehrsführung</label>
 </div>
 
-<div class="box grundaufgaben">
+<h2>Besondere Ausbildungsfahrten</h2>
 
-<h3>Grundfahraufgaben</h3>
+<div class="sonder">
+Überland <button class="minus" data-type="ue">-</button> <span id="ue">0</span> <button class="plus" data-type="ue">+</button>
+<br>
+Autobahn <button class="minus" data-type="ab">-</button> <span id="ab">0</span> <button class="plus" data-type="ab">+</button>
+<br>
+Dunkelheit <button class="minus" data-type="nacht">-</button> <span id="nacht">0</span> <button class="plus" data-type="nacht">+</button>
+</div>
 
-<div class="item"><span>Rückwärtsfahren</span><input type="checkbox" data-id="13"></div>
-<div class="item"><span>Umkehren</span><input type="checkbox" data-id="14"></div>
-<div class="item"><span>Gefahrenbremsung</span><input type="checkbox" data-id="15"></div>
+<button id="saveDiagramm">Diagramm speichern</button>
 
 </div>
 
-<div class="box sonderfahrten">
+<div id="status" class="tab hidden"></div>
 
-<h3>Besondere Ausbildungsfahrten</h3>
+</section>
 
-<div class="counter">
-<span>Überland</span>
-<button onclick="change('ue',-1)">-</button>
-<span id="ue"></span>
-<button onclick="change('ue',1)">+</button>
-</div>
-
-<div class="counter">
-<span>Autobahn</span>
-<button onclick="change('ab',-1)">-</button>
-<span id="ab"></span>
-<button onclick="change('ab',1)">+</button>
-</div>
-
-<div class="counter">
-<span>Nacht</span>
-<button onclick="change('nacht',-1)">-</button>
-<span id="nacht"></span>
-<button onclick="change('nacht',1)">+</button>
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-<div id="status" class="tab"></div>
-
-</div>
+</main>
 
 <script src="app.js"></script>
 

@@ -1,34 +1,36 @@
 
-let students = JSON.parse(localStorage.getItem("fahrschuelerDB")) || []
-let current=null
+let students = JSON.parse(localStorage.getItem("students")||"[]")
+let current = null
+
+const list = document.getElementById("studentList")
 
 function saveDB(){
-localStorage.setItem("fahrschuelerDB",JSON.stringify(students))
+localStorage.setItem("students",JSON.stringify(students))
 }
 
 function renderList(){
 
-let list=document.getElementById("studentList")
 list.innerHTML=""
 
 students.forEach((s,i)=>{
 
-let d=document.createElement("div")
-d.innerText=s.name+" "+s.vorname
-d.onclick=()=>openStudent(i)
+let li=document.createElement("li")
+li.textContent=s.name+" "+s.vorname+" ("+s.telefon+")"
 
-list.appendChild(d)
+li.onclick=()=>openStudent(i)
+
+list.appendChild(li)
 
 })
 
 }
 
-document.getElementById("addBtn").onclick=()=>{
-document.getElementById("formModal").classList.remove("hidden")
-}
+renderList()
 
-document.getElementById("cancel").onclick=()=>{
-document.getElementById("formModal").classList.add("hidden")
+document.getElementById("addBtn").onclick=()=>{
+
+document.getElementById("formView").classList.remove("hidden")
+
 }
 
 document.getElementById("saveStudent").onclick=()=>{
@@ -38,12 +40,22 @@ let s={
 name:name.value,
 vorname:vorname.value,
 anschrift:anschrift.value,
+geburt:geburt.value,
 telefon:telefon.value,
+vorbesitz:vorbesitz.value,
 klasse:klasse.value,
+sehJa:sehJa.checked,
+sehNein:sehNein.checked,
+beginn:beginn.value,
+pruefung:pruefung.value,
 
-checkboxes:Array(235).fill(false),
+checkboxes:[],
 
-sonder:{ue:0,ab:0,nacht:0}
+sonder:{
+ue:0,
+ab:0,
+nacht:0
+}
 
 }
 
@@ -51,9 +63,7 @@ students.push(s)
 
 saveDB()
 
-document.getElementById("formModal").classList.add("hidden")
-
-renderList()
+location.reload()
 
 }
 
@@ -61,82 +71,104 @@ function openStudent(i){
 
 current=i
 
-document.getElementById("profile").classList.remove("hidden")
+let s=students[i]
 
-showTab("infos")
+document.getElementById("studentView").classList.remove("hidden")
+document.getElementById("listView").classList.add("hidden")
 
-renderInfos()
-renderCounters()
+document.getElementById("info").innerHTML=`
 
-document.querySelectorAll("input[type=checkbox]").forEach(cb=>{
+<h2>${s.name} ${s.vorname}</h2>
 
-let id=cb.dataset.id
+<p>${s.anschrift}</p>
 
-if(id){
+<p>${s.telefon}</p>
 
-cb.checked=students[current].checkboxes[id]
+<p>Klasse ${s.klasse}</p>
 
-cb.onchange=()=>{
+<p>Beginn ${s.beginn}</p>
 
-students[current].checkboxes[id]=cb.checked
-
-saveDB()
+`
 
 }
+
+document.querySelectorAll(".tabs button").forEach(b=>{
+
+b.onclick=()=>{
+
+document.querySelectorAll(".tab").forEach(t=>t.classList.add("hidden"))
+
+document.getElementById(b.dataset.tab).classList.remove("hidden")
 
 }
 
 })
 
+document.querySelectorAll(".plus").forEach(btn=>{
+
+btn.onclick=()=>{
+
+let t=btn.dataset.type
+
+students[current].sonder[t]++
+
+document.getElementById(t).textContent=students[current].sonder[t]
+
+saveDB()
+
 }
 
-function renderInfos(){
+})
 
-let s=students[current]
+document.querySelectorAll(".minus").forEach(btn=>{
 
-document.getElementById("infos").innerHTML=`
-<h3>${s.name} ${s.vorname}</h3>
-<p>${s.anschrift}</p>
-<p>Klasse: ${s.klasse}</p>
+btn.onclick=()=>{
+
+let t=btn.dataset.type
+
+students[current].sonder[t]--
+
+if(students[current].sonder[t]<0)students[current].sonder[t]=0
+
+document.getElementById(t).textContent=students[current].sonder[t]
+
+saveDB()
+
+}
+
+})
+
+document.getElementById("saveDiagramm").onclick=()=>{
+
+let c=[...document.querySelectorAll(".cb")].map(x=>x.checked)
+
+students[current].checkboxes=c
+
+saveDB()
+
+alert("Diagramm gespeichert")
+
+}
+
+function updateStatus(){
+
+let total=document.querySelectorAll(".cb").length
+
+let done=[...document.querySelectorAll(".cb")].filter(x=>x.checked).length
+
+document.getElementById("status").innerHTML=`
+
+<h2>Ausbildungsstand</h2>
+
+<p>${done} / ${total} Aufgaben erledigt</p>
+
 `
 
 }
 
-function showTab(t){
+document.querySelectorAll(".cb").forEach(c=>{
 
-document.querySelectorAll(".tab").forEach(x=>x.style.display="none")
+c.onchange=updateStatus
 
-document.getElementById(t).style.display="block"
+})
 
-}
-
-function change(type,val){
-
-let s=students[current]
-
-let max={B:{ue:5,ab:4,nacht:3},BE:{ue:3,ab:1,nacht:1},L:{ue:0,ab:0,nacht:0}}
-
-let limit=max[s.klasse][type]
-
-s.sonder[type]+=val
-
-if(s.sonder[type]<0)s.sonder[type]=0
-if(s.sonder[type]>limit)s.sonder[type]=limit
-
-saveDB()
-
-renderCounters()
-
-}
-
-function renderCounters(){
-
-let s=students[current]
-
-document.getElementById("ue").innerText=s.sonder.ue
-document.getElementById("ab").innerText=s.sonder.ab
-document.getElementById("nacht").innerText=s.sonder.nacht
-
-}
-
-renderList()
