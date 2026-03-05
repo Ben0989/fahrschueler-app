@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="de">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>BVF Diagrammkarte</title>
+<title>Fahrschüler App</title>
 <link rel="manifest" href="manifest.json">
 <link rel="stylesheet" href="style.css">
 </head>
@@ -11,13 +12,44 @@
 <body>
 
 <header>
-<h1>BVF Ausbildungsdiagrammkarte</h1>
+<h1>Fahrschüler</h1>
+<button id="addBtn">+</button>
 </header>
+
+<div class="searchBox">
+<input id="search" placeholder="Name, Vorname, Telefon">
+</div>
+
+<ul id="studentList"></ul>
+
+<div id="modal" class="modal hidden">
+<h2>Fahrschüler anlegen</h2>
+
+<input id="name" placeholder="Name">
+<input id="vorname" placeholder="Vorname">
+<input id="telefon" placeholder="Telefon">
+
+<label>Klasse</label>
+<select id="klasse">
+<option>B</option>
+<option>BE</option>
+</select>
+
+<button id="saveBtn">Speichern</button>
+<button id="cancelBtn">Abbrechen</button>
+</div>
+
+<div id="profile" class="hidden">
+
+<button id="backBtn">← Zurück</button>
+
+<h2 id="studentTitle"></h2>
 
 <div id="diagramContainer">
 <img src="diagramm.jpg" id="diagramImage">
-
 <div id="checkboxLayer"></div>
+</div>
+
 </div>
 
 <script src="app.js"></script>

@@ -2,26 +2,65 @@
 body{
 font-family:Arial;
 margin:0;
-background:#f0f0f0;
-text-align:center;
+background:#f2f2f2;
 }
 
 header{
 background:#222;
 color:white;
+padding:15px;
+display:flex;
+justify-content:space-between;
+}
+
+.searchBox{
 padding:10px;
+}
+
+.searchBox input{
+width:100%;
+padding:10px;
+border-radius:8px;
+border:1px solid #ccc;
+}
+
+ul{
+list-style:none;
+padding:10px;
+}
+
+li{
+background:white;
+padding:12px;
+margin-bottom:8px;
+border-radius:6px;
+cursor:pointer;
+}
+
+.modal{
+position:fixed;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+background:white;
+padding:20px;
+border-radius:10px;
+width:90%;
+max-width:400px;
+}
+
+.hidden{
+display:none;
 }
 
 #diagramContainer{
 position:relative;
-width:100%;
 max-width:1200px;
 margin:auto;
 }
 
 #diagramImage{
 width:100%;
-display:block;
 }
 
 #checkboxLayer{
