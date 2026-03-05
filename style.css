@@ -1,10 +1,4 @@
 
-body{font-family:Arial;margin:0;background:#f0f0f0}
-header{background:#222;color:white;padding:15px}
-.topbar{display:flex;gap:10px}
-button{padding:8px;border:none;border-radius:6px;background:#444;color:white}
+body{font-family:Arial;background:#f2f2f2;margin:0;padding:20px}
+.box{background:white;padding:10px;margin:10px 0;border-radius:8px}
 .hidden{display:none}
-ul{list-style:none;padding:0}
-li{background:white;margin:5px;padding:10px;border-radius:6px;cursor:pointer}
-.box{background:white;padding:10px;margin:10px 0;border-radius:6px}
-.tabs button{margin-right:5px}

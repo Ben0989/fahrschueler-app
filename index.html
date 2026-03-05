@@ -4,88 +4,30 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Fahrschüler Ausbildung</title>
-<link rel="manifest" href="manifest.json">
+<title>BVF Fahrschüler App</title>
 <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
 <header>
 <h1>Fahrschüler</h1>
-<div class="topbar">
-<input id="search" placeholder="Name, Vorname, Telefon">
-<button id="addBtn">+</button>
-</div>
+<button onclick="showAdd()">+</button>
 </header>
 
-<main>
+<div id="list"></div>
 
-<section id="listView">
-<ul id="studentList"></ul>
-</section>
-
-<section id="formView" class="hidden">
+<div id="add" class="hidden">
 <h2>Fahrschüler anlegen</h2>
-
-<label>Name</label>
-<input id="name">
-
-<label>Vorname</label>
-<input id="vorname">
-
-<label>Anschrift</label>
-<input id="anschrift">
-
-<label>Geburtsdatum</label>
-<input id="geburt" type="date">
-
-<label>Telefon</label>
-<input id="telefon">
-
-<label>Vorbesitz</label>
-<input id="vorbesitz">
-
-<label>Klasse</label>
-<select id="klasse">
-<option>B</option>
-<option>BE</option>
-<option>L</option>
-</select>
-
-<label>Sehhilfe</label>
-<div>
-<label><input type="checkbox" id="sehJa"> Ja</label>
-<label><input type="checkbox" id="sehNein"> Nein</label>
+<input id="name" placeholder="Name">
+<input id="vorname" placeholder="Vorname">
+<input id="telefon" placeholder="Telefon">
+<button onclick="saveStudent()">Speichern</button>
 </div>
 
-<label>Beginn Fahrausbildung</label>
-<input id="beginn" type="date">
-
-<label>Praktische Prüfung</label>
-<input id="pruefung" type="date">
-
-<div class="buttons">
-<button id="saveStudent">Speichern</button>
-<button id="cancelStudent">Abbrechen</button>
+<div id="student" class="hidden">
+<h2 id="studentName"></h2>
+<div id="diagramm"></div>
 </div>
-</section>
-
-<section id="studentView" class="hidden">
-
-<div class="tabs">
-<button data-tab="info">Infos</button>
-<button data-tab="diagramm">Diagrammkarte</button>
-<button data-tab="status">Ausbildungsstand</button>
-</div>
-
-<div id="info" class="tab"></div>
-<div id="diagramm" class="tab hidden"></div>
-<div id="status" class="tab hidden"></div>
-
-</section>
-
-</main>
 
 <script src="diagrammData.js"></script>
 <script src="app.js"></script>
