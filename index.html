@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fahrschüler App</title>
+<link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+<h1>Fahrschüler</h1>
+<button id="addBtn">+</button>
+</header>
+
+<ul id="studentList"></ul>
+
+<!-- Schüler anlegen -->
+<div id="modal" class="modal hidden">
+<h2>Fahrschüler anlegen</h2>
+
+<input id="name" placeholder="Name">
+<input id="vorname" placeholder="Vorname">
+<input id="anschrift" placeholder="Anschrift">
+<input id="telefon" placeholder="Telefon">
+
+<label>Klasse</label>
+<select id="klasse">
+<option>B</option>
+<option>BE</option>
+<option>L</option>
+</select>
+
+<label>Sehhilfe</label>
+<select id="sehhilfe">
+<option>Nein</option>
+<option>Ja</option>
+</select>
+
+<label>Beginn Fahrausbildung</label>
+<input type="date" id="beginn">
+
+<label>Termin Praktische Prüfung</label>
+<input type="date" id="pruefung">
+
+<div class="buttons">
+<button id="saveBtn">Speichern</button>
+<button id="cancelBtn">Abbrechen</button>
+</div>
+</div>
+
+<!-- Profilansicht -->
+<div id="profile" class="hidden">
+
+<div class="tabs">
+<button class="tabBtn" data-tab="infos">Infos</button>
+<button class="tabBtn" data-tab="diagramm">Diagrammkarte</button>
+<button class="tabBtn" data-tab="stand">Ausbildungsstand</button>
+</div>
+
+<div id="infos" class="tab"></div>
+
+<div id="diagramm" class="tab hidden">
+<h3>Diagrammkarte</h3>
+<div id="checkboxContainer"></div>
+
+<h3>Sonderfahrten</h3>
+
+<div class="counter">
+Überland: <button onclick="change('ue',-1)">-</button>
+<span id="ue">0</span>
+<button onclick="change('ue',1)">+</button>
+</div>
+
+<div class="counter">
+Autobahn: <button onclick="change('ab',-1)">-</button>
+<span id="ab">0</span>
+<button onclick="change('ab',1)">+</button>
+</div>
+
+<div class="counter">
+Nacht: <button onclick="change('na',-1)">-</button>
+<span id="na">0</span>
+<button onclick="change('na',1)">+</button>
+</div>
+
+</div>
+
+<div id="stand" class="tab hidden">
+<h3>Ausbildungsstand</h3>
+<div id="summary"></div>
+</div>
+
+<button id="backBtn">← Zurück</button>
+
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
