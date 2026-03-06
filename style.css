@@ -102,3 +102,17 @@ margin-left:6px;
 .diagramBox:nth-child(13){background:#fff3cd;}
 .diagramBox:nth-child(14){background:#e0f7fa;}
 .diagramBox:nth-child(15){background:#fce4ec;}
+
+.sonderfahrten{
+margin-top:15px;
+}
+
+.fahrt{
+margin:6px 0;
+font-size:16px;
+}
+
+.fahrt button{
+margin:0 6px;
+width:30px;
+}
