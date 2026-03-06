@@ -31,9 +31,7 @@ const DIAGRAMM = {
     "Einparken längs",
     "Einparken quer"
   ]
-  const DIAGRAMM = {
-
-Grundstufe: [
+"Grundstufe": [
 "Besonderheiten beim Einsteigen",
 "Sitz einstellen",
 "Spiegel einstellen",
