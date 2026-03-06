@@ -1,36 +1,64 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
 <title>Fahrschüler App</title>
+
 <link rel="stylesheet" href="style.css">
+
 </head>
+
 
 <body>
 
+
 <header>
+
 <h1>Fahrschüler</h1>
+
 <button id="addStudentBtn">+</button>
+
 </header>
+
+
+
+<!-- Liste der Fahrschüler -->
 
 <div id="studentList"></div>
 
-<div id="studentPanel" class="hidden">
+
+
+<!-- Schüleransicht -->
+
+<div id="studentPanel" class="hidden panel">
+
 
 <h2 id="studentTitle"></h2>
+
 
 <div class="tabs">
 
 <button onclick="showTab('info')">Infos</button>
+
 <button onclick="showTab('diagramm')">Diagrammkarte</button>
+
 <button onclick="showTab('status')">Ausbildungsstand</button>
 
 </div>
 
 
+
+<!-- Reiter 1 -->
+
 <div id="info" class="tab"></div>
 
+
+
+<!-- Reiter 2 -->
 
 <div id="diagramm" class="tab hidden">
 
@@ -41,15 +69,24 @@
 </div>
 
 
+
+<!-- Reiter 3 -->
+
 <div id="status" class="tab hidden">
+
+<h3>Ausbildungsstand</h3>
 
 <div id="progress"></div>
 
 </div>
 
+
 </div>
-  
-<!-- Fenster zum Anlegen -->
+
+
+
+<!-- Fenster Schüler anlegen -->
+
 <div id="addPanel" class="hidden panel">
 
 <h2>Fahrschüler anlegen</h2>
@@ -57,39 +94,57 @@
 <input id="name" placeholder="Name">
 <input id="vorname" placeholder="Vorname">
 <input id="anschrift" placeholder="Anschrift">
+
 <input id="geburt" type="date">
+
 <input id="telefon" placeholder="Telefon">
+
 <input id="vorbesitz" placeholder="Vorbesitz">
 
+
 <select id="klasse">
+
 <option>B</option>
 <option>BE</option>
 <option>L</option>
+
 </select>
 
-<label>Sehhilfe</label
+
+<label>Sehhilfe</label>
+
 <label><input type="checkbox" id="sehJa"> Ja</label>
 <label><input type="checkbox" id="sehNein"> Nein</label>
 
+
 <label>Beginn Fahrausbildung</label>
+
 <input id="beginn" type="date">
 
+
 <label>Termin Prüfung</label>
+
 <input id="pruefung" type="date">
 
+
 <div class="buttons">
+
 <button onclick="saveStudent()">Speichern</button>
+
 <button onclick="closeAdd()">Abbrechen</button>
-</div>
 
 </div>
 
-<div id="diagramContainer">
-<!-- HIER bleibt deine bestehende Diagrammkarte unverändert -->
+
 </div>
+
+
 
 <script src="diagrammData.js"></script>
+
 <script src="app.js"></script>
 
+
 </body>
+
 </html>
