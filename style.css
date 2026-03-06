@@ -1,15 +1,39 @@
 
-body{font-family:Arial;margin:0;background:#f2f2f2}
-header{background:#222;color:white;padding:10px;display:flex;gap:10px}
-.card{background:white;padding:10px;margin:8px;border-radius:8px;cursor:pointer}
-.panel{background:white;padding:10px;margin:10px;border-radius:8px}
-#diagramm{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin:10px}
+body{font-family:Arial;background:#f2f2f2;margin:0}
+header{background:#222;color:white;padding:10px}
+.panel{background:white;padding:15px;margin:10px;border-radius:8px}
+.hidden{display:none}
 
-.box{padding:10px;border-radius:10px;color:#111}
+#list div{
+background:white;
+margin:8px;
+padding:10px;
+border-radius:6px;
+cursor:pointer;
+}
+
+.tabs button{
+margin:5px;
+padding:8px;
+}
+
+#diagramContainer{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:12px;
+margin-top:10px;
+}
+
+.box{
+padding:10px;
+border-radius:8px;
+}
 
 .grund{background:#ffe599}
 .aufbau{background:#f9cb9c}
 .leistung{background:#ea9999}
 .grundaufgaben{background:#fff2cc}
 
-.done{background:#b6f5c0}
+.done{
+background:#b6f5c0
+}

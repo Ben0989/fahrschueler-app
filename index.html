@@ -7,31 +7,66 @@
 <title>Fahrschüler Ausbildung</title>
 <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
 <header>
 <h1>Fahrschüler</h1>
-<input id="search" placeholder="Suche Name">
-<button onclick="showAdd()">+</button>
+<button onclick="showAdd()">+ Schüler</button>
 </header>
 
 <div id="list"></div>
 
-<div id="add" class="panel hidden">
+<div id="addPanel" class="panel hidden">
 <h2>Fahrschüler anlegen</h2>
+
 <input id="name" placeholder="Name">
 <input id="vorname" placeholder="Vorname">
+<input id="anschrift" placeholder="Anschrift">
+<input id="geburt" type="date">
 <input id="telefon" placeholder="Telefon">
+<input id="vorbesitz" placeholder="Vorbesitz">
+
+<select id="klasse">
+<option>B</option>
+<option>BE</option>
+<option>L</option>
+</select>
+
+<label>Sehhilfe</label>
+<label><input type="checkbox" id="sehja"> Ja</label>
+<label><input type="checkbox" id="sehnein"> Nein</label>
+
+<label>Beginn Fahrausbildung</label>
+<input id="beginn" type="date">
+
+<label>Termin Prüfung</label>
+<input id="pruefung" type="date">
+
 <button onclick="saveStudent()">Speichern</button>
 </div>
 
 <div id="studentPanel" class="hidden">
+
 <h2 id="studentTitle"></h2>
+
+<div class="tabs">
+<button onclick="showTab('info')">Infos</button>
+<button onclick="showTab('diagramm')">Diagrammkarte</button>
+<button onclick="showTab('status')">Ausbildungsstand</button>
+</div>
+
+<div id="info" class="tab"></div>
+
+<div id="diagramm" class="tab hidden">
+<button onclick="saveDiagram()">Diagramm speichern</button>
+<div id="diagramContainer"></div>
+</div>
+
+<div id="status" class="tab hidden">
 <div id="progress"></div>
+</div>
 
-<button id="saveDiagramBtn">Diagramm speichern</button>
-
-<div id="diagramm"></div>
 </div>
 
 <script src="diagrammData.js"></script>
