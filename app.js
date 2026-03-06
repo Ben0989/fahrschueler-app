@@ -2,27 +2,31 @@ let students = JSON.parse(localStorage.getItem("students") || "[]")
 
 if(!Array.isArray(students)) students=[]
 
-let current=null
+let current = null
 
 
 
 function saveDB(){
-
-localStorage.setItem("students",JSON.stringify(students))
-
+localStorage.setItem("students", JSON.stringify(students))
 }
 
 
 
+/* =========================
+   FAHRSCHÜLER LISTE
+========================= */
+
 function renderList(){
 
-const list=document.getElementById("studentList")
+const list = document.getElementById("studentList")
 
 list.innerHTML=""
 
 students.forEach((s,i)=>{
 
 let div=document.createElement("div")
+
+div.className="studentItem"
 
 div.innerText=(s.name||"")+" "+(s.vorname||"")
 
@@ -38,6 +42,10 @@ renderList()
 
 
 
+/* =========================
+   SCHÜLER ÖFFNEN
+========================= */
+
 function openStudent(i){
 
 let s=students[i]
@@ -47,12 +55,8 @@ if(!s) return
 current=i
 
 if(!s.checkboxes) s.checkboxes={}
-
-if(!s.sonderfahrten){
-
-s.sonderfahrten={ul:0,ab:0,na:0}
-
-}
+if(!s.sonderfahrten) s.sonderfahrten={ul:0,ab:0,na:0}
+if(!s.fahrten) s.fahrten=[]
 
 document.getElementById("studentPanel").classList.remove("hidden")
 
@@ -69,14 +73,22 @@ document.getElementById("info").innerHTML=`
 `
 
 renderDiagram()
+
 loadDiagram()
+
 updateProgress()
+
+renderFahrten()
 
 showTab("info")
 
 }
 
 
+
+/* =========================
+   TABS
+========================= */
 
 function showTab(tab){
 
@@ -89,6 +101,10 @@ document.getElementById(tab).classList.remove("hidden")
 }
 
 
+
+/* =========================
+   DIAGRAMMKARTE ERZEUGEN
+========================= */
 
 function renderDiagram(){
 
@@ -142,6 +158,10 @@ container.appendChild(box)
 
 
 
+/* =========================
+   CHECKBOXEN LADEN
+========================= */
+
 function loadDiagram(){
 
 const checkboxes=document.querySelectorAll("#diagramContainer input[type='checkbox']")
@@ -157,6 +177,10 @@ cb.checked=students[current].checkboxes[field]||false
 }
 
 
+
+/* =========================
+   FORTSCHRITT
+========================= */
 
 function updateProgress(){
 
@@ -219,6 +243,10 @@ document.getElementById("pruefungsreife").style.color="red"
 
 
 
+/* =========================
+   SONDERFAHRTEN
+========================= */
+
 function changeDrive(type,val){
 
 let s=students[current]
@@ -238,11 +266,9 @@ maxN=1
 }
 
 let max={
-
 ul:maxUL,
 ab:maxAB,
 na:maxN
-
 }
 
 s.sonderfahrten[type]+=val
@@ -258,6 +284,62 @@ updateProgress()
 }
 
 
+
+/* =========================
+   FAHRT PROTOKOLL
+========================= */
+
+function addFahrt(){
+
+let s=students[current]
+
+let datum=document.getElementById("fahrtDatum").value
+let text=document.getElementById("fahrtNotiz").value
+
+if(!datum || !text) return
+
+s.fahrten.push({
+datum:datum,
+text:text
+})
+
+saveDB()
+
+renderFahrten()
+
+document.getElementById("fahrtNotiz").value=""
+
+}
+
+
+
+function renderFahrten(){
+
+let s=students[current]
+
+const container=document.getElementById("fahrtenListe")
+
+container.innerHTML=""
+
+s.fahrten.forEach(f=>{
+
+let div=document.createElement("div")
+
+div.className="fahrtEintrag"
+
+div.innerHTML="<b>"+f.datum+"</b> - "+f.text
+
+container.appendChild(div)
+
+})
+
+}
+
+
+
+/* =========================
+   SCHÜLER ANLEGEN
+========================= */
 
 document.getElementById("addStudentBtn").onclick=function(){
 
@@ -297,6 +379,8 @@ ab:0,
 na:0
 },
 
+fahrten:[],
+
 checkboxes:{}
 
 }
@@ -312,6 +396,10 @@ renderList()
 }
 
 
+
+/* =========================
+   SUCHFELD
+========================= */
 
 document.getElementById("search").addEventListener("input",function(){
 
