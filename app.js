@@ -414,10 +414,8 @@ renderFahrten()
 
 }
 
-
-
 /* =============================
-   FAHRTEN LISTE
+   FAHRTEN IN AUSBILDUNGSÜBERSICHT
 ============================= */
 
 function renderFahrten(){
@@ -426,6 +424,8 @@ let s=students[current]
 
 const container=document.getElementById("fahrtenListe")
 
+if(!container) return
+
 container.innerHTML=""
 
 s.fahrten
@@ -433,13 +433,13 @@ s.fahrten
 .forEach(f=>{
 
 let div=document.createElement("div")
-
 div.className="fahrtEintrag"
 
 div.innerHTML=`
 <b>${f.datum}</b> ${f.titel}<br>
-${f.notiz}<br>
-Routepunkte: ${f.route.length}
+Dauer: ${f.dauer} min<br>
+Strecke: ${f.strecke} km<br>
+${f.notiz}
 `
 
 container.appendChild(div)
@@ -447,6 +447,8 @@ container.appendChild(div)
 })
 
 }
+
+
 
 
 
