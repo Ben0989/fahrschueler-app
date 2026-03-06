@@ -91,22 +91,16 @@ document.getElementById(tab).classList.remove("hidden")
 function renderDiagram(){
 
 const container=document.getElementById("diagramContainer")
-
 container.innerHTML=""
 
 Object.keys(DIAGRAMM).forEach(section=>{
 
 let box=document.createElement("div")
-
 box.className="diagramBox"
 
 let title=document.createElement("h3")
-
 title.innerText=section
-
 box.appendChild(title)
-
-
 
 DIAGRAMM[section].forEach(field=>{
 
@@ -134,26 +128,11 @@ box.appendChild(label)
 
 })
 
-
-
-label.innerText=field+" "
-
-label.appendChild(cb)
-
-
-
-box.appendChild(label)
-
-})
-
-
-
 container.appendChild(box)
 
 })
 
 }
-
 
 
 function loadDiagram(){
