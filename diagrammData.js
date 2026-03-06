@@ -150,7 +150,7 @@ const DIAGRAMM = {
 "Abschlussbesprechung"
 ],
 
-"ReifeTest": [
+"Reife-, Teststufe": [
 "Selbstständiges Fahren innerorts",
 "Selbstständiges Fahren außerorts",
 "Verantwortungsbewusstes Fahren",
@@ -160,7 +160,7 @@ const DIAGRAMM = {
 "Leistungsbewertung"
 ],
 
-"SituativeBausteine": [
+"Situative Bausteine": [
 "Reifen Beschädigung",
 "Reifen Profiltiefe",
 "Reifen Reifendruck",
@@ -190,7 +190,7 @@ const DIAGRAMM = {
 "Assistenzsysteme Anwenden"
 ],
 
-"HeizungLueftung": [
+"Heizung Lüftung": [
 "Heizung",
 "Lüftung",
 "Klimaanlage",
@@ -200,7 +200,7 @@ const DIAGRAMM = {
 "Rechtzeitiges Abschalten"
 ],
 
-"BetriebsVerkehrssicherheit": [
+"Betriebs Verkehrssicherheit": [
 "Motoröl",
 "Kühlmittel",
 "Scheibenwaschflüssigkeit",
