@@ -2,11 +2,11 @@ let students = JSON.parse(localStorage.getItem("students") || "[]")
 
 if(!Array.isArray(students)) students=[]
 
-let current=null
-let editMode=false
+let current = null
+let editMode = false
 
-let route=[]
-let watchId=null
+let route = []
+let watchId = null
 
 
 
@@ -16,23 +16,45 @@ localStorage.setItem("students",JSON.stringify(students))
 
 
 
-/* LISTE */
+/* =============================
+   STARTLISTE DER FAHRSCHÜLER
+============================= */
 
 function renderList(){
 
-const list=document.getElementById("studentList")
+const list = document.getElementById("studentList")
 list.innerHTML=""
 
 students.forEach((s,i)=>{
 
-let div=document.createElement("div")
-div.className="studentItem"
+let div = document.createElement("div")
+div.className="studentCard"
 
-div.innerText=
-  (s.name||"")+
-  (s.vorname||"")
+let name = (s.name||"") + " " + (s.vorname||"")
+let klasse = s.klasse || "-"
+let pruefung = s.pruefung || "kein Termin"
 
-div.onclick=()=>openStudent(i)
+let progress = 0
+let total = 0
+
+if(s.checkboxes){
+
+total = Object.keys(s.checkboxes).length
+
+Object.values(s.checkboxes).forEach(v=>{
+if(v) progress++
+})
+
+}
+
+div.innerHTML = `
+<b>${name}</b><br>
+Klasse: ${klasse}<br>
+Prüfung: ${pruefung}<br>
+Fortschritt: ${progress} / ${total}
+`
+
+div.onclick = ()=>openStudent(i)
 
 list.appendChild(div)
 
@@ -44,13 +66,15 @@ renderList()
 
 
 
-/* SCHÜLER ÖFFNEN */
+/* =============================
+   SCHÜLER ÖFFNEN
+============================= */
 
 function openStudent(i){
 
-let s=students[i]
+let s = students[i]
 
-current=i
+current = i
 
 if(!s.checkboxes) s.checkboxes={}
 if(!s.sonderfahrten) s.sonderfahrten={ul:0,ab:0,na:0}
@@ -58,15 +82,16 @@ if(!s.fahrten) s.fahrten=[]
 
 document.getElementById("studentPanel").classList.remove("hidden")
 
-document.getElementById("studentTitle").innerText=s.name+" "+s.vorname
+document.getElementById("studentTitle").innerText =
+(s.name||"")+" "+(s.vorname||"")
 
 document.getElementById("info").innerHTML=`
 
-<p><b>Anschrift:</b> ${s.anschrift}</p>
-<p><b>Telefon:</b> ${s.telefon}</p>
-<p><b>Klasse:</b> ${s.klasse}</p>
-<p><b>Beginn:</b> ${s.beginn}</p>
-<p><b>Prüfung:</b> ${s.pruefung}</p>
+<p><b>Anschrift:</b> ${s.anschrift||""}</p>
+<p><b>Telefon:</b> ${s.telefon||""}</p>
+<p><b>Klasse:</b> ${s.klasse||""}</p>
+<p><b>Beginn:</b> ${s.beginn||""}</p>
+<p><b>Prüfung:</b> ${s.pruefung||""}</p>
 
 <button onclick="editStudent()">Bearbeiten</button>
 
@@ -83,11 +108,15 @@ showTab("info")
 
 
 
-/* TABS */
+/* =============================
+   TABS
+============================= */
 
 function showTab(tab){
 
-document.querySelectorAll(".tab").forEach(t=>t.classList.add("hidden"))
+document.querySelectorAll(".tab").forEach(t=>{
+t.classList.add("hidden")
+})
 
 document.getElementById(tab).classList.remove("hidden")
 
@@ -95,37 +124,40 @@ document.getElementById(tab).classList.remove("hidden")
 
 
 
-/* DIAGRAMM */
+/* =============================
+   DIAGRAMMKARTE
+============================= */
 
 function renderDiagram(){
 
-const container=document.getElementById("diagramContainer")
+const container = document.getElementById("diagramContainer")
 container.innerHTML=""
 
 Object.keys(DIAGRAMM).forEach(section=>{
 
-let box=document.createElement("div")
+let box = document.createElement("div")
 box.className="diagramBox"
 
-let title=document.createElement("h3")
-title.innerText=section
+let title = document.createElement("h3")
+title.innerText = section
 
 box.appendChild(title)
 
 DIAGRAMM[section].forEach(field=>{
 
-let label=document.createElement("label")
+let label = document.createElement("label")
 
-let text=document.createElement("span")
-text.innerText=field
+let text = document.createElement("span")
+text.innerText = field
 
-let cb=document.createElement("input")
+let cb = document.createElement("input")
 cb.type="checkbox"
-cb.dataset.field=field
+cb.dataset.field = field
 
 cb.addEventListener("change",()=>{
 
 students[current].checkboxes[field]=cb.checked
+
 saveDB()
 updateProgress()
 
@@ -146,6 +178,10 @@ container.appendChild(box)
 
 
 
+/* =============================
+   DIAGRAMM LADEN
+============================= */
+
 function loadDiagram(){
 
 const checkboxes=document.querySelectorAll("#diagramContainer input[type='checkbox']")
@@ -162,7 +198,9 @@ cb.checked=students[current].checkboxes[field]||false
 
 
 
-/* FORTSCHRITT */
+/* =============================
+   AUSBILDUNGSFORTSCHRITT
+============================= */
 
 function updateProgress(){
 
@@ -175,15 +213,17 @@ checkboxes.forEach(cb=>{
 if(cb.checked) done++
 })
 
-document.getElementById("progress").innerText="Ausbildungsfelder: "+done+" / "+total
+document.getElementById("progress").innerText =
+"Ausbildungsfelder: "+done+" / "+total
 
-let s=students[current]
 
-let klasse=s.klasse
+let s = students[current]
 
-let maxUL=5
-let maxAB=4
-let maxN=3
+let klasse = s.klasse
+
+let maxUL = 5
+let maxAB = 4
+let maxN = 3
 
 if(klasse==="BE"){
 maxUL=3
@@ -201,13 +241,14 @@ document.getElementById("nachtCount").innerText=s.sonderfahrten.na
 
 
 
-let sonderfahrtenOK=
+/* Prüfungsreife */
+
+let sonderfahrtenOK =
 s.sonderfahrten.ul>=maxUL &&
 s.sonderfahrten.ab>=maxAB &&
 s.sonderfahrten.na>=maxN
 
-
-let reifeOK=true
+let reifeOK = true
 
 if(DIAGRAMM["Reife-, Teststufe"]){
 
@@ -235,11 +276,13 @@ document.getElementById("pruefungsreife").style.color="red"
 
 
 
-/* SONDERFAHRTEN */
+/* =============================
+   SONDERFAHRTEN
+============================= */
 
 function changeDrive(type,val){
 
-let s=students[current]
+let s = students[current]
 
 let klasse=s.klasse
 
@@ -267,7 +310,9 @@ updateProgress()
 
 
 
-/* GPS TRACKING */
+/* =============================
+   GPS TRACKING
+============================= */
 
 function startTracking(){
 
@@ -280,9 +325,7 @@ lat:pos.coords.latitude,
 lng:pos.coords.longitude
 })
 
-},{
-enableHighAccuracy:true
-})
+},{enableHighAccuracy:true})
 
 }
 
@@ -298,13 +341,15 @@ navigator.geolocation.clearWatch(watchId)
 
 
 
-/* FAHRT SPEICHERN */
+/* =============================
+   FAHRT SPEICHERN
+============================= */
 
 function saveFahrt(){
 
-let s=students[current]
+let s = students[current]
 
-let fahrt={
+let fahrt = {
 
 datum:new Date().toISOString().split("T")[0],
 titel:document.getElementById("fahrtTitel").value,
@@ -328,7 +373,9 @@ document.getElementById("fahrtNotiz").value=""
 
 
 
-/* FAHRTEN LISTE */
+/* =============================
+   FAHRTEN ANZEIGEN
+============================= */
 
 function renderFahrten(){
 
@@ -348,7 +395,11 @@ let div=document.createElement("div")
 
 div.className="fahrtEintrag"
 
-div.innerHTML=`<b>${f.datum}</b> ${f.titel}<br>${f.notiz}<br>Routepunkte: ${f.route.length}`
+div.innerHTML=`
+<b>${f.datum}</b> ${f.titel}<br>
+${f.notiz}<br>
+Routepunkte: ${f.route.length}
+`
 
 container.appendChild(div)
 
@@ -358,7 +409,39 @@ container.appendChild(div)
 
 
 
-/* SCHÜLER ANLEGEN */
+/* =============================
+   SCHÜLER BEARBEITEN
+============================= */
+
+function editStudent(){
+
+let s=students[current]
+
+editMode=true
+
+document.getElementById("addPanel").classList.remove("hidden")
+
+name.value=s.name||""
+vorname.value=s.vorname||""
+anschrift.value=s.anschrift||""
+geburt.value=s.geburt||""
+telefon.value=s.telefon||""
+vorbesitz.value=s.vorbesitz||""
+klasse.value=s.klasse||"B"
+
+sehJa.checked=s.sehJa||false
+sehNein.checked=s.sehNein||false
+
+beginn.value=s.beginn||""
+pruefung.value=s.pruefung||""
+
+}
+
+
+
+/* =============================
+   SCHÜLER ANLEGEN
+============================= */
 
 document.getElementById("addStudentBtn").onclick=function(){
 
@@ -424,7 +507,9 @@ renderList()
 
 
 
-/* SUCHFELD */
+/* =============================
+   SUCHFELD
+============================= */
 
 document.getElementById("search").addEventListener("input",function(){
 
