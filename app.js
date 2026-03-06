@@ -387,11 +387,21 @@ function saveFahrt(){
 
 let s=students[current]
 
+let endTime=Date.now()
+
+let duration=Math.round((endTime-startTime)/60000)
+
+let distance=calcDistance(route).toFixed(2)
+
 let fahrt={
 
 datum:new Date().toISOString().split("T")[0],
 titel:document.getElementById("fahrtTitel").value,
 notiz:document.getElementById("fahrtNotiz").value,
+
+dauer:duration,
+strecke:distance,
+
 route:route
 
 }
