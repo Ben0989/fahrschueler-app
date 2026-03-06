@@ -7,6 +7,7 @@ let editMode = false
 
 let route = []
 let watchId = null
+let startTime = null
 
 
 
@@ -241,8 +242,6 @@ document.getElementById("nachtCount").innerText=s.sonderfahrten.na
 
 
 
-/* PRÜFUNGSREIFE */
-
 let sonderfahrtenOK =
 s.sonderfahrten.ul>=maxUL &&
 s.sonderfahrten.ab>=maxAB &&
@@ -253,9 +252,7 @@ let reifeOK=true
 if(DIAGRAMM["Reife-, Teststufe"]){
 
 DIAGRAMM["Reife-, Teststufe"].forEach(field=>{
-
 if(!s.checkboxes[field]) reifeOK=false
-
 })
 
 }
@@ -317,6 +314,7 @@ updateProgress()
 function startTracking(){
 
 route=[]
+startTime=Date.now()
 
 watchId=navigator.geolocation.watchPosition(pos=>{
 
@@ -414,8 +412,10 @@ renderFahrten()
 
 }
 
+
+
 /* =============================
-   FAHRTEN IN AUSBILDUNGSÜBERSICHT
+   FAHRTEN AUSBILDUNGSÜBERSICHT
 ============================= */
 
 function renderFahrten(){
@@ -440,39 +440,6 @@ div.innerHTML=`
 Dauer: ${f.dauer} min<br>
 Strecke: ${f.strecke} km<br>
 ${f.notiz}
-`
-
-container.appendChild(div)
-
-})
-
-}
-
-
-/* =============================
-   FAHRTEN LISTE
-============================= */
-
-function renderFahrten(){
-
-let s=students[current]
-
-const container=document.getElementById("fahrtenListe")
-
-container.innerHTML=""
-
-s.fahrten
-.sort((a,b)=>new Date(b.datum)-new Date(a.datum))
-.forEach(f=>{
-
-let div=document.createElement("div")
-
-div.className="fahrtEintrag"
-
-div.innerHTML=`
-<b>${f.datum}</b> ${f.titel}<br>
-${f.notiz}<br>
-Routepunkte: ${f.route.length}
 `
 
 container.appendChild(div)
