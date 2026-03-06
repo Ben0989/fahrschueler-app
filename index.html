@@ -34,7 +34,7 @@
 
 <button onclick="showTab('info')">Infos</button>
 <button onclick="showTab('diagramm')">Diagrammkarte</button>
-<button onclick="showTab('fahrten')">Fahrtprotokoll</button>
+<button onclick="showTab('fahrten')">Fahrt erfassen</button>
 <button onclick="showTab('status')">Ausbildungsstand</button>
 
 </div>
@@ -46,7 +46,7 @@
 
 
 
-<!-- DIAGRAMMKARTE -->
+<!-- DIAGRAMM -->
 
 <div id="diagramm" class="tab hidden">
 
@@ -56,15 +56,15 @@
 
 
 
-<!-- FAHRTPROTOKOLL (EINGABE) -->
+<!-- FAHRT EINGEBEN -->
 
 <div id="fahrten" class="tab hidden">
 
-<h3>Neue Fahrt</h3>
+<h3>Neue Fahrstunde</h3>
 
 <input id="fahrtTitel" placeholder="Titel der Fahrstunde">
 
-<textarea id="fahrtNotiz" placeholder="Notizen zur Fahrstunde"></textarea>
+<textarea id="fahrtNotiz" placeholder="Notizen"></textarea>
 
 <br>
 
@@ -119,10 +119,9 @@ Nacht
 
 <h3 id="pruefungsreife"></h3>
 
-
 <hr>
 
-<h3>Fahrtenprotokoll</h3>
+<h3>Fahrtenübersicht</h3>
 
 <div id="fahrtenListe"></div>
 
@@ -133,7 +132,7 @@ Nacht
 
 
 
-<!-- FAHRSCHÜLER ANLEGEN -->
+<!-- SCHÜLER ANLEGEN -->
 
 <div id="addPanel" class="hidden panel">
 
