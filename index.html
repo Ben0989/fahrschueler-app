@@ -7,19 +7,18 @@
 <title>Fahrschüler Ausbildung</title>
 <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
 <header>
 <h1>Fahrschüler</h1>
-<input id="search" placeholder="Suche Name / Telefon">
+<input id="search" placeholder="Suche Name">
 <button onclick="showAdd()">+</button>
 </header>
 
 <div id="list"></div>
 
 <div id="add" class="panel hidden">
-<h2>Fahrschüler anlegen / bearbeiten</h2>
+<h2>Fahrschüler anlegen</h2>
 <input id="name" placeholder="Name">
 <input id="vorname" placeholder="Vorname">
 <input id="telefon" placeholder="Telefon">
@@ -29,6 +28,9 @@
 <div id="studentPanel" class="hidden">
 <h2 id="studentTitle"></h2>
 <div id="progress"></div>
+
+<button id="saveDiagramBtn">Diagramm speichern</button>
+
 <div id="diagramm"></div>
 </div>
 

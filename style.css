@@ -1,10 +1,15 @@
 
-body{font-family:Arial;margin:0;background:#f4f4f4}
+body{font-family:Arial;margin:0;background:#f2f2f2}
 header{background:#222;color:white;padding:10px;display:flex;gap:10px}
-#list .card{background:white;padding:10px;margin:8px;border-radius:8px;cursor:pointer}
-.panel{padding:10px;background:white;margin:10px;border-radius:8px}
-.box{background:white;padding:10px;margin:10px;border-radius:8px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px}
-.hidden{display:none}
-.box h3{margin-top:0}
-.done{background:#d7ffd9}
+.card{background:white;padding:10px;margin:8px;border-radius:8px;cursor:pointer}
+.panel{background:white;padding:10px;margin:10px;border-radius:8px}
+#diagramm{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin:10px}
+
+.box{padding:10px;border-radius:10px;color:#111}
+
+.grund{background:#ffe599}
+.aufbau{background:#f9cb9c}
+.leistung{background:#ea9999}
+.grundaufgaben{background:#fff2cc}
+
+.done{background:#b6f5c0}
