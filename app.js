@@ -342,6 +342,44 @@ navigator.geolocation.clearWatch(watchId)
 
 
 /* =============================
+   STRECKE BERECHNEN
+============================= */
+
+function calcDistance(route){
+
+let distance=0
+
+for(let i=1;i<route.length;i++){
+
+let a=route[i-1]
+let b=route[i]
+
+let R=6371
+
+let dLat=(b.lat-a.lat)*Math.PI/180
+let dLon=(b.lng-a.lng)*Math.PI/180
+
+let lat1=a.lat*Math.PI/180
+let lat2=b.lat*Math.PI/180
+
+let x=
+Math.sin(dLat/2)*Math.sin(dLat/2)+
+Math.sin(dLon/2)*Math.sin(dLon/2)*
+Math.cos(lat1)*Math.cos(lat2)
+
+let c=2*Math.atan2(Math.sqrt(x),Math.sqrt(1-x))
+
+distance+=R*c
+
+}
+
+return distance
+
+}
+
+
+
+/* =============================
    FAHRT SPEICHERN
 ============================= */
 
