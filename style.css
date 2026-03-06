@@ -87,9 +87,9 @@ margin-left:6px;
 
 /* Farbige Stufen */
 
-.diagramBox:nth-child(1){background:#f3e1a6;}   /* Grundstufe */
-.diagramBox:nth-child(2){background:#efc87c;}   /* Aufbaustufe */
-.diagramBox:nth-child(3){background:#f2a38f;}   /* Leistungsstufe */
+.diagramBox:nth-child(1){background:#f3e1a6;}
+.diagramBox:nth-child(2){background:#efc87c;}
+.diagramBox:nth-child(3){background:#f2a38f;}
 .diagramBox:nth-child(4){background:#f7d8a6;}
 .diagramBox:nth-child(5){background:#f5e6b8;}
 .diagramBox:nth-child(6){background:#d8f0d8;}
@@ -98,3 +98,7 @@ margin-left:6px;
 .diagramBox:nth-child(9){background:#f1e5f8;}
 .diagramBox:nth-child(10){background:#e2f6ff;}
 .diagramBox:nth-child(11){background:#fde2ea;}
+.diagramBox:nth-child(12){background:#e8f5e9;}
+.diagramBox:nth-child(13){background:#fff3cd;}
+.diagramBox:nth-child(14){background:#e0f7fa;}
+.diagramBox:nth-child(15){background:#fce4ec;}
