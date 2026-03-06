@@ -17,7 +17,7 @@ localStorage.setItem("students",JSON.stringify(students))
 
 
 /* =============================
-   STARTLISTE DER FAHRSCHÜLER
+   STARTLISTE
 ============================= */
 
 function renderList(){
@@ -27,19 +27,19 @@ list.innerHTML=""
 
 students.forEach((s,i)=>{
 
-let div = document.createElement("div")
+let div=document.createElement("div")
 div.className="studentCard"
 
-let name = (s.name||"") + " " + (s.vorname||"")
-let klasse = s.klasse || "-"
-let pruefung = s.pruefung || "kein Termin"
+let name=(s.name||"")+" "+(s.vorname||"")
+let klasse=s.klasse||"-"
+let pruefung=s.pruefung||"-"
 
-let progress = 0
-let total = 0
+let progress=0
+let total=0
 
 if(s.checkboxes){
 
-total = Object.keys(s.checkboxes).length
+total=Object.keys(s.checkboxes).length
 
 Object.values(s.checkboxes).forEach(v=>{
 if(v) progress++
@@ -47,14 +47,14 @@ if(v) progress++
 
 }
 
-div.innerHTML = `
+div.innerHTML=`
 <b>${name}</b><br>
 Klasse: ${klasse}<br>
 Prüfung: ${pruefung}<br>
-Fortschritt: ${progress} / ${total}
+Fortschritt: ${progress}/${total}
 `
 
-div.onclick = ()=>openStudent(i)
+div.onclick=()=>openStudent(i)
 
 list.appendChild(div)
 
@@ -72,9 +72,9 @@ renderList()
 
 function openStudent(i){
 
-let s = students[i]
+current=i
 
-current = i
+let s=students[i]
 
 if(!s.checkboxes) s.checkboxes={}
 if(!s.sonderfahrten) s.sonderfahrten={ul:0,ab:0,na:0}
@@ -82,7 +82,7 @@ if(!s.fahrten) s.fahrten=[]
 
 document.getElementById("studentPanel").classList.remove("hidden")
 
-document.getElementById("studentTitle").innerText =
+document.getElementById("studentTitle").innerText=
 (s.name||"")+" "+(s.vorname||"")
 
 document.getElementById("info").innerHTML=`
@@ -125,34 +125,34 @@ document.getElementById(tab).classList.remove("hidden")
 
 
 /* =============================
-   DIAGRAMMKARTE
+   DIAGRAMM
 ============================= */
 
 function renderDiagram(){
 
-const container = document.getElementById("diagramContainer")
+const container=document.getElementById("diagramContainer")
 container.innerHTML=""
 
 Object.keys(DIAGRAMM).forEach(section=>{
 
-let box = document.createElement("div")
+let box=document.createElement("div")
 box.className="diagramBox"
 
-let title = document.createElement("h3")
-title.innerText = section
+let title=document.createElement("h3")
+title.innerText=section
 
 box.appendChild(title)
 
 DIAGRAMM[section].forEach(field=>{
 
-let label = document.createElement("label")
+let label=document.createElement("label")
 
-let text = document.createElement("span")
-text.innerText = field
+let text=document.createElement("span")
+text.innerText=field
 
-let cb = document.createElement("input")
+let cb=document.createElement("input")
 cb.type="checkbox"
-cb.dataset.field = field
+cb.dataset.field=field
 
 cb.addEventListener("change",()=>{
 
@@ -199,7 +199,7 @@ cb.checked=students[current].checkboxes[field]||false
 
 
 /* =============================
-   AUSBILDUNGSFORTSCHRITT
+   FORTSCHRITT
 ============================= */
 
 function updateProgress(){
@@ -213,64 +213,8 @@ checkboxes.forEach(cb=>{
 if(cb.checked) done++
 })
 
-document.getElementById("progress").innerText =
+document.getElementById("progress").innerText=
 "Ausbildungsfelder: "+done+" / "+total
-
-
-let s = students[current]
-
-let klasse = s.klasse
-
-let maxUL = 5
-let maxAB = 4
-let maxN = 3
-
-if(klasse==="BE"){
-maxUL=3
-maxAB=1
-maxN=1
-}
-
-document.getElementById("ueberlandMax").innerText=maxUL
-document.getElementById("autobahnMax").innerText=maxAB
-document.getElementById("nachtMax").innerText=maxN
-
-document.getElementById("ueberlandCount").innerText=s.sonderfahrten.ul
-document.getElementById("autobahnCount").innerText=s.sonderfahrten.ab
-document.getElementById("nachtCount").innerText=s.sonderfahrten.na
-
-
-
-/* Prüfungsreife */
-
-let sonderfahrtenOK =
-s.sonderfahrten.ul>=maxUL &&
-s.sonderfahrten.ab>=maxAB &&
-s.sonderfahrten.na>=maxN
-
-let reifeOK = true
-
-if(DIAGRAMM["Reife-, Teststufe"]){
-
-DIAGRAMM["Reife-, Teststufe"].forEach(field=>{
-
-if(!s.checkboxes[field]) reifeOK=false
-
-})
-
-}
-
-if(sonderfahrtenOK && reifeOK){
-
-document.getElementById("pruefungsreife").innerText="PRÜFUNGSREIF ✔"
-document.getElementById("pruefungsreife").style.color="green"
-
-}else{
-
-document.getElementById("pruefungsreife").innerText="Nicht prüfungsreif"
-document.getElementById("pruefungsreife").style.color="red"
-
-}
 
 }
 
@@ -282,7 +226,7 @@ document.getElementById("pruefungsreife").style.color="red"
 
 function changeDrive(type,val){
 
-let s = students[current]
+let s=students[current]
 
 let klasse=s.klasse
 
@@ -347,9 +291,9 @@ navigator.geolocation.clearWatch(watchId)
 
 function saveFahrt(){
 
-let s = students[current]
+let s=students[current]
 
-let fahrt = {
+let fahrt={
 
 datum:new Date().toISOString().split("T")[0],
 titel:document.getElementById("fahrtTitel").value,
@@ -358,23 +302,18 @@ route:route
 
 }
 
-if(!s.fahrten) s.fahrten=[]
-
 s.fahrten.push(fahrt)
 
 saveDB()
 
 renderFahrten()
 
-document.getElementById("fahrtTitel").value=""
-document.getElementById("fahrtNotiz").value=""
-
 }
 
 
 
 /* =============================
-   FAHRTEN ANZEIGEN
+   FAHRTEN LISTE
 ============================= */
 
 function renderFahrten(){
@@ -385,11 +324,9 @@ const container=document.getElementById("fahrtenListe")
 
 container.innerHTML=""
 
-let fahrten=[...s.fahrten]
-
-fahrten.sort((a,b)=>new Date(b.datum)-new Date(a.datum))
-
-fahrten.forEach(f=>{
+s.fahrten
+.sort((a,b)=>new Date(b.datum)-new Date(a.datum))
+.forEach(f=>{
 
 let div=document.createElement("div")
 
@@ -410,7 +347,7 @@ container.appendChild(div)
 
 
 /* =============================
-   SCHÜLER BEARBEITEN
+   BEARBEITEN
 ============================= */
 
 function editStudent(){
@@ -440,7 +377,7 @@ pruefung.value=s.pruefung||""
 
 
 /* =============================
-   SCHÜLER ANLEGEN
+   SCHÜLER ANLEGEN / SPEICHERN
 ============================= */
 
 document.getElementById("addStudentBtn").onclick=function(){
@@ -463,6 +400,24 @@ document.getElementById("addPanel").classList.add("hidden")
 
 function saveStudent(){
 
+if(editMode){
+
+let s=students[current]
+
+s.name=name.value
+s.vorname=vorname.value
+s.anschrift=anschrift.value
+s.geburt=geburt.value
+s.telefon=telefon.value
+s.vorbesitz=vorbesitz.value
+s.klasse=klasse.value
+s.sehJa=sehJa.checked
+s.sehNein=sehNein.checked
+s.beginn=beginn.value
+s.pruefung=pruefung.value
+
+}else{
+
 let s={
 
 name:name.value,
@@ -475,66 +430,22 @@ klasse:klasse.value,
 sehJa:sehJa.checked,
 sehNein:sehNein.checked,
 beginn:beginn.value,
-pruefung:pruefung.value
+pruefung:pruefung.value,
+
+sonderfahrten:{ul:0,ab:0,na:0},
+fahrten:[],
+checkboxes:{}
 
 }
-
-if(editMode){
-
-let old=students[current]
-
-s.sonderfahrten=old.sonderfahrten
-s.fahrten=old.fahrten
-s.checkboxes=old.checkboxes
-
-students[current]=s
-
-}else{
-
-s.sonderfahrten={ul:0,ab:0,na:0}
-s.fahrten=[]
-s.checkboxes={}
 
 students.push(s)
 
 }
 
 saveDB()
+
 closeAdd()
+
 renderList()
 
 }
-
-
-
-/* =============================
-   SUCHFELD
-============================= */
-
-document.getElementById("search").addEventListener("input",function(){
-
-let q=this.value.toLowerCase()
-
-const list=document.getElementById("studentList")
-
-list.innerHTML=""
-
-students.forEach((s,i)=>{
-
-let text=(s.name+" "+s.vorname+" "+s.telefon).toLowerCase()
-
-if(text.includes(q)){
-
-let div=document.createElement("div")
-
-div.innerText=s.name+" "+s.vorname
-
-div.onclick=()=>openStudent(i)
-
-list.appendChild(div)
-
-}
-
-})
-
-})
