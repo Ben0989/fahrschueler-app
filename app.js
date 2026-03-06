@@ -48,6 +48,12 @@ current=i
 
 if(!s.checkboxes) s.checkboxes={}
 
+if(!s.sonderfahrten){
+
+s.sonderfahrten={ul:0,ab:0,na:0}
+
+}
+
 document.getElementById("studentPanel").classList.remove("hidden")
 
 document.getElementById("studentTitle").innerText=(s.name||"")+" "+(s.vorname||"")
@@ -93,11 +99,9 @@ container.innerHTML=""
 Object.keys(DIAGRAMM).forEach(section=>{
 
 let box=document.createElement("div")
-
 box.className="diagramBox"
 
 let title=document.createElement("h3")
-
 title.innerText=section
 
 box.appendChild(title)
@@ -107,13 +111,10 @@ DIAGRAMM[section].forEach(field=>{
 let label=document.createElement("label")
 
 let text=document.createElement("span")
-
 text.innerText=field
 
 let cb=document.createElement("input")
-
 cb.type="checkbox"
-
 cb.dataset.field=field
 
 cb.addEventListener("change",function(){
@@ -127,7 +128,6 @@ updateProgress()
 })
 
 label.appendChild(text)
-
 label.appendChild(cb)
 
 box.appendChild(label)
@@ -163,43 +163,22 @@ function updateProgress(){
 const checkboxes=document.querySelectorAll("#diagramContainer input[type='checkbox']")
 
 let total=checkboxes.length
-
 let done=0
 
-let ueberland=0
-
-let autobahn=0
-
-let nacht=0
-
 checkboxes.forEach(cb=>{
-
-let field=(cb.dataset.field||"").toLowerCase()
-
-if(cb.checked){
-
-done++
-
-if(field.includes("überland")) ueberland++
-
-if(field.includes("autobahn")) autobahn++
-
-if(field.includes("dunkel") || field.includes("nacht")) nacht++
-
-}
-
+if(cb.checked) done++
 })
 
 document.getElementById("progress").innerText="Ausbildungsfelder: "+done+" / "+total
 
 
 
-let klasse=students[current].klasse
+let s=students[current]
+
+let klasse=s.klasse
 
 let maxUL=5
-
 let maxAB=4
-
 let maxN=3
 
 if(klasse==="BE"){
@@ -210,20 +189,20 @@ maxN=1
 
 }
 
-document.getElementById("ueberlandCount").innerText=ueberland
-document.getElementById("autobahnCount").innerText=autobahn
-document.getElementById("nachtCount").innerText=nacht
-
 document.getElementById("ueberlandMax").innerText=maxUL
 document.getElementById("autobahnMax").innerText=maxAB
 document.getElementById("nachtMax").innerText=maxN
 
+document.getElementById("ueberlandCount").innerText=s.sonderfahrten.ul
+document.getElementById("autobahnCount").innerText=s.sonderfahrten.ab
+document.getElementById("nachtCount").innerText=s.sonderfahrten.na
+
 
 
 if(
-ueberland>=maxUL &&
-autobahn>=maxAB &&
-nacht>=maxN
+s.sonderfahrten.ul>=maxUL &&
+s.sonderfahrten.ab>=maxAB &&
+s.sonderfahrten.na>=maxN
 ){
 
 document.getElementById("pruefungsreife").innerText="PRÜFUNGSREIF ✔"
@@ -235,6 +214,46 @@ document.getElementById("pruefungsreife").innerText="Nicht prüfungsreif"
 document.getElementById("pruefungsreife").style.color="red"
 
 }
+
+}
+
+
+
+function changeDrive(type,val){
+
+let s=students[current]
+
+let klasse=s.klasse
+
+let maxUL=5
+let maxAB=4
+let maxN=3
+
+if(klasse==="BE"){
+
+maxUL=3
+maxAB=1
+maxN=1
+
+}
+
+let max={
+
+ul:maxUL,
+ab:maxAB,
+na:maxN
+
+}
+
+s.sonderfahrten[type]+=val
+
+if(s.sonderfahrten[type]<0) s.sonderfahrten[type]=0
+
+if(s.sonderfahrten[type]>max[type]) s.sonderfahrten[type]=max[type]
+
+saveDB()
+
+updateProgress()
 
 }
 
@@ -271,6 +290,13 @@ sehJa:sehJa.checked,
 sehNein:sehNein.checked,
 beginn:beginn.value,
 pruefung:pruefung.value,
+
+sonderfahrten:{
+ul:0,
+ab:0,
+na:0
+},
+
 checkboxes:{}
 
 }
