@@ -12,9 +12,7 @@
 
 </head>
 
-
 <body>
-
 
 <header>
 
@@ -25,17 +23,10 @@
 </header>
 
 
-
-<!-- Liste der Fahrschüler -->
-
 <div id="studentList"></div>
 
 
-
-<!-- Schüleransicht -->
-
 <div id="studentPanel" class="hidden panel">
-
 
 <h2 id="studentTitle"></h2>
 
@@ -43,34 +34,21 @@
 <div class="tabs">
 
 <button onclick="showTab('info')">Infos</button>
-
 <button onclick="showTab('diagramm')">Diagrammkarte</button>
-
 <button onclick="showTab('status')">Ausbildungsstand</button>
 
 </div>
 
 
-
-<!-- Reiter 1 -->
-
 <div id="info" class="tab"></div>
 
 
-
-<!-- Reiter 2 -->
-
 <div id="diagramm" class="tab hidden">
-
-<button onclick="saveDiagram()">Diagramm speichern</button>
 
 <div id="diagramContainer"></div>
 
 </div>
 
-
-
-<!-- Reiter 3 -->
 
 <div id="status" class="tab hidden">
 
@@ -80,12 +58,9 @@
 
 </div>
 
-
 </div>
 
 
-
-<!-- Fenster Schüler anlegen -->
 
 <div id="addPanel" class="hidden panel">
 
@@ -113,8 +88,8 @@
 
 <label>Sehhilfe</label>
 
-<label><input type="checkbox" id="sehJa"> Ja</label>
-<label><input type="checkbox" id="sehNein"> Nein</label>
+<label>Ja <input type="checkbox" id="sehJa"></label>
+<label>Nein <input type="checkbox" id="sehNein"></label>
 
 
 <label>Beginn Fahrausbildung</label>
@@ -130,21 +105,16 @@
 <div class="buttons">
 
 <button onclick="saveStudent()">Speichern</button>
-
 <button onclick="closeAdd()">Abbrechen</button>
 
 </div>
-
 
 </div>
 
 
 
 <script src="diagrammData.js"></script>
-
 <script src="app.js"></script>
 
-
 </body>
-
 </html>
