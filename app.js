@@ -1,300 +1,233 @@
-// ================================
-// Daten laden / speichern
-// ================================
 let students = JSON.parse(localStorage.getItem("students") || "[]")
 let current = null
 
+
 function saveDB(){
-  localStorage.setItem("students", JSON.stringify(students))
+localStorage.setItem("students", JSON.stringify(students))
 }
 
 
-// ================================
-// Liste der Fahrschüler anzeigen
-// ================================
+// Liste anzeigen
 function renderList(){
 
-  const list = document.getElementById("studentList")
-  list.innerHTML = ""
+const list = document.getElementById("studentList")
+list.innerHTML = ""
 
-  students.forEach((s,i)=>{
+students.forEach((s,i)=>{
 
-    let div = document.createElement("div")
-    div.innerText = s.name + " " + s.vorname
+let div = document.createElement("div")
+div.innerText = s.name + " " + s.vorname
 
-    // Klick öffnet Schüler
-    div.onclick = () => openStudent(i)
+div.onclick = () => openStudent(i)
 
-    list.appendChild(div)
+list.appendChild(div)
 
-  })
+})
 
 }
 
 renderList()
 
 
-// ================================
+
 // Schüler öffnen
-// ================================
 function openStudent(i){
 
-  current = i
-  let s = students[i]
+current = i
+let s = students[i]
 
-  document.getElementById("studentPanel").classList.remove("hidden")
+if(!s.checkboxes) s.checkboxes = {}
 
-  document.getElementById("studentTitle").innerText =
-  s.name + " " + s.vorname
+document.getElementById("studentPanel").classList.remove("hidden")
 
-  document.getElementById("info").innerHTML =
-  "<p>Anschrift: " + s.anschrift + "</p>" +
-  "<p>Telefon: " + s.telefon + "</p>" +
-  "<p>Klasse: " + s.klasse + "</p>"
+document.getElementById("studentTitle").innerText =
+s.name + " " + s.vorname
 
-  renderDiagram()
-  loadDiagram()
-  updateProgress()
+
+document.getElementById("info").innerHTML = `
+<p><b>Anschrift:</b> ${s.anschrift}</p>
+<p><b>Telefon:</b> ${s.telefon}</p>
+<p><b>Klasse:</b> ${s.klasse}</p>
+<p><b>Beginn:</b> ${s.beginn}</p>
+<p><b>Prüfung:</b> ${s.pruefung}</p>
+`
+
+
+// Diagramm bauen
+renderDiagram()
+
+// gespeicherte Werte laden
+loadDiagram()
+
+// Fortschritt berechnen
+updateProgress()
+
+// automatisch Tab anzeigen
+showTab("info")
 
 }
 
 
-// ================================
+
 // Tabs
-// ================================
 function showTab(tab){
 
-  document.querySelectorAll(".tab").forEach(t=>{
-    t.classList.add("hidden")
-  })
+document.querySelectorAll(".tab").forEach(t=>{
+t.classList.add("hidden")
+})
 
-  document.getElementById(tab).classList.remove("hidden")
+document.getElementById(tab).classList.remove("hidden")
 
 }
 
 
-// ================================
-// Diagramm aus diagrammData.js
-// ================================
+
+// Diagrammkarte erzeugen
 function renderDiagram(){
 
-  const container = document.getElementById("diagramContainer")
-  container.innerHTML = ""
+const container = document.getElementById("diagramContainer")
+container.innerHTML = ""
 
-  Object.keys(DIAGRAMM).forEach(section => {
+Object.keys(DIAGRAMM).forEach(section=>{
 
-    let box = document.createElement("div")
-    box.className = "diagramBox"
+let box = document.createElement("div")
+box.className="diagramBox"
 
-    let title = document.createElement("h3")
-    title.innerText = section
-    box.appendChild(title)
+let title = document.createElement("h3")
+title.innerText = section
 
-    DIAGRAMM[section].forEach(field => {
+box.appendChild(title)
 
-      let label = document.createElement("label")
+DIAGRAMM[section].forEach(field=>{
 
-      let cb = document.createElement("input")
-      cb.type = "checkbox"
-      cb.dataset.field = field
+let label = document.createElement("label")
 
-      label.appendChild(cb)
-      label.append(" " + field)
+let cb = document.createElement("input")
+cb.type="checkbox"
+cb.dataset.field = field
 
-      box.appendChild(label)
-      box.appendChild(document.createElement("br"))
+label.appendChild(cb)
+label.append(" " + field)
 
-    })
+box.appendChild(label)
+box.appendChild(document.createElement("br"))
 
-    container.appendChild(box)
+})
 
-  })
+container.appendChild(box)
+
+})
 
 }
 
 
-// ================================
+
 // Diagramm speichern
-// ================================
 function saveDiagram(){
 
-  const checkboxes =
-  document.querySelectorAll("#diagramContainer input[type='checkbox']")
+const checkboxes =
+document.querySelectorAll("#diagramContainer input[type='checkbox']")
 
-  checkboxes.forEach(cb=>{
+checkboxes.forEach(cb=>{
 
-    let field = cb.dataset.field
-    students[current].checkboxes[field] = cb.checked
+let field = cb.dataset.field
 
-  })
+students[current].checkboxes[field] = cb.checked
 
-  saveDB()
-  updateProgress()
+})
+
+saveDB()
+
+updateProgress()
 
 }
 
 
-// ================================
+
 // Diagramm laden
-// ================================
 function loadDiagram(){
 
-  const checkboxes =
-  document.querySelectorAll("#diagramContainer input[type='checkbox']")
+const checkboxes =
+document.querySelectorAll("#diagramContainer input[type='checkbox']")
 
-  checkboxes.forEach(cb=>{
+checkboxes.forEach(cb=>{
 
-    let field = cb.dataset.field
+let field = cb.dataset.field
 
-    cb.checked =
-    students[current].checkboxes[field] || false
+cb.checked =
+students[current].checkboxes[field] || false
 
-  })
+})
 
 }
 
 
-// ================================
-// Ausbildungsstand berechnen
-// ================================
+
+// Ausbildungsstand
 function updateProgress(){
 
-  const checkboxes =
-  document.querySelectorAll("#diagramContainer input[type='checkbox']")
+const checkboxes =
+document.querySelectorAll("#diagramContainer input[type='checkbox']")
 
-  let total = checkboxes.length
-  let done = 0
+let total = checkboxes.length
+let done = 0
 
-  checkboxes.forEach(cb=>{
-    if(cb.checked) done++
-  })
+checkboxes.forEach(cb=>{
+if(cb.checked) done++
+})
 
-  document.getElementById("progress").innerText =
-  "Ausbildungsfelder: " + done + " / " + total
-
-
-  // =============================
-  // Sonderfahrten zählen
-  // =============================
-  let ueberland = 0
-  let autobahn = 0
-  let nacht = 0
-
-  checkboxes.forEach(cb=>{
-
-    let field = (cb.dataset.field || "").toLowerCase()
-
-    if(cb.checked){
-
-      if(field.includes("überland")) ueberland++
-
-      if(field.includes("autobahn")) autobahn++
-
-      if(field.includes("dunkel")) nacht++
-
-    }
-
-  })
-
-  document.getElementById("ueberlandCount").innerText = ueberland
-  document.getElementById("autobahnCount").innerText = autobahn
-  document.getElementById("nachtCount").innerText = nacht
-
-
-  // =============================
-  // Klasse berücksichtigen
-  // =============================
-  let klasse = students[current].klasse
-
-  let maxUL = 5
-  let maxAB = 4
-  let maxN = 3
-
-  if(klasse === "BE"){
-
-    maxUL = 3
-    maxAB = 1
-    maxN = 1
-
-  }
-
-  document.getElementById("ueberlandMax").innerText = maxUL
-  document.getElementById("autobahnMax").innerText = maxAB
-  document.getElementById("nachtMax").innerText = maxN
-
-
-  // =============================
-  // Prüfungsreife
-  // =============================
-  if(
-    ueberland >= maxUL &&
-    autobahn >= maxAB &&
-    nacht >= maxN
-  ){
-
-    document.getElementById("pruefungsreife").innerText =
-    "PRÜFUNGSREIF ✔"
-
-    document.getElementById("pruefungsreife").style.color = "green"
-
-  }
-  else{
-
-    document.getElementById("pruefungsreife").innerText =
-    "Nicht prüfungsreif"
-
-    document.getElementById("pruefungsreife").style.color = "red"
-
-  }
+document.getElementById("progress").innerText =
+"Ausbildungsfelder: " + done + " / " + total
 
 }
 
 
-// ================================
-// Fenster Schüler anlegen
-// ================================
+
+// + Button
 document.getElementById("addStudentBtn").onclick = function(){
 
-  document.getElementById("addPanel").classList.remove("hidden")
+document.getElementById("addPanel").classList.remove("hidden")
 
 }
 
+
+
+// Fenster schließen
 function closeAdd(){
 
-  document.getElementById("addPanel").classList.add("hidden")
+document.getElementById("addPanel").classList.add("hidden")
 
 }
 
 
-// ================================
+
 // Schüler speichern
-// ================================
 function saveStudent(){
 
-  let s = {
+let s = {
 
-    name: name.value,
-    vorname: vorname.value,
-    anschrift: anschrift.value,
-    geburt: geburt.value,
-    telefon: telefon.value,
-    vorbesitz: vorbesitz.value,
-    klasse: klasse.value,
-    sehJa: sehJa.checked,
-    sehNein: sehNein.checked,
-    beginn: beginn.value,
-    pruefung: pruefung.value,
+name: name.value,
+vorname: vorname.value,
+anschrift: anschrift.value,
+geburt: geburt.value,
+telefon: telefon.value,
+vorbesitz: vorbesitz.value,
+klasse: klasse.value,
+sehJa: sehJa.checked,
+sehNein: sehNein.checked,
+beginn: beginn.value,
+pruefung: pruefung.value,
 
-    checkboxes:{}
+checkboxes:{}
 
-  }
+}
 
-  students.push(s)
+students.push(s)
 
-  saveDB()
+saveDB()
 
-  closeAdd()
+closeAdd()
 
-  renderList()
+renderList()
 
 }
