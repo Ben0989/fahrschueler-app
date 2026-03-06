@@ -1,24 +1,30 @@
 let students = JSON.parse(localStorage.getItem("students") || "[]")
+
 let current = null
 
 
+
 function saveDB(){
+
 localStorage.setItem("students", JSON.stringify(students))
+
 }
 
 
-// Liste anzeigen
+
 function renderList(){
 
 const list = document.getElementById("studentList")
-list.innerHTML = ""
+
+list.innerHTML=""
 
 students.forEach((s,i)=>{
 
-let div = document.createElement("div")
-div.innerText = s.name + " " + s.vorname
+let div=document.createElement("div")
 
-div.onclick = () => openStudent(i)
+div.innerText=s.name+" "+s.vorname
+
+div.onclick=()=>openStudent(i)
 
 list.appendChild(div)
 
@@ -30,50 +36,50 @@ renderList()
 
 
 
-// Schüler öffnen
 function openStudent(i){
 
-current = i
-let s = students[i]
+current=i
 
-if(!s.checkboxes) s.checkboxes = {}
+let s=students[i]
+
+if(!s.checkboxes) s.checkboxes={}
 
 document.getElementById("studentPanel").classList.remove("hidden")
 
-document.getElementById("studentTitle").innerText =
-s.name + " " + s.vorname
+document.getElementById("studentTitle").innerText=s.name+" "+s.vorname
 
+document.getElementById("info").innerHTML=`
 
-document.getElementById("info").innerHTML = `
 <p><b>Anschrift:</b> ${s.anschrift}</p>
+
 <p><b>Telefon:</b> ${s.telefon}</p>
+
 <p><b>Klasse:</b> ${s.klasse}</p>
+
 <p><b>Beginn:</b> ${s.beginn}</p>
+
 <p><b>Prüfung:</b> ${s.pruefung}</p>
+
 `
 
-
-// Diagramm bauen
 renderDiagram()
 
-// gespeicherte Werte laden
 loadDiagram()
 
-// Fortschritt berechnen
 updateProgress()
 
-// automatisch Tab anzeigen
 showTab("info")
 
 }
 
 
 
-// Tabs
 function showTab(tab){
 
 document.querySelectorAll(".tab").forEach(t=>{
+
 t.classList.add("hidden")
+
 })
 
 document.getElementById(tab).classList.remove("hidden")
@@ -82,32 +88,41 @@ document.getElementById(tab).classList.remove("hidden")
 
 
 
-// Diagrammkarte erzeugen
 function renderDiagram(){
 
-const container = document.getElementById("diagramContainer")
-container.innerHTML = ""
+const container=document.getElementById("diagramContainer")
+
+container.innerHTML=""
 
 Object.keys(DIAGRAMM).forEach(section=>{
 
-let box = document.createElement("div")
+let box=document.createElement("div")
+
 box.className="diagramBox"
 
-let title = document.createElement("h3")
-title.innerText = section
+let title=document.createElement("h3")
+
+title.innerText=section
 
 box.appendChild(title)
 
+
+
 DIAGRAMM[section].forEach(field=>{
 
-let label = document.createElement("label")
+let label=document.createElement("label")
 
-let cb = document.createElement("input")
+let cb=document.createElement("input")
+
 cb.type="checkbox"
-cb.dataset.field = field
+
+cb.dataset.field=field
+
+
+
 cb.addEventListener("change",function(){
 
-students[current].checkboxes[field] = cb.checked
+students[current].checkboxes[field]=cb.checked
 
 saveDB()
 
@@ -115,13 +130,19 @@ updateProgress()
 
 })
 
+
+
+label.innerText=field+" "
+
 label.appendChild(cb)
-label.append(" " + field)
+
+
 
 box.appendChild(label)
-box.appendChild(document.createElement("br"))
 
 })
+
+
 
 container.appendChild(box)
 
@@ -131,40 +152,15 @@ container.appendChild(box)
 
 
 
-// Diagramm speichern
-function saveDiagram(){
-
-const checkboxes =
-document.querySelectorAll("#diagramContainer input[type='checkbox']")
-
-checkboxes.forEach(cb=>{
-
-let field = cb.dataset.field
-
-students[current].checkboxes[field] = cb.checked
-
-})
-
-saveDB()
-
-updateProgress()
-
-}
-
-
-
-// Diagramm laden
 function loadDiagram(){
 
-const checkboxes =
-document.querySelectorAll("#diagramContainer input[type='checkbox']")
+const checkboxes=document.querySelectorAll("#diagramContainer input[type='checkbox']")
 
 checkboxes.forEach(cb=>{
 
-let field = cb.dataset.field
+let field=cb.dataset.field
 
-cb.checked =
-students[current].checkboxes[field] || false
+cb.checked=students[current].checkboxes[field]||false
 
 })
 
@@ -172,28 +168,27 @@ students[current].checkboxes[field] || false
 
 
 
-// Ausbildungsstand
 function updateProgress(){
 
-const checkboxes =
-document.querySelectorAll("#diagramContainer input[type='checkbox']")
+const checkboxes=document.querySelectorAll("#diagramContainer input[type='checkbox']")
 
-let total = checkboxes.length
-let done = 0
+let total=checkboxes.length
+
+let done=0
 
 checkboxes.forEach(cb=>{
+
 if(cb.checked) done++
+
 })
 
-document.getElementById("progress").innerText =
-"Ausbildungsfelder: " + done + " / " + total
+document.getElementById("progress").innerText="Ausbildungsfelder: "+done+" / "+total
 
 }
 
 
 
-// + Button
-document.getElementById("addStudentBtn").onclick = function(){
+document.getElementById("addStudentBtn").onclick=function(){
 
 document.getElementById("addPanel").classList.remove("hidden")
 
@@ -201,7 +196,6 @@ document.getElementById("addPanel").classList.remove("hidden")
 
 
 
-// Fenster schließen
 function closeAdd(){
 
 document.getElementById("addPanel").classList.add("hidden")
@@ -210,26 +204,37 @@ document.getElementById("addPanel").classList.add("hidden")
 
 
 
-// Schüler speichern
 function saveStudent(){
 
-let s = {
+let s={
 
-name: name.value,
-vorname: vorname.value,
-anschrift: anschrift.value,
-geburt: geburt.value,
-telefon: telefon.value,
-vorbesitz: vorbesitz.value,
-klasse: klasse.value,
-sehJa: sehJa.checked,
-sehNein: sehNein.checked,
-beginn: beginn.value,
-pruefung: pruefung.value,
+name:name.value,
+
+vorname:vorname.value,
+
+anschrift:anschrift.value,
+
+geburt:geburt.value,
+
+telefon:telefon.value,
+
+vorbesitz:vorbesitz.value,
+
+klasse:klasse.value,
+
+sehJa:sehJa.checked,
+
+sehNein:sehNein.checked,
+
+beginn:beginn.value,
+
+pruefung:pruefung.value,
 
 checkboxes:{}
 
 }
+
+
 
 students.push(s)
 
