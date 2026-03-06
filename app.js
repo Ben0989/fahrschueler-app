@@ -105,6 +105,15 @@ let label = document.createElement("label")
 let cb = document.createElement("input")
 cb.type="checkbox"
 cb.dataset.field = field
+cb.addEventListener("change",function(){
+
+students[current].checkboxes[field] = cb.checked
+
+saveDB()
+
+updateProgress()
+
+})
 
 label.appendChild(cb)
 label.append(" " + field)
