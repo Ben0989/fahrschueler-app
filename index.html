@@ -37,7 +37,6 @@
 <button onclick="showTab('fahrten')">Fahrtprotokoll</button>
 <button onclick="showTab('status')">Ausbildungsstand</button>
 
-
 </div>
 
 
@@ -47,11 +46,32 @@
 
 
 
-<!-- DIAGRAMM -->
+<!-- DIAGRAMMKARTE -->
 
 <div id="diagramm" class="tab hidden">
 
 <div id="diagramContainer"></div>
+
+</div>
+
+
+
+<!-- FAHRTPROTOKOLL (EINGABE) -->
+
+<div id="fahrten" class="tab hidden">
+
+<h3>Neue Fahrt</h3>
+
+<input id="fahrtTitel" placeholder="Titel der Fahrstunde">
+
+<textarea id="fahrtNotiz" placeholder="Notizen zur Fahrstunde"></textarea>
+
+<br>
+
+<button onclick="startTracking()">GPS Start</button>
+<button onclick="stopTracking()">GPS Stop</button>
+
+<button onclick="saveFahrt()">Fahrt speichern</button>
 
 </div>
 
@@ -99,28 +119,10 @@ Nacht
 
 <h3 id="pruefungsreife"></h3>
 
-</div>
 
+<hr>
 
-
-<!-- FAHRTENPROTOKOLL -->
-
-<div id="fahrten" class="tab hidden">
-
-<h3>Neue Fahrt</h3>
-
-<input id="fahrtTitel" placeholder="Titel der Fahrstunde">
-
-<textarea id="fahrtNotiz" placeholder="Notizen zur Fahrstunde"></textarea>
-
-<br>
-
-<button onclick="startTracking()">GPS Start</button>
-<button onclick="stopTracking()">GPS Stop</button>
-
-<button onclick="saveFahrt()">Fahrt speichern</button>
-
-<h3>Fahrten</h3>
+<h3>Fahrtenprotokoll</h3>
 
 <div id="fahrtenListe"></div>
 
