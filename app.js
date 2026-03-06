@@ -2,15 +2,15 @@ let students = JSON.parse(localStorage.getItem("students") || "[]")
 
 if(!Array.isArray(students)) students=[]
 
-let current = null
-let editMode = false
+let current=null
+let editMode=false
 
-let route = []
-let watchId = null
-let startTime = null
+let route=[]
+let watchId=null
+let startTime=null
 
-let map = null
-let routeLayer = null
+let map=null
+let routeLayer=null
 
 
 
@@ -20,43 +20,23 @@ localStorage.setItem("students",JSON.stringify(students))
 
 
 
-/* =============================
-   STARTLISTE
-============================= */
+/* LISTE */
 
 function renderList(){
 
-const list = document.getElementById("studentList")
+const list=document.getElementById("studentList")
+
 list.innerHTML=""
 
 students.forEach((s,i)=>{
 
 let div=document.createElement("div")
+
 div.className="studentCard"
 
 let name=(s.name||"")+" "+(s.vorname||"")
-let klasse=s.klasse||"-"
-let pruefung=s.pruefung||"-"
 
-let progress=0
-let total=0
-
-if(s.checkboxes){
-
-total=Object.keys(s.checkboxes).length
-
-Object.values(s.checkboxes).forEach(v=>{
-if(v) progress++
-})
-
-}
-
-div.innerHTML=`
-<b>${name}</b><br>
-Klasse: ${klasse}<br>
-Prüfung: ${pruefung}<br>
-Fortschritt: ${progress}/${total}
-`
+div.innerHTML="<b>"+name+"</b>"
 
 div.onclick=()=>openStudent(i)
 
@@ -70,9 +50,7 @@ renderList()
 
 
 
-/* =============================
-   SCHÜLER ÖFFNEN
-============================= */
+/* SCHÜLER */
 
 function openStudent(i){
 
@@ -86,8 +64,7 @@ if(!s.fahrten) s.fahrten=[]
 
 document.getElementById("studentPanel").classList.remove("hidden")
 
-document.getElementById("studentTitle").innerText=
-(s.name||"")+" "+(s.vorname||"")
+document.getElementById("studentTitle").innerText=(s.name||"")+" "+(s.vorname||"")
 
 document.getElementById("info").innerHTML=`
 
@@ -105,6 +82,7 @@ renderDiagram()
 loadDiagram()
 updateProgress()
 renderFahrten()
+updateStats()
 
 showTab("info")
 
@@ -112,9 +90,7 @@ showTab("info")
 
 
 
-/* =============================
-   TABS
-============================= */
+/* TABS */
 
 function showTab(tab){
 
@@ -128,21 +104,22 @@ document.getElementById(tab).classList.remove("hidden")
 
 
 
-/* =============================
-   DIAGRAMM
-============================= */
+/* DIAGRAMM */
 
 function renderDiagram(){
 
 const container=document.getElementById("diagramContainer")
+
 container.innerHTML=""
 
 Object.keys(DIAGRAMM).forEach(section=>{
 
 let box=document.createElement("div")
+
 box.className="diagramBox"
 
 let title=document.createElement("h3")
+
 title.innerText=section
 
 box.appendChild(title)
@@ -152,10 +129,13 @@ DIAGRAMM[section].forEach(field=>{
 let label=document.createElement("label")
 
 let text=document.createElement("span")
+
 text.innerText=field
 
 let cb=document.createElement("input")
+
 cb.type="checkbox"
+
 cb.dataset.field=field
 
 cb.addEventListener("change",()=>{
@@ -163,6 +143,7 @@ cb.addEventListener("change",()=>{
 students[current].checkboxes[field]=cb.checked
 
 saveDB()
+
 updateProgress()
 
 })
@@ -182,9 +163,7 @@ container.appendChild(box)
 
 
 
-/* =============================
-   DIAGRAMM LADEN
-============================= */
+/* LADEN */
 
 function loadDiagram(){
 
@@ -202,9 +181,7 @@ cb.checked=students[current].checkboxes[field]||false
 
 
 
-/* =============================
-   FORTSCHRITT + PRÜFUNGSREIFE
-============================= */
+/* FORTSCHRITT */
 
 function updateProgress(){
 
@@ -217,50 +194,13 @@ checkboxes.forEach(cb=>{
 if(cb.checked) done++
 })
 
-document.getElementById("progress").innerText=
-"Ausbildungsfelder: "+done+" / "+total
+document.getElementById("progress").innerText="Ausbildungsfelder: "+done+" / "+total
 
 }
 
 
 
-/* =============================
-   SONDERFAHRTEN
-============================= */
-
-function changeDrive(type,val){
-
-let s=students[current]
-
-let klasse=s.klasse
-
-let maxUL=5
-let maxAB=4
-let maxN=3
-
-if(klasse==="BE"){
-maxUL=3
-maxAB=1
-maxN=1
-}
-
-let max={ul:maxUL,ab:maxAB,na:maxN}
-
-s.sonderfahrten[type]+=val
-
-if(s.sonderfahrten[type]<0) s.sonderfahrten[type]=0
-if(s.sonderfahrten[type]>max[type]) s.sonderfahrten[type]=max[type]
-
-saveDB()
-updateProgress()
-
-}
-
-
-
-/* =============================
-   GPS TRACKING
-============================= */
+/* GPS */
 
 function startTracking(){
 
@@ -282,17 +222,13 @@ lng:pos.coords.longitude
 
 function stopTracking(){
 
-if(watchId){
-navigator.geolocation.clearWatch(watchId)
-}
+if(watchId) navigator.geolocation.clearWatch(watchId)
 
 }
 
 
 
-/* =============================
-   STRECKE BERECHNEN
-============================= */
+/* DISTANZ */
 
 function calcDistance(route){
 
@@ -328,9 +264,7 @@ return distance
 
 
 
-/* =============================
-   FAHRT SPEICHERN
-============================= */
+/* FAHRT */
 
 function saveFahrt(){
 
@@ -360,18 +294,17 @@ s.fahrten.push(fahrt)
 saveDB()
 
 renderFahrten()
+updateStats()
 
 }
 
 
 
-/* =============================
-   ROUTE AUF KARTE
-============================= */
+/* ROUTE */
 
 function showRoute(route){
 
-if(!route || route.length===0) return
+if(!route.length) return
 
 let coords=route.map(p=>[p.lat,p.lng])
 
@@ -385,9 +318,7 @@ maxZoom:19
 
 }
 
-if(routeLayer){
-map.removeLayer(routeLayer)
-}
+if(routeLayer) map.removeLayer(routeLayer)
 
 routeLayer=L.polyline(coords,{color:"blue"}).addTo(map)
 
@@ -397,9 +328,7 @@ map.fitBounds(routeLayer.getBounds())
 
 
 
-/* =============================
-   FAHRTENLISTE
-============================= */
+/* FAHRTEN */
 
 function renderFahrten(){
 
@@ -407,22 +336,15 @@ let s=students[current]
 
 const container=document.getElementById("fahrtenListe")
 
-if(!container) return
-
 container.innerHTML=""
 
-s.fahrten
-.sort((a,b)=>new Date(b.datum)-new Date(a.datum))
-.forEach(f=>{
+s.fahrten.forEach(f=>{
 
 let div=document.createElement("div")
-div.className="fahrtEintrag"
 
 div.innerHTML=`
 <b>${f.datum}</b> ${f.titel}<br>
-Dauer: ${f.dauer} min<br>
-Strecke: ${f.strecke} km<br>
-${f.notiz}<br>
+${f.strecke} km | ${f.dauer} min<br>
 <button onclick='showRoute(${JSON.stringify(f.route)})'>Route anzeigen</button>
 `
 
@@ -434,120 +356,80 @@ container.appendChild(div)
 
 
 
-/* =============================
-   BEARBEITEN
-============================= */
+/* STATISTIK */
 
-function editStudent(){
+function updateStats(){
 
 let s=students[current]
 
-editMode=true
+let totalTime=0
+let totalKm=0
 
-document.getElementById("addPanel").classList.remove("hidden")
+s.fahrten.forEach(f=>{
 
-document.getElementById("name").value=s.name||""
-document.getElementById("vorname").value=s.vorname||""
-document.getElementById("anschrift").value=s.anschrift||""
-document.getElementById("geburt").value=s.geburt||""
-document.getElementById("telefon").value=s.telefon||""
-document.getElementById("vorbesitz").value=s.vorbesitz||""
-document.getElementById("klasse").value=s.klasse||"B"
+totalTime+=f.dauer
+totalKm+=parseFloat(f.strecke)
 
-document.getElementById("sehJa").checked=s.sehJa||false
-document.getElementById("sehNein").checked=s.sehNein||false
+})
 
-document.getElementById("beginn").value=s.beginn||""
-document.getElementById("pruefung").value=s.pruefung||""
+let hours=Math.floor(totalTime/60)
+let minutes=totalTime%60
 
-}
-
-
-
-/* =============================
-   SCHÜLER ANLEGEN / SPEICHERN
-============================= */
-
-document.getElementById("addStudentBtn").onclick=function(){
-
-editMode=false
-
-document.getElementById("addPanel").classList.remove("hidden")
+document.getElementById("stats").innerHTML=`
+Fahrten: ${s.fahrten.length}<br>
+Zeit: ${hours}h ${minutes}min<br>
+Strecke: ${totalKm.toFixed(1)} km
+`
 
 }
 
 
 
-function closeAdd(){
+/* PDF */
 
-document.getElementById("addPanel").classList.add("hidden")
-
-}
-
-
-
-function saveStudent(){
-
-let nameField=document.getElementById("name")
-let vornameField=document.getElementById("vorname")
-let anschriftField=document.getElementById("anschrift")
-let geburtField=document.getElementById("geburt")
-let telefonField=document.getElementById("telefon")
-let vorbesitzField=document.getElementById("vorbesitz")
-let klasseField=document.getElementById("klasse")
-
-let sehJaField=document.getElementById("sehJa")
-let sehNeinField=document.getElementById("sehNein")
-
-let beginnField=document.getElementById("beginn")
-let pruefungField=document.getElementById("pruefung")
-
-if(editMode){
+function exportPDF(){
 
 let s=students[current]
 
-s.name=nameField.value
-s.vorname=vornameField.value
-s.anschrift=anschriftField.value
-s.geburt=geburtField.value
-s.telefon=telefonField.value
-s.vorbesitz=vorbesitzField.value
-s.klasse=klasseField.value
-s.sehJa=sehJaField.checked
-s.sehNein=sehNeinField.checked
-s.beginn=beginnField.value
-s.pruefung=pruefungField.value
+const { jsPDF } = window.jspdf
 
-}else{
+let doc=new jsPDF()
 
-let s={
+doc.text("Ausbildungsbericht",20,20)
 
-name:nameField.value,
-vorname:vornameField.value,
-anschrift:anschriftField.value,
-geburt:geburtField.value,
-telefon:telefonField.value,
-vorbesitz:vorbesitzField.value,
-klasse:klasseField.value,
-sehJa:sehJaField.checked,
-sehNein:sehNeinField.checked,
-beginn:beginnField.value,
-pruefung:pruefungField.value,
+doc.text("Name: "+s.name+" "+s.vorname,20,30)
 
-sonderfahrten:{ul:0,ab:0,na:0},
-fahrten:[],
-checkboxes:{}
+let y=50
+
+s.fahrten.forEach(f=>{
+
+doc.text(f.datum+" "+f.titel+" "+f.strecke+"km "+f.dauer+"min",20,y)
+
+y+=10
+
+})
+
+doc.save("Ausbildung_"+s.name+".pdf")
 
 }
 
-students.push(s)
 
-}
 
-saveDB()
+/* BACKUP */
 
-closeAdd()
+function exportBackup(){
 
-renderList()
+let data=JSON.stringify(students)
+
+let blob=new Blob([data],{type:"application/json"})
+
+let url=URL.createObjectURL(blob)
+
+let a=document.createElement("a")
+
+a.href=url
+a.download="fahrschueler_backup.json"
+
+a.click()
 
 }
