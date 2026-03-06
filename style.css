@@ -45,3 +45,35 @@ margin:8px;
 border-radius:6px;
 cursor:pointer;
 }
+
+
+
+/* Diagrammkarte */
+
+.diagramBox{
+padding:10px;
+margin:10px 0;
+border-radius:6px;
+}
+
+.diagramBox label{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:3px 0;
+}
+
+
+/* 11 farbige Boxen */
+
+.diagramBox:nth-child(1){background:#ffe9a8;}
+.diagramBox:nth-child(2){background:#ffd07a;}
+.diagramBox:nth-child(3){background:#ffb4a0;}
+.diagramBox:nth-child(4){background:#ffe4b5;}
+.diagramBox:nth-child(5){background:#fff0c2;}
+.diagramBox:nth-child(6){background:#d6f5d6;}
+.diagramBox:nth-child(7){background:#e3f2fd;}
+.diagramBox:nth-child(8){background:#e8f5e9;}
+.diagramBox:nth-child(9){background:#f3e5f5;}
+.diagramBox:nth-child(10){background:#e1f5fe;}
+.diagramBox:nth-child(11){background:#fce4ec;}
