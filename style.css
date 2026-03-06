@@ -50,31 +50,47 @@ cursor:pointer;
 
 /* Diagrammkarte */
 
+#diagramContainer{
+max-width:700px;
+margin-top:10px;
+}
+
+/* einzelne Stufenbox */
+
 .diagramBox{
 padding:14px;
-margin:12px 0;
+margin:14px 0;
 border-radius:8px;
-font-size:16px;
+max-width:650px;
 }
+
+/* Einträge */
 
 .diagramBox label{
 display:flex;
 align-items:center;
-gap:10px;
+gap:6px;
 padding:4px 0;
+font-size:16px;
+}
+
+/* Checkbox hinter Text */
+
+.diagramBox input[type="checkbox"]{
+margin-left:6px;
 }
 
 
-/* 11 farbige Boxen */
+/* Farbige Stufen */
 
-.diagramBox:nth-child(1){background:#ffe9a8;}
-.diagramBox:nth-child(2){background:#ffd07a;}
-.diagramBox:nth-child(3){background:#ffb4a0;}
-.diagramBox:nth-child(4){background:#ffe4b5;}
-.diagramBox:nth-child(5){background:#fff0c2;}
-.diagramBox:nth-child(6){background:#d6f5d6;}
-.diagramBox:nth-child(7){background:#e3f2fd;}
-.diagramBox:nth-child(8){background:#e8f5e9;}
-.diagramBox:nth-child(9){background:#f3e5f5;}
-.diagramBox:nth-child(10){background:#e1f5fe;}
-.diagramBox:nth-child(11){background:#fce4ec;}
+.diagramBox:nth-child(1){background:#f3e1a6;}   /* Grundstufe */
+.diagramBox:nth-child(2){background:#efc87c;}   /* Aufbaustufe */
+.diagramBox:nth-child(3){background:#f2a38f;}   /* Leistungsstufe */
+.diagramBox:nth-child(4){background:#f7d8a6;}
+.diagramBox:nth-child(5){background:#f5e6b8;}
+.diagramBox:nth-child(6){background:#d8f0d8;}
+.diagramBox:nth-child(7){background:#e3efff;}
+.diagramBox:nth-child(8){background:#e6f7e6;}
+.diagramBox:nth-child(9){background:#f1e5f8;}
+.diagramBox:nth-child(10){background:#e2f6ff;}
+.diagramBox:nth-child(11){background:#fde2ea;}
