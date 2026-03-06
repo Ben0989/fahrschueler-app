@@ -112,21 +112,25 @@ DIAGRAMM[section].forEach(field=>{
 
 let label=document.createElement("label")
 
+let text=document.createElement("span")
+text.innerText=field
+
 let cb=document.createElement("input")
-
 cb.type="checkbox"
-
 cb.dataset.field=field
-
-
 
 cb.addEventListener("change",function(){
 
 students[current].checkboxes[field]=cb.checked
-
 saveDB()
-
 updateProgress()
+
+})
+
+label.appendChild(text)
+label.appendChild(cb)
+
+box.appendChild(label)
 
 })
 
