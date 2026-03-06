@@ -51,8 +51,12 @@ cursor:pointer;
 /* Diagrammkarte */
 
 #diagramContainer{
-max-width:700px;
-margin-top:10px;
+
+display:grid;
+grid-template-columns:repeat(2, 1fr);
+gap:16px;
+padding:10px;
+
 }
 
 .diagramBox h3{
@@ -71,11 +75,12 @@ max-width:650px;
 /* Einträge */
 
 .diagramBox label{
+
 display:flex;
+justify-content:space-between;
 align-items:center;
-gap:6px;
-padding:4px 0;
-font-size:16px;
+margin:3px 0;
+
 }
 
 /* Checkbox hinter Text */
