@@ -2,30 +2,28 @@ let students = JSON.parse(localStorage.getItem("students") || "[]")
 
 if(!Array.isArray(students)) students=[]
 
-let current = null
+let current=null
 
 
 
 function saveDB(){
-localStorage.setItem("students", JSON.stringify(students))
+localStorage.setItem("students",JSON.stringify(students))
 }
 
 
 
-/* =========================
+/* =====================
    FAHRSCHÜLER LISTE
-========================= */
+===================== */
 
 function renderList(){
 
-const list = document.getElementById("studentList")
-
+const list=document.getElementById("studentList")
 list.innerHTML=""
 
 students.forEach((s,i)=>{
 
 let div=document.createElement("div")
-
 div.className="studentItem"
 
 div.innerText=(s.name||"")+" "+(s.vorname||"")
@@ -42,9 +40,9 @@ renderList()
 
 
 
-/* =========================
+/* =====================
    SCHÜLER ÖFFNEN
-========================= */
+===================== */
 
 function openStudent(i){
 
@@ -73,11 +71,8 @@ document.getElementById("info").innerHTML=`
 `
 
 renderDiagram()
-
 loadDiagram()
-
 updateProgress()
-
 renderFahrten()
 
 showTab("info")
@@ -86,9 +81,9 @@ showTab("info")
 
 
 
-/* =========================
+/* =====================
    TABS
-========================= */
+===================== */
 
 function showTab(tab){
 
@@ -102,9 +97,9 @@ document.getElementById(tab).classList.remove("hidden")
 
 
 
-/* =========================
-   DIAGRAMMKARTE ERZEUGEN
-========================= */
+/* =====================
+   DIAGRAMMKARTE
+===================== */
 
 function renderDiagram(){
 
@@ -158,9 +153,9 @@ container.appendChild(box)
 
 
 
-/* =========================
-   CHECKBOXEN LADEN
-========================= */
+/* =====================
+   DIAGRAMM LADEN
+===================== */
 
 function loadDiagram(){
 
@@ -178,9 +173,9 @@ cb.checked=students[current].checkboxes[field]||false
 
 
 
-/* =========================
+/* =====================
    FORTSCHRITT
-========================= */
+===================== */
 
 function updateProgress(){
 
@@ -223,11 +218,32 @@ document.getElementById("nachtCount").innerText=s.sonderfahrten.na
 
 
 
-if(
+/* =====================
+   PRÜFUNGSREIFE
+===================== */
+
+let sonderfahrtenOK =
 s.sonderfahrten.ul>=maxUL &&
 s.sonderfahrten.ab>=maxAB &&
 s.sonderfahrten.na>=maxN
-){
+
+
+let reifeOK=true
+
+if(DIAGRAMM["Reife-, Teststufe"]){
+
+DIAGRAMM["Reife-, Teststufe"].forEach(field=>{
+
+if(!students[current].checkboxes[field]){
+reifeOK=false
+}
+
+})
+
+}
+
+
+if(sonderfahrtenOK && reifeOK){
 
 document.getElementById("pruefungsreife").innerText="PRÜFUNGSREIF ✔"
 document.getElementById("pruefungsreife").style.color="green"
@@ -243,9 +259,9 @@ document.getElementById("pruefungsreife").style.color="red"
 
 
 
-/* =========================
+/* =====================
    SONDERFAHRTEN
-========================= */
+===================== */
 
 function changeDrive(type,val){
 
@@ -265,16 +281,11 @@ maxN=1
 
 }
 
-let max={
-ul:maxUL,
-ab:maxAB,
-na:maxN
-}
+let max={ul:maxUL,ab:maxAB,na:maxN}
 
 s.sonderfahrten[type]+=val
 
 if(s.sonderfahrten[type]<0) s.sonderfahrten[type]=0
-
 if(s.sonderfahrten[type]>max[type]) s.sonderfahrten[type]=max[type]
 
 saveDB()
@@ -285,9 +296,9 @@ updateProgress()
 
 
 
-/* =========================
-   FAHRT PROTOKOLL
-========================= */
+/* =====================
+   FAHRTEN PROTOKOLL
+===================== */
 
 function addFahrt(){
 
@@ -337,9 +348,9 @@ container.appendChild(div)
 
 
 
-/* =========================
+/* =====================
    SCHÜLER ANLEGEN
-========================= */
+===================== */
 
 document.getElementById("addStudentBtn").onclick=function(){
 
@@ -397,9 +408,9 @@ renderList()
 
 
 
-/* =========================
+/* =====================
    SUCHFELD
-========================= */
+===================== */
 
 document.getElementById("search").addEventListener("input",function(){
 
