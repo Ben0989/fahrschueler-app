@@ -21,9 +21,7 @@
 
 </header>
 
-
 <input id="search" placeholder="Suche Fahrschüler">
-
 
 
 <div id="studentList"></div>
@@ -34,7 +32,6 @@
 
 <h2 id="studentTitle"></h2>
 
-
 <div class="tabs">
 
 <button onclick="showTab('info')">Infos</button>
@@ -44,9 +41,7 @@
 </div>
 
 
-
 <div id="info" class="tab"></div>
-
 
 
 <div id="diagramm" class="tab hidden">
@@ -56,18 +51,42 @@
 </div>
 
 
-
 <div id="status" class="tab hidden">
 
 <h3>Ausbildungsstand</h3>
 
 <div id="progress"></div>
 
-<p>Überland: <span id="ueberlandCount"></span> / <span id="ueberlandMax"></span></p>
 
-<p>Autobahn: <span id="autobahnCount"></span> / <span id="autobahnMax"></span></p>
+<div class="sonderfahrten">
 
-<p>Dunkelheit: <span id="nachtCount"></span> / <span id="nachtMax"></span></p>
+<h3>Besondere Ausbildungsfahrten</h3>
+
+<div class="fahrt">
+Überland
+<button onclick="changeDrive('ul',-1)">-</button>
+<span id="ueberlandCount">0</span>
+<button onclick="changeDrive('ul',1)">+</button>
+/ <span id="ueberlandMax"></span>
+</div>
+
+<div class="fahrt">
+Autobahn
+<button onclick="changeDrive('ab',-1)">-</button>
+<span id="autobahnCount">0</span>
+<button onclick="changeDrive('ab',1)">+</button>
+/ <span id="autobahnMax"></span>
+</div>
+
+<div class="fahrt">
+Dunkelheit
+<button onclick="changeDrive('na',-1)">-</button>
+<span id="nachtCount">0</span>
+<button onclick="changeDrive('na',1)">+</button>
+/ <span id="nachtMax"></span>
+</div>
+
+</div>
 
 <h3 id="pruefungsreife"></h3>
 
