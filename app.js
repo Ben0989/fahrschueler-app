@@ -2,7 +2,8 @@ let students = JSON.parse(localStorage.getItem("students") || "[]")
 
 if(!Array.isArray(students)) students=[]
 
-let current=null
+let current = null
+let editMode = false
 
 
 
@@ -67,6 +68,8 @@ document.getElementById("info").innerHTML=`
 <p><b>Klasse:</b> ${s.klasse||""}</p>
 <p><b>Beginn:</b> ${s.beginn||""}</p>
 <p><b>Prüfung:</b> ${s.pruefung||""}</p>
+
+<button onclick="editStudent()">Fahrschüler bearbeiten</button>
 
 `
 
@@ -201,11 +204,9 @@ let maxAB=4
 let maxN=3
 
 if(klasse==="BE"){
-
 maxUL=3
 maxAB=1
 maxN=1
-
 }
 
 document.getElementById("ueberlandMax").innerText=maxUL
@@ -218,9 +219,7 @@ document.getElementById("nachtCount").innerText=s.sonderfahrten.na
 
 
 
-/* =====================
-   PRÜFUNGSREIFE
-===================== */
+/* ===== Prüfungsreife ===== */
 
 let sonderfahrtenOK =
 s.sonderfahrten.ul>=maxUL &&
@@ -241,7 +240,6 @@ reifeOK=false
 })
 
 }
-
 
 if(sonderfahrtenOK && reifeOK){
 
@@ -274,11 +272,9 @@ let maxAB=4
 let maxN=3
 
 if(klasse==="BE"){
-
 maxUL=3
 maxAB=1
 maxN=1
-
 }
 
 let max={ul:maxUL,ab:maxAB,na:maxN}
@@ -289,7 +285,6 @@ if(s.sonderfahrten[type]<0) s.sonderfahrten[type]=0
 if(s.sonderfahrten[type]>max[type]) s.sonderfahrten[type]=max[type]
 
 saveDB()
-
 updateProgress()
 
 }
@@ -335,7 +330,6 @@ container.innerHTML=""
 s.fahrten.forEach(f=>{
 
 let div=document.createElement("div")
-
 div.className="fahrtEintrag"
 
 div.innerHTML="<b>"+f.datum+"</b> - "+f.text
@@ -349,10 +343,42 @@ container.appendChild(div)
 
 
 /* =====================
+   FAHRSCHÜLER BEARBEITEN
+===================== */
+
+function editStudent(){
+
+let s=students[current]
+
+editMode=true
+
+document.getElementById("addPanel").classList.remove("hidden")
+
+name.value=s.name||""
+vorname.value=s.vorname||""
+anschrift.value=s.anschrift||""
+geburt.value=s.geburt||""
+telefon.value=s.telefon||""
+vorbesitz.value=s.vorbesitz||""
+klasse.value=s.klasse||"B"
+
+sehJa.checked=s.sehJa||false
+sehNein.checked=s.sehNein||false
+
+beginn.value=s.beginn||""
+pruefung.value=s.pruefung||""
+
+}
+
+
+
+/* =====================
    SCHÜLER ANLEGEN
 ===================== */
 
 document.getElementById("addStudentBtn").onclick=function(){
+
+editMode=false
 
 document.getElementById("addPanel").classList.remove("hidden")
 
@@ -382,21 +408,29 @@ klasse:klasse.value,
 sehJa:sehJa.checked,
 sehNein:sehNein.checked,
 beginn:beginn.value,
-pruefung:pruefung.value,
-
-sonderfahrten:{
-ul:0,
-ab:0,
-na:0
-},
-
-fahrten:[],
-
-checkboxes:{}
+pruefung:pruefung.value
 
 }
 
+if(editMode){
+
+let old=students[current]
+
+s.sonderfahrten=old.sonderfahrten
+s.fahrten=old.fahrten
+s.checkboxes=old.checkboxes
+
+students[current]=s
+
+}else{
+
+s.sonderfahrten={ul:0,ab:0,na:0}
+s.fahrten=[]
+s.checkboxes={}
+
 students.push(s)
+
+}
 
 saveDB()
 
@@ -417,7 +451,6 @@ document.getElementById("search").addEventListener("input",function(){
 let q=this.value.toLowerCase()
 
 const list=document.getElementById("studentList")
-
 list.innerHTML=""
 
 students.forEach((s,i)=>{
@@ -427,7 +460,6 @@ let text=(s.name+" "+s.vorname+" "+s.telefon).toLowerCase()
 if(text.includes(q)){
 
 let div=document.createElement("div")
-
 div.innerText=(s.name||"")+" "+(s.vorname||"")
 
 div.onclick=()=>openStudent(i)
