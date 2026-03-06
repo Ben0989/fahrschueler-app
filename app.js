@@ -1,27 +1,30 @@
 let students = JSON.parse(localStorage.getItem("students") || "[]")
 
-if(!Array.isArray(students)) students = []
+if(!Array.isArray(students)) students=[]
 
-let current = null
+let current=null
 
 
 
 function saveDB(){
-localStorage.setItem("students", JSON.stringify(students))
+
+localStorage.setItem("students",JSON.stringify(students))
+
 }
 
 
 
 function renderList(){
 
-const list = document.getElementById("studentList")
+const list=document.getElementById("studentList")
+
 list.innerHTML=""
 
 students.forEach((s,i)=>{
 
 let div=document.createElement("div")
 
-div.innerText=(s.name || "") + " " + (s.vorname || "")
+div.innerText=(s.name||"")+" "+(s.vorname||"")
 
 div.onclick=()=>openStudent(i)
 
@@ -37,26 +40,25 @@ renderList()
 
 function openStudent(i){
 
-let s = students[i]
+let s=students[i]
+
 if(!s) return
 
 current=i
 
-if(!s.checkboxes){
-s.checkboxes={}
-}
+if(!s.checkboxes) s.checkboxes={}
 
 document.getElementById("studentPanel").classList.remove("hidden")
 
-document.getElementById("studentTitle").innerText=(s.name || "")+" "+(s.vorname || "")
+document.getElementById("studentTitle").innerText=(s.name||"")+" "+(s.vorname||"")
 
 document.getElementById("info").innerHTML=`
 
-<p><b>Anschrift:</b> ${s.anschrift || ""}</p>
-<p><b>Telefon:</b> ${s.telefon || ""}</p>
-<p><b>Klasse:</b> ${s.klasse || ""}</p>
-<p><b>Beginn:</b> ${s.beginn || ""}</p>
-<p><b>Prüfung:</b> ${s.pruefung || ""}</p>
+<p><b>Anschrift:</b> ${s.anschrift||""}</p>
+<p><b>Telefon:</b> ${s.telefon||""}</p>
+<p><b>Klasse:</b> ${s.klasse||""}</p>
+<p><b>Beginn:</b> ${s.beginn||""}</p>
+<p><b>Prüfung:</b> ${s.pruefung||""}</p>
 
 `
 
@@ -85,14 +87,17 @@ document.getElementById(tab).classList.remove("hidden")
 function renderDiagram(){
 
 const container=document.getElementById("diagramContainer")
+
 container.innerHTML=""
 
 Object.keys(DIAGRAMM).forEach(section=>{
 
 let box=document.createElement("div")
+
 box.className="diagramBox"
 
 let title=document.createElement("h3")
+
 title.innerText=section
 
 box.appendChild(title)
@@ -102,10 +107,13 @@ DIAGRAMM[section].forEach(field=>{
 let label=document.createElement("label")
 
 let text=document.createElement("span")
+
 text.innerText=field
 
 let cb=document.createElement("input")
+
 cb.type="checkbox"
+
 cb.dataset.field=field
 
 cb.addEventListener("change",function(){
@@ -119,6 +127,7 @@ updateProgress()
 })
 
 label.appendChild(text)
+
 label.appendChild(cb)
 
 box.appendChild(label)
@@ -141,7 +150,7 @@ checkboxes.forEach(cb=>{
 
 let field=cb.dataset.field
 
-cb.checked=students[current].checkboxes[field] || false
+cb.checked=students[current].checkboxes[field]||false
 
 })
 
@@ -154,26 +163,95 @@ function updateProgress(){
 const checkboxes=document.querySelectorAll("#diagramContainer input[type='checkbox']")
 
 let total=checkboxes.length
+
 let done=0
 
+let ueberland=0
+
+let autobahn=0
+
+let nacht=0
+
 checkboxes.forEach(cb=>{
-if(cb.checked) done++
+
+let field=(cb.dataset.field||"").toLowerCase()
+
+if(cb.checked){
+
+done++
+
+if(field.includes("überland")) ueberland++
+
+if(field.includes("autobahn")) autobahn++
+
+if(field.includes("dunkel") || field.includes("nacht")) nacht++
+
+}
+
 })
 
 document.getElementById("progress").innerText="Ausbildungsfelder: "+done+" / "+total
+
+
+
+let klasse=students[current].klasse
+
+let maxUL=5
+
+let maxAB=4
+
+let maxN=3
+
+if(klasse==="BE"){
+
+maxUL=3
+maxAB=1
+maxN=1
+
+}
+
+document.getElementById("ueberlandCount").innerText=ueberland
+document.getElementById("autobahnCount").innerText=autobahn
+document.getElementById("nachtCount").innerText=nacht
+
+document.getElementById("ueberlandMax").innerText=maxUL
+document.getElementById("autobahnMax").innerText=maxAB
+document.getElementById("nachtMax").innerText=maxN
+
+
+
+if(
+ueberland>=maxUL &&
+autobahn>=maxAB &&
+nacht>=maxN
+){
+
+document.getElementById("pruefungsreife").innerText="PRÜFUNGSREIF ✔"
+document.getElementById("pruefungsreife").style.color="green"
+
+}else{
+
+document.getElementById("pruefungsreife").innerText="Nicht prüfungsreif"
+document.getElementById("pruefungsreife").style.color="red"
+
+}
 
 }
 
 
 
 document.getElementById("addStudentBtn").onclick=function(){
+
 document.getElementById("addPanel").classList.remove("hidden")
+
 }
 
 
 
 function closeAdd(){
+
 document.getElementById("addPanel").classList.add("hidden")
+
 }
 
 
@@ -206,3 +284,33 @@ closeAdd()
 renderList()
 
 }
+
+
+
+document.getElementById("search").addEventListener("input",function(){
+
+let q=this.value.toLowerCase()
+
+const list=document.getElementById("studentList")
+
+list.innerHTML=""
+
+students.forEach((s,i)=>{
+
+let text=(s.name+" "+s.vorname+" "+s.telefon).toLowerCase()
+
+if(text.includes(q)){
+
+let div=document.createElement("div")
+
+div.innerText=(s.name||"")+" "+(s.vorname||"")
+
+div.onclick=()=>openStudent(i)
+
+list.appendChild(div)
+
+}
+
+})
+
+})
