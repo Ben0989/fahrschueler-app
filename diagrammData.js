@@ -30,7 +30,7 @@ const DIAGRAMM = {
     "Gefahrenbremsung",
     "Einparken längs",
     "Einparken quer"
-  ]
+  ],
 "Grundstufe": [
 "Besonderheiten beim Einsteigen",
 "Sitz einstellen",
