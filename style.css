@@ -63,7 +63,7 @@ font-size:18px;
 
 .diagramBox{
 padding:14px;
-margin:14px 0;
+margin:14px auto;
 border-radius:8px;
 max-width:650px;
 }
