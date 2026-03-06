@@ -199,7 +199,7 @@ cb.checked=students[current].checkboxes[field]||false
 
 
 /* =============================
-   FORTSCHRITT
+   FORTSCHRITT + PRÜFUNGSREIFE
 ============================= */
 
 function updateProgress(){
@@ -215,6 +215,62 @@ if(cb.checked) done++
 
 document.getElementById("progress").innerText=
 "Ausbildungsfelder: "+done+" / "+total
+
+
+let s = students[current]
+
+let klasse = s.klasse
+
+let maxUL = 5
+let maxAB = 4
+let maxN = 3
+
+if(klasse==="BE"){
+maxUL=3
+maxAB=1
+maxN=1
+}
+
+document.getElementById("ueberlandMax").innerText=maxUL
+document.getElementById("autobahnMax").innerText=maxAB
+document.getElementById("nachtMax").innerText=maxN
+
+document.getElementById("ueberlandCount").innerText=s.sonderfahrten.ul
+document.getElementById("autobahnCount").innerText=s.sonderfahrten.ab
+document.getElementById("nachtCount").innerText=s.sonderfahrten.na
+
+
+
+/* PRÜFUNGSREIFE */
+
+let sonderfahrtenOK =
+s.sonderfahrten.ul>=maxUL &&
+s.sonderfahrten.ab>=maxAB &&
+s.sonderfahrten.na>=maxN
+
+let reifeOK=true
+
+if(DIAGRAMM["Reife-, Teststufe"]){
+
+DIAGRAMM["Reife-, Teststufe"].forEach(field=>{
+
+if(!s.checkboxes[field]) reifeOK=false
+
+})
+
+}
+
+if(sonderfahrtenOK && reifeOK){
+
+document.getElementById("pruefungsreife").innerText="PRÜFUNGSREIF ✔"
+document.getElementById("pruefungsreife").style.color="green"
+
+}else{
+
+document.getElementById("pruefungsreife").innerText="Nicht prüfungsreif"
+document.getElementById("pruefungsreife").style.color="red"
+
+}
 
 }
 
@@ -358,19 +414,19 @@ editMode=true
 
 document.getElementById("addPanel").classList.remove("hidden")
 
-name.value=s.name||""
-vorname.value=s.vorname||""
-anschrift.value=s.anschrift||""
-geburt.value=s.geburt||""
-telefon.value=s.telefon||""
-vorbesitz.value=s.vorbesitz||""
-klasse.value=s.klasse||"B"
+document.getElementById("name").value=s.name||""
+document.getElementById("vorname").value=s.vorname||""
+document.getElementById("anschrift").value=s.anschrift||""
+document.getElementById("geburt").value=s.geburt||""
+document.getElementById("telefon").value=s.telefon||""
+document.getElementById("vorbesitz").value=s.vorbesitz||""
+document.getElementById("klasse").value=s.klasse||"B"
 
-sehJa.checked=s.sehJa||false
-sehNein.checked=s.sehNein||false
+document.getElementById("sehJa").checked=s.sehJa||false
+document.getElementById("sehNein").checked=s.sehNein||false
 
-beginn.value=s.beginn||""
-pruefung.value=s.pruefung||""
+document.getElementById("beginn").value=s.beginn||""
+document.getElementById("pruefung").value=s.pruefung||""
 
 }
 
@@ -400,37 +456,51 @@ document.getElementById("addPanel").classList.add("hidden")
 
 function saveStudent(){
 
+let nameField=document.getElementById("name")
+let vornameField=document.getElementById("vorname")
+let anschriftField=document.getElementById("anschrift")
+let geburtField=document.getElementById("geburt")
+let telefonField=document.getElementById("telefon")
+let vorbesitzField=document.getElementById("vorbesitz")
+let klasseField=document.getElementById("klasse")
+
+let sehJaField=document.getElementById("sehJa")
+let sehNeinField=document.getElementById("sehNein")
+
+let beginnField=document.getElementById("beginn")
+let pruefungField=document.getElementById("pruefung")
+
 if(editMode){
 
 let s=students[current]
 
-s.name=name.value
-s.vorname=vorname.value
-s.anschrift=anschrift.value
-s.geburt=geburt.value
-s.telefon=telefon.value
-s.vorbesitz=vorbesitz.value
-s.klasse=klasse.value
-s.sehJa=sehJa.checked
-s.sehNein=sehNein.checked
-s.beginn=beginn.value
-s.pruefung=pruefung.value
+s.name=nameField.value
+s.vorname=vornameField.value
+s.anschrift=anschriftField.value
+s.geburt=geburtField.value
+s.telefon=telefonField.value
+s.vorbesitz=vorbesitzField.value
+s.klasse=klasseField.value
+s.sehJa=sehJaField.checked
+s.sehNein=sehNeinField.checked
+s.beginn=beginnField.value
+s.pruefung=pruefungField.value
 
 }else{
 
 let s={
 
-name:name.value,
-vorname:vorname.value,
-anschrift:anschrift.value,
-geburt:geburt.value,
-telefon:telefon.value,
-vorbesitz:vorbesitz.value,
-klasse:klasse.value,
-sehJa:sehJa.checked,
-sehNein:sehNein.checked,
-beginn:beginn.value,
-pruefung:pruefung.value,
+name:nameField.value,
+vorname:vornameField.value,
+anschrift:anschriftField.value,
+geburt:geburtField.value,
+telefon:telefonField.value,
+vorbesitz:vorbesitzField.value,
+klasse:klasseField.value,
+sehJa:sehJaField.checked,
+sehNein:sehNeinField.checked,
+beginn:beginnField.value,
+pruefung:pruefungField.value,
 
 sonderfahrten:{ul:0,ab:0,na:0},
 fahrten:[],
