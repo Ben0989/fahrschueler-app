@@ -1,5 +1,5 @@
 const DIAGRAMM = {
-  Grundstufe: [
+  "Grundstufe": [
     "Besonderheiten beim Einsteigen",
     "Sitz einstellen",
     "Spiegel einstellen",
@@ -10,21 +10,21 @@ const DIAGRAMM = {
     "Gurt anlegen / anpassen",
     "Motor anlassen"
   ],
-  Aufbaustufe: [
+  "Aufbaustufe": [
     "Rollen und Schalten",
     "Abbremsen und Schalten",
     "Bremsübung degressiv",
     "Bremsübung Zielbremsung",
     "Gefahrsituationen"
   ],
-  Leistungsstufe: [
+  "Leistungsstufe": [
     "Fahrstreifenwechsel links",
     "Fahrstreifenwechsel rechts",
     "Überholen",
     "Abbiegen rechts",
     "Abbiegen links"
   ],
-  Grundfahraufgaben: [
+  "Grundfahraufgaben": [
     "Rückwärtsfahren",
     "Umkehren",
     "Gefahrenbremsung",
@@ -32,7 +32,7 @@ const DIAGRAMM = {
     "Einparken quer"
   ],
   
-Überland: [
+"Überland": [
 "Angepasste Geschwindigkeit",
 "Abstand vorne",
 "Abstand hinten",
@@ -47,7 +47,7 @@ const DIAGRAMM = {
 "Wild / Tiere"
 ],
 
-Autobahn: [
+"Autobahn": [
 "Fahrtplanung",
 "Einfahren in BAB",
 "Fahrstreifenwahl",
@@ -67,7 +67,7 @@ Autobahn: [
 "Verlassen der BAB"
 ],
 
-Dunkelheit: [
+"Dunkelheit": [
 "Beleuchtung Kontrolle",
 "Fernlicht",
 "Beleuchtete Straßen",
@@ -77,7 +77,7 @@ Dunkelheit: [
 "Orientierung"
 ],
 
-ReifeTest: [
+"ReifeTest": [
 "Selbstständiges Fahren innerorts",
 "Selbstständiges Fahren außerorts",
 "Verantwortungsbewusstes Fahren",
@@ -86,7 +86,7 @@ ReifeTest: [
 "Leistungsbewertung"
 ],
 
-SituativeBausteine: [
+"SituativeBausteine": [
 "Reifen",
 "Profiltiefe",
 "Reifendruck",
@@ -98,7 +98,7 @@ SituativeBausteine: [
 "Bremsleuchte"
 ],
 
-Betriebssicherheit: [
+"Betriebssicherheit": [
 "Motoröl",
 "Kühlmittel",
 "Scheibenwaschflüssigkeit",
@@ -107,7 +107,7 @@ Betriebssicherheit: [
 "Bordwerkzeug"
 ],
 
-Witterung: [
+"Witterung": [
 "Regen",
 "Aquaplaning",
 "Wind",
