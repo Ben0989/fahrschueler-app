@@ -9,6 +9,9 @@ let route = []
 let watchId = null
 let startTime = null
 
+let map = null
+let routeLayer = null
+
 
 
 function saveDB(){
@@ -217,58 +220,6 @@ if(cb.checked) done++
 document.getElementById("progress").innerText=
 "Ausbildungsfelder: "+done+" / "+total
 
-
-let s = students[current]
-
-let klasse = s.klasse
-
-let maxUL = 5
-let maxAB = 4
-let maxN = 3
-
-if(klasse==="BE"){
-maxUL=3
-maxAB=1
-maxN=1
-}
-
-document.getElementById("ueberlandMax").innerText=maxUL
-document.getElementById("autobahnMax").innerText=maxAB
-document.getElementById("nachtMax").innerText=maxN
-
-document.getElementById("ueberlandCount").innerText=s.sonderfahrten.ul
-document.getElementById("autobahnCount").innerText=s.sonderfahrten.ab
-document.getElementById("nachtCount").innerText=s.sonderfahrten.na
-
-
-
-let sonderfahrtenOK =
-s.sonderfahrten.ul>=maxUL &&
-s.sonderfahrten.ab>=maxAB &&
-s.sonderfahrten.na>=maxN
-
-let reifeOK=true
-
-if(DIAGRAMM["Reife-, Teststufe"]){
-
-DIAGRAMM["Reife-, Teststufe"].forEach(field=>{
-if(!s.checkboxes[field]) reifeOK=false
-})
-
-}
-
-if(sonderfahrtenOK && reifeOK){
-
-document.getElementById("pruefungsreife").innerText="PRÜFUNGSREIF ✔"
-document.getElementById("pruefungsreife").style.color="green"
-
-}else{
-
-document.getElementById("pruefungsreife").innerText="Nicht prüfungsreif"
-document.getElementById("pruefungsreife").style.color="red"
-
-}
-
 }
 
 
@@ -415,7 +366,39 @@ renderFahrten()
 
 
 /* =============================
-   FAHRTEN AUSBILDUNGSÜBERSICHT
+   ROUTE AUF KARTE
+============================= */
+
+function showRoute(route){
+
+if(!route || route.length===0) return
+
+let coords=route.map(p=>[p.lat,p.lng])
+
+if(!map){
+
+map=L.map("map").setView(coords[0],13)
+
+L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{
+maxZoom:19
+}).addTo(map)
+
+}
+
+if(routeLayer){
+map.removeLayer(routeLayer)
+}
+
+routeLayer=L.polyline(coords,{color:"blue"}).addTo(map)
+
+map.fitBounds(routeLayer.getBounds())
+
+}
+
+
+
+/* =============================
+   FAHRTENLISTE
 ============================= */
 
 function renderFahrten(){
@@ -439,7 +422,8 @@ div.innerHTML=`
 <b>${f.datum}</b> ${f.titel}<br>
 Dauer: ${f.dauer} min<br>
 Strecke: ${f.strecke} km<br>
-${f.notiz}
+${f.notiz}<br>
+<button onclick='showRoute(${JSON.stringify(f.route)})'>Route anzeigen</button>
 `
 
 container.appendChild(div)
