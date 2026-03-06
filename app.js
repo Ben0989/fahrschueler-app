@@ -449,6 +449,37 @@ container.appendChild(div)
 }
 
 
+/* =============================
+   FAHRTEN LISTE
+============================= */
+
+function renderFahrten(){
+
+let s=students[current]
+
+const container=document.getElementById("fahrtenListe")
+
+container.innerHTML=""
+
+s.fahrten
+.sort((a,b)=>new Date(b.datum)-new Date(a.datum))
+.forEach(f=>{
+
+let div=document.createElement("div")
+
+div.className="fahrtEintrag"
+
+div.innerHTML=`
+<b>${f.datum}</b> ${f.titel}<br>
+${f.notiz}<br>
+Routepunkte: ${f.route.length}
+`
+
+container.appendChild(div)
+
+})
+
+}
 
 
 
