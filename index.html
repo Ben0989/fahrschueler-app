@@ -21,11 +21,9 @@
 
 </header>
 
-<input id="search" placeholder="Suche Fahrschüler">
-
+<input id="search" placeholder="Fahrschüler suchen">
 
 <div id="studentList"></div>
-
 
 
 <div id="studentPanel" class="hidden panel">
@@ -36,13 +34,20 @@
 
 <button onclick="showTab('info')">Infos</button>
 <button onclick="showTab('diagramm')">Diagrammkarte</button>
+<button onclick="showTab('fahrten')">Fahrtprotokoll</button>
 <button onclick="showTab('status')">Ausbildungsstand</button>
+
 
 </div>
 
 
+<!-- INFO TAB -->
+
 <div id="info" class="tab"></div>
 
+
+
+<!-- DIAGRAMM -->
 
 <div id="diagramm" class="tab hidden">
 
@@ -51,61 +56,82 @@
 </div>
 
 
+
+<!-- AUSBILDUNGSSTAND -->
+
 <div id="status" class="tab hidden">
 
 <h3>Ausbildungsstand</h3>
 
 <div id="progress"></div>
 
-
-<div class="sonderfahrten">
-
 <h3>Besondere Ausbildungsfahrten</h3>
 
 <div class="fahrt">
+
 Überland
 <button onclick="changeDrive('ul',-1)">-</button>
 <span id="ueberlandCount">0</span>
 <button onclick="changeDrive('ul',1)">+</button>
 / <span id="ueberlandMax"></span>
+
 </div>
 
 <div class="fahrt">
+
 Autobahn
 <button onclick="changeDrive('ab',-1)">-</button>
 <span id="autobahnCount">0</span>
 <button onclick="changeDrive('ab',1)">+</button>
 / <span id="autobahnMax"></span>
+
 </div>
 
 <div class="fahrt">
-Dunkelheit
+
+Nacht
 <button onclick="changeDrive('na',-1)">-</button>
 <span id="nachtCount">0</span>
 <button onclick="changeDrive('na',1)">+</button>
 / <span id="nachtMax"></span>
-</div>
 
 </div>
 
 <h3 id="pruefungsreife"></h3>
-<h3>Fahrstunden Protokoll</h3>
-
-<div class="fahrtenAdd">
-
-<input type="date" id="fahrtDatum">
-<input type="text" id="fahrtNotiz" placeholder="z.B. Überlandfahrt, Einparken, Kreisverkehr">
-
-<button onclick="addFahrt()">Fahrt speichern</button>
 
 </div>
+
+
+
+<!-- FAHRTENPROTOKOLL -->
+
+<div id="fahrten" class="tab hidden">
+
+<h3>Neue Fahrt</h3>
+
+<input id="fahrtTitel" placeholder="Titel der Fahrstunde">
+
+<textarea id="fahrtNotiz" placeholder="Notizen zur Fahrstunde"></textarea>
+
+<br>
+
+<button onclick="startTracking()">GPS Start</button>
+<button onclick="stopTracking()">GPS Stop</button>
+
+<button onclick="saveFahrt()">Fahrt speichern</button>
+
+<h3>Fahrten</h3>
 
 <div id="fahrtenListe"></div>
-</div>
 
 </div>
 
 
+</div>
+
+
+
+<!-- FAHRSCHÜLER ANLEGEN -->
 
 <div id="addPanel" class="hidden panel">
 
@@ -121,7 +147,6 @@ Dunkelheit
 
 <input id="vorbesitz" placeholder="Vorbesitz">
 
-
 <select id="klasse">
 
 <option>B</option>
@@ -130,22 +155,18 @@ Dunkelheit
 
 </select>
 
-
 <label>Sehhilfe</label>
 
 <label>Ja <input type="checkbox" id="sehJa"></label>
 <label>Nein <input type="checkbox" id="sehNein"></label>
 
-
 <label>Beginn Fahrausbildung</label>
 
 <input id="beginn" type="date">
 
-
 <label>Termin Prüfung</label>
 
 <input id="pruefung" type="date">
-
 
 <div class="buttons">
 
