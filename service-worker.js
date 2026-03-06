@@ -1,11 +1,20 @@
-
-self.addEventListener("install",e=>{
+self.addEventListener("install", e => {
 e.waitUntil(
-caches.open("app").then(cache=>cache.addAll([
+caches.open("app-v2").then(cache =>
+cache.addAll([
 "/",
 "index.html",
 "style.css",
-"app.js"
-]))
+"app.js",
+"diagrammData.js"
+])
+)
+)
+})
+
+
+self.addEventListener("fetch", e => {
+e.respondWith(
+caches.match(e.request).then(res => res || fetch(e.request))
 )
 })
