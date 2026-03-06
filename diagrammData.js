@@ -1,5 +1,5 @@
 const DIAGRAMM = {
-  "Grundstufe": [
+  Grundstufe: [
     "Besonderheiten beim Einsteigen",
     "Sitz einstellen",
     "Spiegel einstellen",
@@ -10,21 +10,21 @@ const DIAGRAMM = {
     "Gurt anlegen / anpassen",
     "Motor anlassen"
   ],
-  "Aufbaustufe": [
+  Aufbaustufe: [
     "Rollen und Schalten",
     "Abbremsen und Schalten",
     "Bremsübung degressiv",
     "Bremsübung Zielbremsung",
     "Gefahrsituationen"
   ],
-  "Leistungsstufe": [
+  Leistungsstufe: [
     "Fahrstreifenwechsel links",
     "Fahrstreifenwechsel rechts",
     "Überholen",
     "Abbiegen rechts",
     "Abbiegen links"
   ],
-  "Grundfahraufgaben": [
+  Grundfahraufgaben: [
     "Rückwärtsfahren",
     "Umkehren",
     "Gefahrenbremsung",
