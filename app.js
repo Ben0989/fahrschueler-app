@@ -28,7 +28,9 @@ students.forEach((s,i)=>{
 let div=document.createElement("div")
 div.className="studentItem"
 
-div.innerText=(s.name||"")+" "+(s.vorname||"")
+div.innerText=
+  (s.name||"")+
+  (s.vorname||"")
 
 div.onclick=()=>openStudent(i)
 
