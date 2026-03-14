@@ -1,7 +1,6 @@
 
 <!DOCTYPE html>
 <html lang="de">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -16,8 +15,6 @@
 <button onclick="openAdd()">+</button>
 </header>
 
-<input id="search" placeholder="Fahrschüler suchen">
-
 <div id="studentList"></div>
 
 <div id="studentPanel" class="hidden panel">
@@ -26,21 +23,17 @@
 
 <div class="tabs">
 <button onclick="showTab('info')">Infos</button>
-<button onclick="showTab('fahrten')">Fahrt</button>
+<button onclick="showTab('diagramm')">Diagrammkarte</button>
 <button onclick="showTab('status')">Ausbildungsstand</button>
 </div>
 
 <div id="info" class="tab"></div>
 
-<div id="fahrten" class="tab hidden">
-<h3>Neue Fahrstunde</h3>
-<input id="fahrtTitel" placeholder="Titel">
-<textarea id="fahrtNotiz" placeholder="Notiz"></textarea>
-<button onclick="saveFahrt()">Fahrt speichern</button>
+<div id="diagramm" class="tab hidden">
+<div id="diagramContainer"></div>
 </div>
 
 <div id="status" class="tab hidden">
-
 <h3>Sonderfahrten</h3>
 
 Überland
@@ -100,11 +93,8 @@ Nacht
 
 </div>
 
+<script src="js/diagrammData.js"></script>
 <script src="js/app.js"></script>
-<script src="js/students.js"></script>
-<script src="js/sonderfahrten.js"></script>
-<script src="js/fahrten.js"></script>
-<script src="js/backup.js"></script>
 
 </body>
 </html>

@@ -35,3 +35,16 @@ cursor:pointer;
 .tabs button{
 margin-right:5px;
 }
+
+.diagramBox{
+padding:12px;
+margin:12px 0;
+border-radius:6px;
+background:#f5f5f5;
+}
+
+.diagramBox label{
+display:flex;
+justify-content:space-between;
+margin:3px 0;
+}
