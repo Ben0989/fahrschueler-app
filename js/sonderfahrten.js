@@ -19,6 +19,8 @@ function updateProgress(){
 
 let s=students[current]
 
+if(!s) return
+
 document.getElementById("ueberlandCount").innerText=s.sonderfahrten.ul
 document.getElementById("autobahnCount").innerText=s.sonderfahrten.ab
 document.getElementById("nachtCount").innerText=s.sonderfahrten.na

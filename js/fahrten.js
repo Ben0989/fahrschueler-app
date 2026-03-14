@@ -13,4 +13,6 @@ s.fahrten.push(fahrt)
 
 saveDB()
 
+alert("Fahrt gespeichert")
+
 }
