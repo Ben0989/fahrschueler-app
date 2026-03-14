@@ -52,6 +52,7 @@ let s=students[i]
 if(!s.checkboxes) s.checkboxes={}
 if(!s.sonderfahrten) s.sonderfahrten={ul:0,ab:0,na:0}
 if(!s.fahrten) s.fahrten=[]
+if(!s.boegen) s.boegen={beratung:[],theorie:[],praxis:[]}
 
 document.getElementById("studentPanel").classList.remove("hidden")
 
@@ -234,27 +235,6 @@ let percent=Math.round((done/total)*100)
 document.getElementById("gesamtProgress").innerText=
 "Ausbildung abgeschlossen: "+percent+"%"
 
-/* AMPEL */
-
-let ampel=document.getElementById("ausbildungsAmpel")
-
-if(ampel){
-
-if(percent<40){
-ampel.innerText="Status: Ausbildung am Anfang"
-ampel.style.color="#d32f2f"
-}
-else if(percent<80){
-ampel.innerText="Status: Ausbildung fortgeschritten"
-ampel.style.color="#f9a825"
-}
-else{
-ampel.innerText="Status: Ausbildung weit fortgeschritten"
-ampel.style.color="#2e7d32"
-}
-
-}
-
 /* PRÜFUNGSREIFE */
 
 let klasse=s.klasse || "B"
@@ -289,10 +269,8 @@ let el=document.getElementById("pruefungsreifeStatus")
 
 if(sonderOK && reifeOK){
 el.innerText="PRÜFUNGSREIF ✔"
-el.className="pruefungOK"
 }else{
 el.innerText="Noch nicht prüfungsreif"
-el.className="pruefungNO"
 }
 
 }
@@ -469,15 +447,11 @@ ${f.notiz}
 
 container.appendChild(div)
 
-/* Karte */
-
 if(f.route && f.route.length>0){
 
 let map=L.map("map"+i).setView([f.route[0].lat,f.route[0].lng],13)
 
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
-maxZoom:19
-}).addTo(map)
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19}).addTo(map)
 
 let latlngs=f.route.map(p=>[p.lat,p.lng])
 
@@ -486,6 +460,69 @@ L.polyline(latlngs,{color:'blue'}).addTo(map)
 }
 
 })
+
+}
+
+/* =============================
+   BEOBACHTUNGSBÖGEN
+============================= */
+
+function saveBeratung(){
+
+let s=students[current]
+
+let data={
+datum:document.getElementById("b_datum").value,
+dauer:document.getElementById("b_dauer").value,
+partner:document.getElementById("b_partner").value,
+klasse:document.getElementById("b_klasse").value,
+bem:document.getElementById("b_bem").value
+}
+
+s.boegen.beratung.push(data)
+
+saveDB()
+
+alert("Beratung gespeichert")
+
+}
+
+function saveTheorie(){
+
+let s=students[current]
+
+let data={
+datum:document.getElementById("t_datum").value,
+zeit:document.getElementById("t_time").value,
+thema:document.getElementById("t_thema").value,
+bem:document.getElementById("t_bem").value
+}
+
+s.boegen.theorie.push(data)
+
+saveDB()
+
+alert("Theorie gespeichert")
+
+}
+
+function savePraxis(){
+
+let s=students[current]
+
+let data={
+datum:document.getElementById("p_datum").value,
+dauer:document.getElementById("p_dauer").value,
+art:document.getElementById("p_art").value,
+schwerpunkt:document.getElementById("p_schwerpunkt").value,
+notizen:document.getElementById("p_notizen").value
+}
+
+s.boegen.praxis.push(data)
+
+saveDB()
+
+alert("Praxis gespeichert")
 
 }
 
@@ -551,7 +588,8 @@ students.push({
 ...data,
 sonderfahrten:{ul:0,ab:0,na:0},
 checkboxes:{},
-fahrten:[]
+fahrten:[],
+boegen:{beratung:[],theorie:[],praxis:[]}
 })
 
 }
