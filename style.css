@@ -283,3 +283,27 @@ height:100%;
 width:0%;
 transition:width 0.3s;
 }
+
+/* =============================
+   GESAMTFORTSCHRITT
+============================= */
+
+#gesamtProgress{
+font-size:18px;
+font-weight:bold;
+margin-bottom:10px;
+}
+
+#pruefungsreifeStatus{
+font-size:18px;
+font-weight:bold;
+margin-bottom:15px;
+}
+
+.pruefungOK{
+color:#2e7d32;
+}
+
+.pruefungNO{
+color:#c62828;
+}
