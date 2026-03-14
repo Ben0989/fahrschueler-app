@@ -4,6 +4,10 @@ if(!Array.isArray(students)) students=[]
 let current=null
 let editMode=false
 
+let route=[]
+let watchId=null
+let startTime=null
+
 function saveDB(){
 localStorage.setItem("students",JSON.stringify(students))
 }
@@ -47,6 +51,7 @@ let s=students[i]
 
 if(!s.checkboxes) s.checkboxes={}
 if(!s.sonderfahrten) s.sonderfahrten={ul:0,ab:0,na:0}
+if(!s.fahrten) s.fahrten=[]
 
 document.getElementById("studentPanel").classList.remove("hidden")
 
@@ -68,6 +73,7 @@ loadDiagram()
 updateProgress()
 renderProgress()
 renderGesamtProgress()
+renderFahrten()
 
 showTab("info")
 
@@ -151,10 +157,8 @@ function loadDiagram(){
 const checkboxes=document.querySelectorAll("#diagramContainer input[type='checkbox']")
 
 checkboxes.forEach(cb=>{
-
 let field=cb.dataset.field
 cb.checked=students[current].checkboxes?.[field] || false
-
 })
 
 }
@@ -168,7 +172,6 @@ function renderProgress(){
 let s=students[current]
 
 const container=document.getElementById("progressContainer")
-
 if(!container) return
 
 container.innerHTML=""
@@ -210,17 +213,14 @@ container.appendChild(block)
 
 function renderGesamtProgress(){
 
-let s = students[current]
+let s=students[current]
 if(!s) return
 
-if(!document.getElementById("gesamtProgress")) return
-
-let total = 0
-let done = 0
+let total=0
+let done=0
 
 Object.keys(DIAGRAMM).forEach(section=>{
-
-let fields = DIAGRAMM[section]
+let fields=DIAGRAMM[section]
 
 fields.forEach(f=>{
 total++
@@ -229,24 +229,22 @@ if(s.checkboxes && s.checkboxes[f]) done++
 
 })
 
-let percent = Math.round((done/total)*100)
+let percent=Math.round((done/total)*100)
 
-document.getElementById("gesamtProgress").innerText =
-"Ausbildung abgeschlossen: " + percent + "%"
+document.getElementById("gesamtProgress").innerText=
+"Ausbildung abgeschlossen: "+percent+"%"
 
-/* =============================
-   AMPEL
-============================= */
+/* AMPEL */
 
-let ampel = document.getElementById("ausbildungsAmpel")
+let ampel=document.getElementById("ausbildungsAmpel")
 
 if(ampel){
 
-if(percent < 40){
+if(percent<40){
 ampel.innerText="Status: Ausbildung am Anfang"
 ampel.style.color="#d32f2f"
 }
-else if(percent < 80){
+else if(percent<80){
 ampel.innerText="Status: Ausbildung fortgeschritten"
 ampel.style.color="#f9a825"
 }
@@ -257,33 +255,26 @@ ampel.style.color="#2e7d32"
 
 }
 
-/* =============================
-   SONDERFAHRTEN NACH KLASSE
-============================= */
+/* PRÜFUNGSREIFE */
 
-let klasse = s.klasse || "B"
+let klasse=s.klasse || "B"
 
-let maxUL = 5
-let maxAB = 4
-let maxNA = 3
+let maxUL=5
+let maxAB=4
+let maxNA=3
 
-if(klasse === "BE"){
-maxUL = 3
-maxAB = 1
-maxNA = 1
+if(klasse==="BE"){
+maxUL=3
+maxAB=1
+maxNA=1
 }
 
-let sonderOK =
-s.sonderfahrten &&
-s.sonderfahrten.ul >= maxUL &&
-s.sonderfahrten.ab >= maxAB &&
-s.sonderfahrten.na >= maxNA
+let sonderOK=
+s.sonderfahrten.ul>=maxUL &&
+s.sonderfahrten.ab>=maxAB &&
+s.sonderfahrten.na>=maxNA
 
-/* =============================
-   REIFE-, TESTSTUFE
-============================= */
-
-let reifeOK = true
+let reifeOK=true
 
 if(DIAGRAMM["Reife-, Teststufe"]){
 
@@ -294,24 +285,14 @@ reifeOK=false
 
 }
 
-/* =============================
-   PRÜFUNGSREIFE
-============================= */
-
-let el = document.getElementById("pruefungsreifeStatus")
-
-if(!el) return
+let el=document.getElementById("pruefungsreifeStatus")
 
 if(sonderOK && reifeOK){
-
 el.innerText="PRÜFUNGSREIF ✔"
 el.className="pruefungOK"
-
 }else{
-
 el.innerText="Noch nicht prüfungsreif"
 el.className="pruefungNO"
-
 }
 
 }
@@ -322,52 +303,189 @@ el.className="pruefungNO"
 
 function changeDrive(type,val){
 
-let s = students[current]
+let s=students[current]
 if(!s) return
 
-let klasse = s.klasse || "B"
+let klasse=s.klasse || "B"
 
-/* Maximalwerte */
+let maxUL=5
+let maxAB=4
+let maxNA=3
 
-let maxUL = 5
-let maxAB = 4
-let maxNA = 3
-
-if(klasse === "BE"){
-maxUL = 3
-maxAB = 1
-maxNA = 1
+if(klasse==="BE"){
+maxUL=3
+maxAB=1
+maxNA=1
 }
 
-let max = {
-ul:maxUL,
-ab:maxAB,
-na:maxNA
-}
+let max={ul:maxUL,ab:maxAB,na:maxNA}
 
-/* aktuellen Wert holen */
+let newValue=(s.sonderfahrten[type] || 0)+val
 
-let currentValue = s.sonderfahrten[type] || 0
+if(newValue<0) newValue=0
+if(newValue>max[type]) newValue=max[type]
 
-/* neuen Wert berechnen */
-
-let newValue = currentValue + val
-
-/* Deckelung */
-
-if(newValue < 0) newValue = 0
-if(newValue > max[type]) newValue = max[type]
-
-/* speichern */
-
-s.sonderfahrten[type] = newValue
+s.sonderfahrten[type]=newValue
 
 saveDB()
 
-/* Anzeige aktualisieren */
-
 updateProgress()
 renderGesamtProgress()
+
+}
+
+function updateProgress(){
+
+let s=students[current]
+if(!s) return
+
+document.getElementById("ueberlandCount").innerText=s.sonderfahrten.ul
+document.getElementById("autobahnCount").innerText=s.sonderfahrten.ab
+document.getElementById("nachtCount").innerText=s.sonderfahrten.na
+
+}
+
+/* =============================
+   GPS TRACKING
+============================= */
+
+function startTracking(){
+
+route=[]
+startTime=Date.now()
+
+watchId=navigator.geolocation.watchPosition(pos=>{
+
+route.push({
+lat:pos.coords.latitude,
+lng:pos.coords.longitude
+})
+
+},{enableHighAccuracy:true})
+
+}
+
+function stopTracking(){
+
+if(watchId){
+navigator.geolocation.clearWatch(watchId)
+watchId=null
+}
+
+}
+
+/* =============================
+   DISTANZ
+============================= */
+
+function calcDistance(route){
+
+let distance=0
+
+for(let i=1;i<route.length;i++){
+
+let a=route[i-1]
+let b=route[i]
+
+let R=6371
+
+let dLat=(b.lat-a.lat)*Math.PI/180
+let dLon=(b.lng-a.lng)*Math.PI/180
+
+let lat1=a.lat*Math.PI/180
+let lat2=b.lat*Math.PI/180
+
+let x=
+Math.sin(dLat/2)**2+
+Math.sin(dLon/2)**2*Math.cos(lat1)*Math.cos(lat2)
+
+let c=2*Math.atan2(Math.sqrt(x),Math.sqrt(1-x))
+
+distance+=R*c
+
+}
+
+return distance
+
+}
+
+/* =============================
+   FAHRT SPEICHERN
+============================= */
+
+function saveFahrt(){
+
+let s=students[current]
+if(!s) return
+
+let endTime=Date.now()
+
+let duration=Math.round((endTime-startTime)/60000)
+let distance=calcDistance(route).toFixed(2)
+
+let fahrt={
+datum:new Date().toISOString().split("T")[0],
+titel:document.getElementById("fahrtTitel").value,
+notiz:document.getElementById("fahrtNotiz").value,
+dauer:duration,
+strecke:distance,
+route:route
+}
+
+s.fahrten.push(fahrt)
+
+saveDB()
+
+renderFahrten()
+
+}
+
+/* =============================
+   FAHRTEN ANZEIGEN
+============================= */
+
+function renderFahrten(){
+
+let s=students[current]
+const container=document.getElementById("fahrtenListe")
+
+if(!container) return
+
+container.innerHTML=""
+
+s.fahrten
+.sort((a,b)=>new Date(b.datum)-new Date(a.datum))
+.forEach((f,i)=>{
+
+let div=document.createElement("div")
+
+div.innerHTML=`
+<b>${f.datum}</b> ${f.titel}<br>
+Dauer: ${f.dauer} min<br>
+Strecke: ${f.strecke} km<br>
+${f.notiz}
+<div id="map${i}" style="height:200px;margin-top:10px"></div>
+`
+
+container.appendChild(div)
+
+/* Karte */
+
+if(f.route && f.route.length>0){
+
+let map=L.map("map"+i).setView([f.route[0].lat,f.route[0].lng],13)
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+maxZoom:19
+}).addTo(map)
+
+let latlngs=f.route.map(p=>[p.lat,p.lng])
+
+L.polyline(latlngs,{color:'blue'}).addTo(map)
+
+}
+
+})
 
 }
 
@@ -376,16 +494,13 @@ renderGesamtProgress()
 ============================= */
 
 function openAdd(){
-
 editMode=false
 document.getElementById("addPanel").classList.remove("hidden")
-
 }
 
 function editStudent(){
 
 let s=students[current]
-
 editMode=true
 
 document.getElementById("addPanel").classList.remove("hidden")
@@ -405,9 +520,7 @@ document.getElementById("pruefungPraxis").value=s.pruefungPraxis || ""
 }
 
 function closeAdd(){
-
 document.getElementById("addPanel").classList.add("hidden")
-
 }
 
 function saveStudent(){
@@ -437,7 +550,8 @@ students[current]={...students[current],...data}
 students.push({
 ...data,
 sonderfahrten:{ul:0,ab:0,na:0},
-checkboxes:{}
+checkboxes:{},
+fahrten:[]
 })
 
 }
