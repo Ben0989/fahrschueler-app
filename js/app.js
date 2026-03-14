@@ -1,4 +1,3 @@
-
 let students = JSON.parse(localStorage.getItem("students") || "[]")
 if(!Array.isArray(students)) students=[]
 
@@ -9,7 +8,9 @@ function saveDB(){
 localStorage.setItem("students",JSON.stringify(students))
 }
 
-/* LISTE */
+/* =============================
+   LISTE
+============================= */
 
 function renderList(){
 
@@ -35,7 +36,9 @@ list.appendChild(div)
 
 renderList()
 
-/* SCHÜLER ÖFFNEN */
+/* =============================
+   SCHÜLER ÖFFNEN
+============================= */
 
 function openStudent(i){
 
@@ -63,12 +66,15 @@ document.getElementById("info").innerHTML=`
 renderDiagram()
 loadDiagram()
 updateProgress()
+renderProgress()
 
 showTab("info")
 
 }
 
-/* TABS */
+/* =============================
+   TABS
+============================= */
 
 function showTab(tab){
 
@@ -80,7 +86,9 @@ document.getElementById(tab).classList.remove("hidden")
 
 }
 
-/* DIAGRAMM */
+/* =============================
+   DIAGRAMM
+============================= */
 
 function renderDiagram(){
 
@@ -113,10 +121,13 @@ cb.dataset.field=field
 cb.addEventListener("change",()=>{
 
 if(!students[current].checkboxes)
-students[current].checkboxes = {}
+students[current].checkboxes={}
 
 students[current].checkboxes[field]=cb.checked
+
 saveDB()
+
+renderProgress()
 
 })
 
@@ -146,7 +157,54 @@ cb.checked=students[current].checkboxes?.[field] || false
 
 }
 
-/* SONDERFAHRTEN */
+/* =============================
+   FORTSCHRITT BERECHNEN
+============================= */
+
+function renderProgress(){
+
+let s=students[current]
+
+const container=document.getElementById("progressContainer")
+
+if(!container) return
+
+container.innerHTML=""
+
+Object.keys(DIAGRAMM).forEach(section=>{
+
+let fields=DIAGRAMM[section]
+
+let done=0
+
+fields.forEach(f=>{
+if(s.checkboxes && s.checkboxes[f]) done++
+})
+
+let percent=Math.round((done/fields.length)*100)
+
+let block=document.createElement("div")
+block.className="progressBlock"
+
+block.innerHTML=`
+<div class="progressTitle">
+${section} (${done}/${fields.length})
+</div>
+
+<div class="progressBar">
+<div class="progressFill" style="width:${percent}%"></div>
+</div>
+`
+
+container.appendChild(block)
+
+})
+
+}
+
+/* =============================
+   SONDERFAHRTEN
+============================= */
 
 function changeDrive(type,val){
 
@@ -157,6 +215,7 @@ s.sonderfahrten[type]+=val
 if(s.sonderfahrten[type]<0) s.sonderfahrten[type]=0
 
 saveDB()
+
 updateProgress()
 
 }
@@ -173,7 +232,9 @@ document.getElementById("nachtCount").innerText=s.sonderfahrten.na
 
 }
 
-/* FORMULAR */
+/* =============================
+   FORMULAR
+============================= */
 
 function openAdd(){
 
