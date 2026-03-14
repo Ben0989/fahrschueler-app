@@ -1,126 +1,102 @@
 const DIAGRAMM = {
-  "Grundstufe": [
-    "Besonderheiten beim Einsteigen",
-    "Sitz einstellen",
-    "Spiegel einstellen",
-    "Lenkrad einstellen",
-    "Kopfstütze einstellen",
-    "Lenkradhaltung",
-    "Pedale",
-    "Gurt anlegen / anpassen",
-    "Motor anlassen",
-    "Anfahr-/Anhalteübungen",
-  "Schaltübungen": [
-    "hoch": [
-    "1-2",
-    "2-3",
-    "3-4", 
-    ],
-    "runter": [
-     "4-3",
-     "3-2",
-     "2-1",
-    ],
-  "Lenkübungen",
-  ],
-  "Aufbaustufe": [
-    "Rollen und Schalten",
-    "Abbremsen und Schalten",
-    "Bremsübung degressiv",
-    "Bremsübung Zielbremsung",
-    "Bremsübung Gefahrsituationen"
-   "Gefälle": [
-    "Anhalten",
-    "Anfahren",
-    "Rückwärts",
-    "Sichern",
-    "Schalten",
-    ],
-    "Steigung": [
-     "Anhalten",
-     "Anfahren",
-     "Rückwärts",
-     "Sichern",
-     "Schalten",
-    ]]
-    "Tastgeschwindigkeit",
-    "Bedienungs- und Kontrolleinrichtungen",
-    "Örtliche Besonderheiten"
-  ],
-  "Leistungsstufe": [
-    "Fahrbahnbenutzung": [
-     "Einordnen",
-     "Makierungen",
-    ],
-    "Fahrstreifenwechsel links",
-    "Fahrstreifenwechsel rechts",
-    "Vorbeifahren/Überholen",
-    "Abbiegen rechts",
-    "Abbiegen links",
-    "Abbiegen mehrspurig",
-    "Radweg",
-    "Straßenbahn",
-    "Sonderfahrstreifen",
-    "Einbahnstraße",
-    "Vorfahrt": [
-     "rechts vor links",
-     "Polizeibeamte",
-     "Grünpfeil",
-     "Grünpfeil-Schild",
-    ],
-    "Geschwindigkeit/Abstand",
-    "Situationen mit anderen Vekehrsteilnehmern": [
-      "Fußgängerüberwege",
-      "Öffentl. Verkehrsmittel",
-      "Ältere/Behinderte",
-      "Einbahnstr./Radfahrer",
-      "Kinder",
-      "Schulbus",
-      "Radfahrer/Mofa",
-      "Verk.-beruh. Bereich",
-      ],
-    "Schwierige Verkehrsführung",
-    "Engpass",
-    "Kreisverkehr",
-    "Bahnübergang (warten)",
-    "Kritische Verkehrssituation": [
-      "Hauptverkehrszeiten",
-      "Part. Verhalten (Kommu. Verzicht auf Vorfahrt)",
-      "Schwung nutzen",
-    ],
-    "Fußgänger Schutzbereich",
-  ],
-  "Grundfahraufgaben": [
-    "Rückwärtsfahren",
-    "Umkehren",
-    "Gefahrenbremsung",
-    "Einparken längs": [
-    "Vorwärts": [
-    "Links",
-    "Rechts",
-    ],
-    "Rückwärts": [
-    "Links",
-    "Rechts",
-    ]]
 
-    "Einparken quer",
-     "Vorwärts": [
-      "Links",
-      "Rechts",
-      ],
-    "Rückwärts": [
-     "Links",
-     "Rechts",
-    ]]
-  ],
-  
-"Überland": [
-"Angepasste Geschwindigkeit/Gangwahl",
+"Grundstufe":[
+"Besonderheiten beim Einsteigen",
+"Sitz einstellen",
+"Spiegel einstellen",
+"Lenkrad einstellen",
+"Kopfstütze einstellen",
+"Lenkradhaltung",
+"Pedale",
+"Gurt anlegen / anpassen",
+"Motor anlassen",
+"Anfahr-/Anhalteübungen",
+"Schaltübungen hoch 1-2",
+"Schaltübungen hoch 2-3",
+"Schaltübungen hoch 3-4",
+"Schaltübungen runter 4-3",
+"Schaltübungen runter 3-2",
+"Schaltübungen runter 2-1",
+"Lenkübungen"
+],
+
+"Aufbaustufe":[
+"Rollen und Schalten",
+"Abbremsen und Schalten",
+"Bremsübung degressiv",
+"Bremsübung Zielbremsung",
+"Bremsübung Gefahrsituationen",
+"Gefälle Anhalten",
+"Gefälle Anfahren",
+"Gefälle Rückwärts",
+"Gefälle Sichern",
+"Gefälle Schalten",
+"Steigung Anhalten",
+"Steigung Anfahren",
+"Steigung Rückwärts",
+"Steigung Sichern",
+"Steigung Schalten",
+"Tastgeschwindigkeit",
+"Bedienungs- und Kontrolleinrichtungen",
+"Örtliche Besonderheiten"
+],
+
+"Leistungsstufe":[
+"Einordnen",
+"Markierungen",
+"Fahrstreifenwechsel links",
+"Fahrstreifenwechsel rechts",
+"Vorbeifahren / Überholen",
+"Abbiegen rechts",
+"Abbiegen links",
+"Abbiegen mehrspurig",
+"Radweg",
+"Straßenbahn",
+"Sonderfahrstreifen",
+"Einbahnstraße",
+"Vorfahrt rechts vor links",
+"Vorfahrt Polizeibeamte",
+"Vorfahrt Grünpfeil",
+"Vorfahrt Grünpfeil-Schild",
+"Geschwindigkeit / Abstand",
+"Fußgängerüberwege",
+"Öffentliche Verkehrsmittel",
+"Ältere / Behinderte",
+"Einbahnstraße / Radfahrer",
+"Kinder",
+"Schulbus",
+"Radfahrer / Mofa",
+"Verkehrsberuhigter Bereich",
+"Schwierige Verkehrsführung",
+"Engpass",
+"Kreisverkehr",
+"Bahnübergang warten",
+"Hauptverkehrszeiten",
+"Partnerschaftliches Verhalten",
+"Schwung nutzen",
+"Fußgänger Schutzbereich"
+],
+
+"Grundfahraufgaben":[
+"Rückwärtsfahren",
+"Umkehren",
+"Gefahrenbremsung",
+"Einparken längs vorwärts links",
+"Einparken längs vorwärts rechts",
+"Einparken längs rückwärts links",
+"Einparken längs rückwärts rechts",
+"Einparken quer vorwärts links",
+"Einparken quer vorwärts rechts",
+"Einparken quer rückwärts links",
+"Einparken quer rückwärts rechts"
+],
+
+"Überland":[
+"Angepasste Geschwindigkeit / Gangwahl",
 "Abstand vorne",
 "Abstand hinten",
 "Abstand seitlich",
-"Beobachtung/Spiegel",
+"Beobachtung / Spiegel",
 "Verkehrszeichen",
 "Kreuzungen / Einmündungen",
 "Kurven",
@@ -128,20 +104,16 @@ const DIAGRAMM = {
 "Gefälle",
 "Alleen",
 "Überholen",
-"Besondere Situationen": [
- "Liegenbleiben u Absichern",
- "Einfahren in Ortschaften",
- "Fußgänger",
- "Wild / Tiere",
-],
-"Besondere Anforderungen": [
-  "Leistungsgrenze",
-  "Ablenkung (z.B. Radio)",
-  "Orientierung",
-]
+"Liegenbleiben und Absichern",
+"Einfahren in Ortschaften",
+"Fußgänger",
+"Wild / Tiere",
+"Leistungsgrenze",
+"Ablenkung",
+"Orientierung"
 ],
 
-"Autobahn": [
+"Autobahn":[
 "Fahrtplanung",
 "Einfahren in BAB",
 "Fahrstreifenwahl",
@@ -151,138 +123,108 @@ const DIAGRAMM = {
 "Abstand seitlich",
 "Überholen",
 "Schilder / Markierungen",
-"Vorbeifahren/Anschlussstellen",
-"Rast-, Parkplätze, Tankstellen",
+"Vorbeifahren Anschlussstellen",
+"Rastplätze / Tankstellen",
 "Verhalten bei Unfällen",
-"Dichter Verkehr/Stau",
-"Besondere Situationen",
-"Besondere Anforderungen": [
- "Leistungsgrenze",
- "Ablenkung",
- "Konfliktsituationen",
-],
-"Verlassen der BAB",
+"Dichter Verkehr / Stau",
+"Leistungsgrenze",
+"Ablenkung",
+"Konfliktsituationen",
+"Verlassen der BAB"
 ],
 
-"Dunkelheit": [
-"Beleuchtung": [ 
- "Kontrolle",
- "Einstellen",
- "Benutzung",
- "Fernlicht",
-],
+"Dunkelheit":[
+"Beleuchtung Kontrolle",
+"Beleuchtung Einstellen",
+"Beleuchtung Benutzung",
+"Fernlicht",
 "Beleuchtete Straßen",
 "Unbeleuchtete Straßen",
 "Parken",
-"Besondere Situationen": [
-  "Schlechte Witterung",
-  "Bahnübergänge",
-  "Tiere",
-  "unbeleuchtete Verkehrsteilnehmer",
-  ],
-"Besondere Anforderungen": [
-  "Blendung",
-  "Orientierung",
-  ],
-"Abschlussbesprechung",
+"Schlechte Witterung",
+"Bahnübergänge",
+"Tiere",
+"Unbeleuchtete Verkehrsteilnehmer",
+"Blendung",
+"Orientierung",
+"Abschlussbesprechung"
 ],
 
-"ReifeTest": [
+"Reife-, Teststufe":[
 "Selbstständiges Fahren innerorts",
 "Selbstständiges Fahren außerorts",
 "Verantwortungsbewusstes Fahren",
-"Testfahrt unter Prüfungsbedingungen": [
-  "FAKT",
-  "andere",
-  ],
-"Wiederholung/Vertiefung",
-"Leistungsbewertung",
+"Testfahrt Prüfungsbedingungen FAKT",
+"Testfahrt Prüfungsbedingungen andere",
+"Wiederholung / Vertiefung",
+"Leistungsbewertung"
 ],
 
-"SituativeBausteine": [
-"Reifen": [
-  "Beschädigung",
-  "Profiltiefe",
-  "Reifendruck",
-  ],
-"Scheinwerfer, Leuchten, Blinker, Hupe": [
-  "Einschalten",
-  "Ausschalten",
-  ],
-"Funktion prüfen": [
-  "Standlicht",
-  "Abblendlicht",
-  "Fernlicht",
-  "Schlussleuchten m. Kennzeichenbeleuchtung",
-  "Nebelschlussleuchte",
-  "Warnblinkanlage"
-  "Blinker",
-  "Hupe",
-  "Bremsleuchte",
-],
+"Situative Bausteine":[
+"Reifen Beschädigung",
+"Reifen Profiltiefe",
+"Reifen Reifendruck",
+"Scheinwerfer Einschalten",
+"Scheinwerfer Ausschalten",
+"Standlicht",
+"Abblendlicht",
+"Fernlicht",
+"Schlussleuchten mit Kennzeichenbeleuchtung",
+"Nebelschlussleuchte",
+"Warnblinkanlage",
+"Blinker",
+"Hupe",
+"Bremsleuchte",
 "Kontrollleuchten benennen",
-"Rückstrahler Vorhanden",
+"Rückstrahler vorhanden",
 "Rückstrahler beschädigt",
-"Lenkung": [
-  "Lenkschloss entriegeln",
-  "überprüfen des Lenkspiels",
+"Lenkschloss entriegeln",
+"Lenkspiel prüfen",
+"Betriebsbremse",
+"Feststellbremse"
 ],
-"Funtionsprüfung der Bremsen": [
-  "Betriebsbremse",
-  "Feststellbremse",
+
+"Fahrerassistenzsysteme":[
+"Einschalten",
+"Ausschalten",
+"Anwenden"
 ],
+
+"Heizung und Lüftung":[
+"Heizung",
+"Lüftung",
+"Klimaanlage",
+"Heckscheibenheizung",
+"Sonderausstattung",
+"Keine unnötigen Verbraucher",
+"Rechtzeitiges Abschalten"
 ],
-"Fahrassistenzsysteme": [
-  "Einschaten",
-  "Ausschalten",
-  "Anwenden",
-  ],
-],
-"Heizung und Lüftung": [
-"Bedienen der Aggregate": [
-  "Heizung",
-  "Lüftung",
-  "Klimaanlage",
-  "Heckscheibenheizung",
-  "Beheizte Sonderausstattung",
-],
-"Energiesparende Nutzung" [
-  "Keine unnötigen Verbraucher",
-  "Rechtzeituges Abschalten",
-],
-],
-"Betriebs- und Verkehrssicherheit": [
+
+"Betriebs- und Verkehrssicherheit":[
 "Motoröl",
 "Kühlmittel",
 "Scheibenwaschflüssigkeit",
 "Warndreieck",
 "Verbandskasten",
 "Bordwerkzeug",
-"Zustzliche Ausrüstung",
-"Tanken": [
-  "Warndreieck",
-  "Boardwerkzeug",
-  "Verbandskasten",
-  "zusätzliche Ausrüstung",
-  ],
-  "Aussenkontrolle (Schäden, Sauberkeit)": [
-    "Scheiben/Wischer",
-    "Spiegel",
-    "Kennzeichen (HU)",
-    "Beleuhtung",
-  ],
+"Zusätzliche Ausrüstung",
+"Scheiben / Wischer",
+"Spiegel",
+"Kennzeichen",
+"Beleuchtung",
 "Bremsen",
 "Ladungssicherung",
-"Ldungskennzeichnung",
+"Ladungskennzeichnung"
 ],
 
-"Witterung": [
+"Witterung":[
 "Lüftung",
-"Scheibenwischer/-wasser",
-"Regen, Sprühnebel",
-"Wasserlachen/Aquaplaning",
-"Wind, Sturm, Böen",
-"Schnee und Matsch",
-"Eis",
+"Scheibenwischer / Wasser",
+"Regen / Sprühnebel",
+"Aquaplaning",
+"Wind / Sturm / Böen",
+"Schnee / Matsch",
+"Eis"
 ]
-};
+
+}
