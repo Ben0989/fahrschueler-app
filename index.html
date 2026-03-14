@@ -1,26 +1,19 @@
 
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Fahrschüler App</title>
 <link rel="stylesheet" href="style.css">
-<link rel="manifest" href="manifest.webmanifest">
-<meta name="theme-color" content="#0f172a">
-<link rel="icon" href="icons/icon-192.png">
 </head>
 
 <body>
 
 <header>
 <h1>Fahrschüler</h1>
-
-<div class="headerButtons">
-<button onclick="backupData()">Backup</button>
 <button onclick="openAdd()">+</button>
-</div>
-
 </header>
 
 <input id="search" placeholder="Fahrschüler suchen">
@@ -40,39 +33,29 @@
 <div id="info" class="tab"></div>
 
 <div id="fahrten" class="tab hidden">
-
 <h3>Neue Fahrstunde</h3>
-
-<input id="fahrtTitel" placeholder="Titel der Fahrstunde">
+<input id="fahrtTitel" placeholder="Titel">
 <textarea id="fahrtNotiz" placeholder="Notiz"></textarea>
-
 <button onclick="saveFahrt()">Fahrt speichern</button>
-
 </div>
 
 <div id="status" class="tab hidden">
 
 <h3>Sonderfahrten</h3>
 
-<div class="fahrt">
-
 Überland
 <button onclick="changeDrive('ul',-1)">-</button>
 <span id="ueberlandCount">0</span>
 <button onclick="changeDrive('ul',1)">+</button>
 
-</div>
-
-<div class="fahrt">
+<br><br>
 
 Autobahn
 <button onclick="changeDrive('ab',-1)">-</button>
 <span id="autobahnCount">0</span>
 <button onclick="changeDrive('ab',1)">+</button>
 
-</div>
-
-<div class="fahrt">
+<br><br>
 
 Nacht
 <button onclick="changeDrive('na',-1)">-</button>
@@ -83,7 +66,6 @@ Nacht
 
 </div>
 
-</div>
 
 <div id="addPanel" class="hidden panel">
 
@@ -98,6 +80,21 @@ Nacht
 <option>L</option>
 </select>
 
+<input id="telefon" placeholder="Telefon">
+<input id="adresse" placeholder="Adresse">
+<input id="vorbesitz" placeholder="Vorbesitz">
+
+<label>Start Ausbildung</label>
+<input id="startAusbildung" type="date">
+
+<label>Prüfung Theorie</label>
+<input id="pruefungTheorie" type="date">
+
+<label>Prüfung Praxis</label>
+<input id="pruefungPraxis" type="date">
+
+<br><br>
+
 <button onclick="saveStudent()">Speichern</button>
 <button onclick="closeAdd()">Abbrechen</button>
 
@@ -108,12 +105,6 @@ Nacht
 <script src="js/sonderfahrten.js"></script>
 <script src="js/fahrten.js"></script>
 <script src="js/backup.js"></script>
-
-<script>
-if ("serviceWorker" in navigator) {
- navigator.serviceWorker.register("sw.js")
-}
-</script>
 
 </body>
 </html>

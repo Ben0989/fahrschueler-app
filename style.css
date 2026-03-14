@@ -10,13 +10,7 @@ background:#1f2937;
 color:white;
 padding:10px;
 display:flex;
-align-items:center;
-}
-
-.headerButtons{
-margin-left:auto;
-display:flex;
-gap:10px;
+justify-content:space-between;
 }
 
 .panel{
@@ -40,8 +34,4 @@ cursor:pointer;
 
 .tabs button{
 margin-right:5px;
-}
-
-.fahrt{
-margin:8px 0;
 }
