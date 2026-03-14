@@ -112,6 +112,9 @@ cb.dataset.field=field
 
 cb.addEventListener("change",()=>{
 
+if(!students[current].checkboxes)
+students[current].checkboxes = {}
+
 students[current].checkboxes[field]=cb.checked
 saveDB()
 
