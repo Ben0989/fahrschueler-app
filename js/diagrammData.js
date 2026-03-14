@@ -9,19 +9,19 @@ const DIAGRAMM = {
     "Pedale",
     "Gurt anlegen / anpassen",
     "Motor anlassen",
-    "Anfahr-/Anhalteübungen"
+    "Anfahr-/Anhalteübungen",
   "Schaltübungen": [
     "hoch": [
     "1-2",
-    "2-3"
-    "3-4" 
-    ]
+    "2-3",
+    "3-4", 
+    ],
     "runter": [
      "4-3",
      "3-2",
-     "2-1"
-    ]
-  "Lenkübungen"
+     "2-1",
+    ],
+  "Lenkübungen",
   ],
   "Aufbaustufe": [
     "Rollen und Schalten",
@@ -34,14 +34,14 @@ const DIAGRAMM = {
     "Anfahren",
     "Rückwärts",
     "Sichern",
-    "Schalten"
-    ]
+    "Schalten",
+    ],
     "Steigung": [
      "Anhalten",
      "Anfahren",
      "Rückwärts",
      "Sichern",
-     "Schalten"
+     "Schalten",
     ]]
     "Tastgeschwindigkeit",
     "Bedienungs- und Kontrolleinrichtungen",
@@ -50,8 +50,8 @@ const DIAGRAMM = {
   "Leistungsstufe": [
     "Fahrbahnbenutzung": [
      "Einordnen",
-     "Makierungen"
-    ]
+     "Makierungen",
+    ],
     "Fahrstreifenwechsel links",
     "Fahrstreifenwechsel rechts",
     "Vorbeifahren/Überholen",
@@ -61,14 +61,14 @@ const DIAGRAMM = {
     "Radweg",
     "Straßenbahn",
     "Sonderfahrstreifen",
-    "Einbahnstraße"
+    "Einbahnstraße",
     "Vorfahrt": [
      "rechts vor links",
      "Polizeibeamte",
      "Grünpfeil",
-     "Grünpfeil-Schild"
-    ]
-    "Geschwindigkeit/Abstand"
+     "Grünpfeil-Schild",
+    ],
+    "Geschwindigkeit/Abstand",
     "Situationen mit anderen Vekehrsteilnehmern": [
       "Fußgängerüberwege",
       "Öffentl. Verkehrsmittel",
@@ -77,41 +77,41 @@ const DIAGRAMM = {
       "Kinder",
       "Schulbus",
       "Radfahrer/Mofa",
-      "Verk.-beruh. Bereich"
-      ]
+      "Verk.-beruh. Bereich",
+      ],
     "Schwierige Verkehrsführung",
     "Engpass",
     "Kreisverkehr",
-    "Bahnübergang (warten)"
+    "Bahnübergang (warten)",
     "Kritische Verkehrssituation": [
       "Hauptverkehrszeiten",
-      "Part. Verhalten (Kommu., Verzicht auf Vorfahrt),
-      "Schwung nutzen"
-    ]
-    "Fußgänger Schutzbereich"
+      "Part. Verhalten (Kommu. Verzicht auf Vorfahrt)",
+      "Schwung nutzen",
+    ],
+    "Fußgänger Schutzbereich",
   ],
   "Grundfahraufgaben": [
     "Rückwärtsfahren",
     "Umkehren",
-    "Gefahrenbremsung"
+    "Gefahrenbremsung",
     "Einparken längs": [
     "Vorwärts": [
     "Links",
-    "Rechts"
-    ]
+    "Rechts",
+    ],
     "Rückwärts": [
     "Links",
-    "Rechts"
+    "Rechts",
     ]]
 
-    "Einparken quer"
+    "Einparken quer",
      "Vorwärts": [
       "Links",
-      "Rechts"
-      ]
+      "Rechts",
+      ],
     "Rückwärts": [
      "Links",
-     "Rechts"
+     "Rechts",
     ]]
   ],
   
@@ -127,17 +127,17 @@ const DIAGRAMM = {
 "Steigungen",
 "Gefälle",
 "Alleen",
-"Überholen"
-"Besondere Situationen: [
- "Liegenbleiben u Absichern"
+"Überholen",
+"Besondere Situationen": [
+ "Liegenbleiben u Absichern",
  "Einfahren in Ortschaften",
  "Fußgänger",
- "Wild / Tiere"
-]
+ "Wild / Tiere",
+],
 "Besondere Anforderungen": [
   "Leistungsgrenze",
   "Ablenkung (z.B. Radio)",
-  "Orientierung"
+  "Orientierung",
 ]
 ],
 
@@ -155,13 +155,13 @@ const DIAGRAMM = {
 "Rast-, Parkplätze, Tankstellen",
 "Verhalten bei Unfällen",
 "Dichter Verkehr/Stau",
-"Besondere Situationen"
+"Besondere Situationen",
 "Besondere Anforderungen": [
  "Leistungsgrenze",
  "Ablenkung",
- "Konfliktsituationen"
-]
-"Verlassen der BAB"
+ "Konfliktsituationen",
+],
+"Verlassen der BAB",
 ],
 
 "Dunkelheit": [
@@ -169,22 +169,22 @@ const DIAGRAMM = {
  "Kontrolle",
  "Einstellen",
  "Benutzung",
- "Fernlicht"
-]
+ "Fernlicht",
+],
 "Beleuchtete Straßen",
 "Unbeleuchtete Straßen",
-"Parken"
+"Parken",
 "Besondere Situationen": [
   "Schlechte Witterung",
   "Bahnübergänge",
   "Tiere",
-  "unbeleuchtete Verkehrsteilnehmer"
-  ]
+  "unbeleuchtete Verkehrsteilnehmer",
+  ],
 "Besondere Anforderungen": [
   "Blendung",
-  "Orientierung"
-  ]
-"Abschlussbesprechung"
+  "Orientierung",
+  ],
+"Abschlussbesprechung",
 ],
 
 "ReifeTest": [
@@ -193,22 +193,22 @@ const DIAGRAMM = {
 "Verantwortungsbewusstes Fahren",
 "Testfahrt unter Prüfungsbedingungen": [
   "FAKT",
-  "andere"
-  ]
+  "andere",
+  ],
 "Wiederholung/Vertiefung",
-"Leistungsbewertung"
+"Leistungsbewertung",
 ],
 
 "SituativeBausteine": [
 "Reifen": [
   "Beschädigung",
   "Profiltiefe",
-  "Reifendruck"
-  ]
+  "Reifendruck",
+  ],
 "Scheinwerfer, Leuchten, Blinker, Hupe": [
   "Einschalten",
-  "Ausschalten"
-  ]
+  "Ausschalten",
+  ],
 "Funktion prüfen": [
   "Standlicht",
   "Abblendlicht",
@@ -218,25 +218,25 @@ const DIAGRAMM = {
   "Warnblinkanlage"
   "Blinker",
   "Hupe",
-  "Bremsleuchte"
-]
+  "Bremsleuchte",
+],
 "Kontrollleuchten benennen",
 "Rückstrahler Vorhanden",
 "Rückstrahler beschädigt",
 "Lenkung": [
   "Lenkschloss entriegeln",
-  "überprüfen des Lenkspiels"
-]
+  "überprüfen des Lenkspiels",
+],
 "Funtionsprüfung der Bremsen": [
   "Betriebsbremse",
-  "Feststellbremse"
-]
+  "Feststellbremse",
+],
 ],
 "Fahrassistenzsysteme": [
   "Einschaten",
   "Ausschalten",
-  "Anwenden"
-  ]
+  "Anwenden",
+  ],
 ],
 "Heizung und Lüftung": [
 "Bedienen der Aggregate": [
@@ -244,12 +244,12 @@ const DIAGRAMM = {
   "Lüftung",
   "Klimaanlage",
   "Heckscheibenheizung",
-  "Beheizte Sonderausstattung"
-]
+  "Beheizte Sonderausstattung",
+],
 "Energiesparende Nutzung" [
   "Keine unnötigen Verbraucher",
-  "Rechtzeituges Abschalten"
-]
+  "Rechtzeituges Abschalten",
+],
 ],
 "Betriebs- und Verkehrssicherheit": [
 "Motoröl",
@@ -263,17 +263,17 @@ const DIAGRAMM = {
   "Warndreieck",
   "Boardwerkzeug",
   "Verbandskasten",
-  "zusätzliche Ausrüstung"
-  ]
+  "zusätzliche Ausrüstung",
+  ],
   "Aussenkontrolle (Schäden, Sauberkeit)": [
     "Scheiben/Wischer",
     "Spiegel",
     "Kennzeichen (HU)",
-    "Beleuhtung"
-  ]
+    "Beleuhtung",
+  ],
 "Bremsen",
 "Ladungssicherung",
-"Ldungskennzeichnung"
+"Ldungskennzeichnung",
 ],
 
 "Witterung": [
@@ -283,6 +283,6 @@ const DIAGRAMM = {
 "Wasserlachen/Aquaplaning",
 "Wind, Sturm, Böen",
 "Schnee und Matsch",
-"Eis"
+"Eis",
 ]
 };
