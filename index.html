@@ -145,16 +145,16 @@ BEOBACHTUNGSBÖGEN
 <h2>Beobachtungsbögen</h2>
 
 <div class="tabs">
-<button onclick="showTab('beratung')">Beratung</button>
-<button onclick="showTab('theorie')">Theorie</button>
-<button onclick="showTab('praxis')">Praxis</button>
+<button onclick="showSubTab('beratung')">Beratung</button>
+<button onclick="showSubTab('theorie')">Theorie</button>
+<button onclick="showSubTab('praxis')">Praxis</button>
 </div>
 
 <!-- =============================
 BERATUNG
 ============================= -->
 
-<div id="beratung" class="tab hidden">
+<div id="beratung" class="subtab hidden">
 
 <h3>Beobachtung – Beratungsgespräch</h3>
 
@@ -190,7 +190,7 @@ BERATUNG
 THEORIE
 ============================= -->
 
-<div id="theorie" class="tab hidden">
+<div id="theorie" class="subtab hidden">
 
 <h3>Beobachtung – Theorieunterricht</h3>
 
@@ -247,7 +247,7 @@ THEORIE
 PRAXIS
 ============================= -->
 
-<div id="praxis" class="tab hidden">
+<div id="praxis" class="subtab hidden">
 
 <h3>Beobachtung – Praktische Ausbildung</h3>
 
@@ -270,12 +270,6 @@ PRAXIS
 
 <label>Notizen</label>
 <textarea id="p_notizen"></textarea>
-
-<h4>GPS Tracking</h4>
-
-<button onclick="toggleGPS()">Tracking starten / stoppen</button>
-
-<div id="gpsMap" style="height:300px;margin-top:10px"></div>
 
 <button onclick="savePraxis()">Praxis speichern</button>
 
