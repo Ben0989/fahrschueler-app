@@ -95,6 +95,20 @@ document.getElementById(tab).classList.remove("hidden")
 }
 
 /* =============================
+   SUB TABS (BEOBACHTUNGSBÖGEN)
+============================= */
+
+function showSubTab(tab){
+
+document.querySelectorAll(".subtab").forEach(t=>{
+t.classList.add("hidden")
+})
+
+document.getElementById(tab).classList.remove("hidden")
+
+}
+
+/* =============================
    DIAGRAMM
 ============================= */
 
