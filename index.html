@@ -1,58 +1,149 @@
-
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
 <title>Fahrschüler App</title>
+
 <link rel="stylesheet" href="style.css">
+
 </head>
 
 <body>
 
+
 <header>
+
 <h1>Fahrschüler</h1>
+
 <button onclick="openAdd()">+</button>
+
 </header>
 
+
 <div id="studentList"></div>
+
+
 
 <div id="studentPanel" class="hidden panel">
 
 <h2 id="studentTitle"></h2>
 
+
+
 <div class="tabs">
+
 <button onclick="showTab('info')">Infos</button>
-<button onclick="showTab('diagramm')">Diagrammkarte</button>
-<button onclick="showTab('status')">Ausbildungsstand</button>
+
+<button onclick="showTab('diagramm')">
+Diagrammkarte
+</button>
+
+<button onclick="showTab('fahrten')">
+Fahrtprotokoll
+</button>
+
+<button onclick="showTab('status')">
+Ausbildungsstand
+</button>
+
+<button onclick="showTab('boegen')">
+Beobachtungsbögen
+</button>
+
 </div>
+
+
+
+<!-- =============================
+     INFOS
+============================= -->
 
 <div id="info" class="tab"></div>
 
+
+
+<!-- =============================
+     DIAGRAMMKARTE
+============================= -->
+
 <div id="diagramm" class="tab hidden">
+
 <div id="diagramContainer"></div>
+
 </div>
 
+
+
+<!-- =============================
+     FAHRTPROTOKOLL
+============================= -->
+
+<div id="fahrten" class="tab hidden">
+
+<h3>Fahrtprotokoll</h3>
+
+<input id="fahrtTitel" placeholder="Titel der Fahrstunde">
+
+<textarea id="fahrtNotiz" placeholder="Notizen zur Fahrstunde"></textarea>
+
+<br>
+
+<button onclick="saveFahrt()">Fahrt speichern</button>
+
+<hr>
+
+<div id="fahrtenListe"></div>
+
+</div>
+
+
+
+<!-- =============================
+     AUSBILDUNGSSTAND
+============================= -->
+
 <div id="status" class="tab hidden">
-<h3>Sonderfahrten</h3>
+
+<h3>Besondere Ausbildungsfahrten</h3>
+
+
+<div class="fahrt">
 
 Überland
+
 <button onclick="changeDrive('ul',-1)">-</button>
+
 <span id="ueberlandCount">0</span>
+
 <button onclick="changeDrive('ul',1)">+</button>
 
-<br><br>
+</div>
+
+
+<div class="fahrt">
 
 Autobahn
+
 <button onclick="changeDrive('ab',-1)">-</button>
+
 <span id="autobahnCount">0</span>
+
 <button onclick="changeDrive('ab',1)">+</button>
 
-<br><br>
+</div>
+
+
+<div class="fahrt">
 
 Nacht
+
 <button onclick="changeDrive('na',-1)">-</button>
+
 <span id="nachtCount">0</span>
+
 <button onclick="changeDrive('na',1)">+</button>
 
 </div>
@@ -60,45 +151,105 @@ Nacht
 </div>
 
 
+
+<!-- =============================
+     BEOBACHTUNGSBÖGEN
+============================= -->
+
+<div id="boegen" class="tab hidden">
+
+<h3>Beobachtungsbögen</h3>
+
+<p>Hier können später die digitalen Bögen eingefügt werden:</p>
+
+<ul>
+<li>Beratungsgespräch</li>
+<li>Theorieunterricht</li>
+<li>Praktische Ausbildung</li>
+</ul>
+
+</div>
+
+
+
+</div>
+
+
+
+<!-- =============================
+     FAHRSCHÜLER ANLEGEN / BEARBEITEN
+============================= -->
+
 <div id="addPanel" class="hidden panel">
 
 <h2>Fahrschüler</h2>
 
+
 <input id="name" placeholder="Name">
+
 <input id="vorname" placeholder="Vorname">
 
+
 <select id="klasse">
+
 <option>B</option>
 <option>BE</option>
 <option>L</option>
+
 </select>
 
+
 <input id="telefon" placeholder="Telefon">
+
 <input id="adresse" placeholder="Adresse">
+
 <input id="vorbesitz" placeholder="Vorbesitz">
 
+
 <label>Start Ausbildung</label>
+
 <input id="startAusbildung" type="date">
 
+
 <label>Prüfung Theorie</label>
+
 <input id="pruefungTheorie" type="date">
 
+
 <label>Prüfung Praxis</label>
+
 <input id="pruefungPraxis" type="date">
+
 
 <br><br>
 
+
 <button onclick="saveStudent()">Speichern</button>
+
 <button onclick="closeAdd()">Abbrechen</button>
+
 
 </div>
 
+
+
+<!-- =============================
+     SCRIPTS
+============================= -->
+
 <script src="js/diagrammData.js"></script>
+
 <script src="js/app.js"></script>
+
 <script src="js/students.js"></script>
+
 <script src="js/sonderfahrten.js"></script>
+
 <script src="js/fahrten.js"></script>
+
 <script src="js/backup.js"></script>
 
+
 </body>
+
 </html>
