@@ -63,7 +63,6 @@ document.getElementById("info").innerHTML=`
 renderDiagram()
 loadDiagram()
 updateProgress()
-renderProgress()
 
 showTab("info")
 
@@ -118,7 +117,6 @@ students[current].checkboxes = {}
 
 students[current].checkboxes[field]=cb.checked
 saveDB()
-renderProgress()
 
 })
 
@@ -247,44 +245,5 @@ checkboxes:{}
 saveDB()
 closeAdd()
 renderList()
-
-}
-
-
-/* FORTSCHRITT */
-
-function renderProgress(){
-
-let s = students[current]
-if(!s) return
-
-let container=document.getElementById("progressContainer")
-if(!container) return
-
-container.innerHTML=""
-
-Object.keys(DIAGRAMM).forEach(section=>{
-
-let fields=DIAGRAMM[section]
-let done=0
-
-fields.forEach(f=>{
-if(s.checkboxes && s.checkboxes[f]) done++
-})
-
-let percent=Math.round((done/fields.length)*100)
-
-let block=document.createElement("div")
-block.className="progressBlock"
-
-block.innerHTML=`
-<div class="progressTitle">${section} (${done}/${fields.length})</div>
-<div class="progressBar">
-<div class="progressFill" style="width:${percent}%"></div>
-</div>`
-
-container.appendChild(block)
-
-})
 
 }
