@@ -232,8 +232,39 @@ if(s.checkboxes && s.checkboxes[f]) done++
 
 let percent=Math.round((done/total)*100)
 
-document.getElementById("gesamtProgress").innerText=
-"Ausbildung abgeschlossen: "+percent+"%"
+document.getElementById("gesamtProgress").innerText =
+"Ausbildung abgeschlossen: " + percent + "%"
+
+/* =============================
+   AUSBILDUNGS AMPEL
+============================= */
+
+let ampel = document.getElementById("ausbildungsAmpel")
+
+if(ampel){
+
+if(percent < 40){
+
+ampel.innerText = "🔴 Ausbildung am Anfang"
+ampel.style.color = "#d32f2f"
+
+}
+
+else if(percent < 80){
+
+ampel.innerText = "🟡 Ausbildung fortgeschritten"
+ampel.style.color = "#f9a825"
+
+}
+
+else{
+
+ampel.innerText = "🟢 Ausbildung weit fortgeschritten"
+ampel.style.color = "#2e7d32"
+
+}
+
+}
 
 /* PRÜFUNGSREIFE */
 
