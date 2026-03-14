@@ -31,7 +31,7 @@
 <div id="studentList"></div>
 
 <!-- =============================
-     SCHÜLER PANEL
+SCHÜLER PANEL
 ============================= -->
 
 <div id="studentPanel" class="hidden panel">
@@ -44,17 +44,18 @@
 <button onclick="showTab('diagramm')">Diagrammkarte</button>
 <button onclick="showTab('fahrten')">Fahrt erfassen</button>
 <button onclick="showTab('status')">Ausbildungsstand</button>
+<button onclick="showTab('boegen')">Beobachtungsbögen</button>
 
 </div>
 
 <!-- =============================
-     INFO TAB
+INFO TAB
 ============================= -->
 
 <div id="info" class="tab"></div>
 
 <!-- =============================
-     DIAGRAMMKARTE
+DIAGRAMMKARTE
 ============================= -->
 
 <div id="diagramm" class="tab hidden">
@@ -64,7 +65,7 @@
 </div>
 
 <!-- =============================
-     FAHRT ERFASSEN
+FAHRT ERFASSEN
 ============================= -->
 
 <div id="fahrten" class="tab hidden">
@@ -85,7 +86,7 @@
 </div>
 
 <!-- =============================
-     AUSBILDUNGSSTAND
+AUSBILDUNGSSTAND
 ============================= -->
 
 <div id="status" class="tab hidden">
@@ -107,39 +108,24 @@
 <h3>Besondere Ausbildungsfahrten</h3>
 
 <div class="fahrt">
-
 Überland
-
 <button onclick="changeDrive('ul',-1)">-</button>
-
 <span id="ueberlandCount">0</span>
-
 <button onclick="changeDrive('ul',1)">+</button>
-
 </div>
 
 <div class="fahrt">
-
 Autobahn
-
 <button onclick="changeDrive('ab',-1)">-</button>
-
 <span id="autobahnCount">0</span>
-
 <button onclick="changeDrive('ab',1)">+</button>
-
 </div>
 
 <div class="fahrt">
-
 Nacht
-
 <button onclick="changeDrive('na',-1)">-</button>
-
 <span id="nachtCount">0</span>
-
 <button onclick="changeDrive('na',1)">+</button>
-
 </div>
 
 <hr>
@@ -150,10 +136,157 @@ Nacht
 
 </div>
 
+<!-- =============================
+BEOBACHTUNGSBÖGEN
+============================= -->
+
+<div id="boegen" class="tab hidden">
+
+<h2>Beobachtungsbögen</h2>
+
+<div class="tabs">
+<button onclick="showTab('beratung')">Beratung</button>
+<button onclick="showTab('theorie')">Theorie</button>
+<button onclick="showTab('praxis')">Praxis</button>
 </div>
 
 <!-- =============================
-     FAHRSCHÜLER ANLEGEN
+BERATUNG
+============================= -->
+
+<div id="beratung" class="tab hidden">
+
+<h3>Beobachtung – Beratungsgespräch</h3>
+
+<label>Datum</label>
+<input type="date" id="b_datum">
+
+<label>Dauer</label>
+<input type="number" id="b_dauer">
+
+<label>Gesprächspartner</label>
+<input id="b_partner">
+
+<label>Fahrerlaubnisklasse</label>
+<input id="b_klasse">
+
+<label>Informationen zur Ausbildung erklärt</label>
+<input type="checkbox" id="b_inhalte">
+
+<label>Ängste / Erwartungen erfragt</label>
+<input type="checkbox" id="b_aengste">
+
+<label>Rückfragen geklärt</label>
+<input type="checkbox" id="b_fragen">
+
+<label>Bemerkung</label>
+<textarea id="b_bem"></textarea>
+
+<button onclick="saveBeratung()">Beratung speichern</button>
+
+</div>
+
+<!-- =============================
+THEORIE
+============================= -->
+
+<div id="theorie" class="tab hidden">
+
+<h3>Beobachtung – Theorieunterricht</h3>
+
+<label>Datum</label>
+<input type="date" id="t_datum">
+
+<label>Uhrzeit</label>
+<input type="time" id="t_time">
+
+<label>Thema</label>
+<input id="t_thema">
+
+<h4>Fahrlehrerverhalten</h4>
+
+<table>
+
+<tr>
+<th>Aspekt</th>
+<th>++</th>
+<th>+</th>
+<th>°</th>
+<th>-</th>
+<th>--</th>
+</tr>
+
+<tr>
+<td>Umgangston</td>
+<td><input type="radio" name="t_ton" value="++"></td>
+<td><input type="radio" name="t_ton" value="+"></td>
+<td><input type="radio" name="t_ton" value="°"></td>
+<td><input type="radio" name="t_ton" value="-"></td>
+<td><input type="radio" name="t_ton" value="--"></td>
+</tr>
+
+<tr>
+<td>Blickkontakt</td>
+<td><input type="radio" name="t_blick" value="++"></td>
+<td><input type="radio" name="t_blick" value="+"></td>
+<td><input type="radio" name="t_blick" value="°"></td>
+<td><input type="radio" name="t_blick" value="-"></td>
+<td><input type="radio" name="t_blick" value="--"></td>
+</tr>
+
+</table>
+
+<label>Bemerkung</label>
+<textarea id="t_bem"></textarea>
+
+<button onclick="saveTheorie()">Theorie speichern</button>
+
+</div>
+
+<!-- =============================
+PRAXIS
+============================= -->
+
+<div id="praxis" class="tab hidden">
+
+<h3>Beobachtung – Praktische Ausbildung</h3>
+
+<label>Datum</label>
+<input type="date" id="p_datum">
+
+<label>Dauer</label>
+<input type="number" id="p_dauer">
+
+<label>Art der Fahrstunde</label>
+<select id="p_art">
+<option>Grundausbildung</option>
+<option>Überlandfahrt</option>
+<option>Autobahnfahrt</option>
+<option>Nachtfahrt</option>
+</select>
+
+<label>Schwerpunkt</label>
+<input id="p_schwerpunkt">
+
+<label>Notizen</label>
+<textarea id="p_notizen"></textarea>
+
+<h4>GPS Tracking</h4>
+
+<button onclick="toggleGPS()">Tracking starten / stoppen</button>
+
+<div id="gpsMap" style="height:300px;margin-top:10px"></div>
+
+<button onclick="savePraxis()">Praxis speichern</button>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- =============================
+FAHRSCHÜLER ANLEGEN
 ============================= -->
 
 <div id="addPanel" class="hidden panel">
@@ -165,11 +298,9 @@ Nacht
 <input id="vorname" placeholder="Vorname">
 
 <select id="klasse">
-
 <option>B</option>
 <option>BE</option>
 <option>L</option>
-
 </select>
 
 <input id="telefon" placeholder="Telefon">
@@ -179,15 +310,12 @@ Nacht
 <input id="vorbesitz" placeholder="Vorbesitz">
 
 <label>Start Ausbildung</label>
-
 <input id="startAusbildung" type="date">
 
 <label>Theorieprüfung</label>
-
 <input id="pruefungTheorie" type="date">
 
 <label>Praxisprüfung</label>
-
 <input id="pruefungPraxis" type="date">
 
 <div class="buttons">
@@ -200,12 +328,11 @@ Nacht
 </div>
 
 <!-- =============================
-     SCRIPTS
+SCRIPTS
 ============================= -->
 
 <script src="js/diagrammData.js"></script>
 <script src="js/app.js"></script>
 
 </body>
-
 </html>
