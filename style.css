@@ -257,7 +257,29 @@ padding:6px;
 border-bottom:1px solid #ccc;
 }
 
+/* =============================
+   FORTSCHRITT
+============================= */
 
+.progressBlock{
+margin:10px 0;
+}
 
+.progressTitle{
+font-weight:bold;
+margin-bottom:4px;
+}
 
+.progressBar{
+background:#ddd;
+border-radius:6px;
+overflow:hidden;
+height:16px;
+}
+
+.progressFill{
+background:#4caf50;
+height:100%;
+width:0%;
+transition:width 0.3s;
 }
