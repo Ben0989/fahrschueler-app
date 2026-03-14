@@ -322,10 +322,12 @@ el.className="pruefungNO"
 
 function changeDrive(type,val){
 
-let s=students[current]
+let s = students[current]
 if(!s) return
 
 let klasse = s.klasse || "B"
+
+/* Maximalwerte */
 
 let maxUL = 5
 let maxAB = 4
@@ -337,35 +339,35 @@ maxAB = 1
 maxNA = 1
 }
 
-let max={
+let max = {
 ul:maxUL,
 ab:maxAB,
 na:maxNA
 }
 
-s.sonderfahrten[type]+=val
+/* aktuellen Wert holen */
 
-if(s.sonderfahrten[type]<0)
-s.sonderfahrten[type]=0
+let currentValue = s.sonderfahrten[type] || 0
 
-if(s.sonderfahrten[type]>max[type])
-s.sonderfahrten[type]=max[type]
+/* neuen Wert berechnen */
+
+let newValue = currentValue + val
+
+/* Deckelung */
+
+if(newValue < 0) newValue = 0
+if(newValue > max[type]) newValue = max[type]
+
+/* speichern */
+
+s.sonderfahrten[type] = newValue
 
 saveDB()
 
+/* Anzeige aktualisieren */
+
 updateProgress()
 renderGesamtProgress()
-
-}
-
-function updateProgress(){
-
-let s=students[current]
-if(!s) return
-
-document.getElementById("ueberlandCount").innerText=s.sonderfahrten.ul
-document.getElementById("autobahnCount").innerText=s.sonderfahrten.ab
-document.getElementById("nachtCount").innerText=s.sonderfahrten.na
 
 }
 
