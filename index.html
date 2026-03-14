@@ -1,0 +1,119 @@
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fahrschüler App</title>
+<link rel="stylesheet" href="style.css">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#0f172a">
+<link rel="icon" href="icons/icon-192.png">
+</head>
+
+<body>
+
+<header>
+<h1>Fahrschüler</h1>
+
+<div class="headerButtons">
+<button onclick="backupData()">Backup</button>
+<button onclick="openAdd()">+</button>
+</div>
+
+</header>
+
+<input id="search" placeholder="Fahrschüler suchen">
+
+<div id="studentList"></div>
+
+<div id="studentPanel" class="hidden panel">
+
+<h2 id="studentTitle"></h2>
+
+<div class="tabs">
+<button onclick="showTab('info')">Infos</button>
+<button onclick="showTab('fahrten')">Fahrt</button>
+<button onclick="showTab('status')">Ausbildungsstand</button>
+</div>
+
+<div id="info" class="tab"></div>
+
+<div id="fahrten" class="tab hidden">
+
+<h3>Neue Fahrstunde</h3>
+
+<input id="fahrtTitel" placeholder="Titel der Fahrstunde">
+<textarea id="fahrtNotiz" placeholder="Notiz"></textarea>
+
+<button onclick="saveFahrt()">Fahrt speichern</button>
+
+</div>
+
+<div id="status" class="tab hidden">
+
+<h3>Sonderfahrten</h3>
+
+<div class="fahrt">
+
+Überland
+<button onclick="changeDrive('ul',-1)">-</button>
+<span id="ueberlandCount">0</span>
+<button onclick="changeDrive('ul',1)">+</button>
+
+</div>
+
+<div class="fahrt">
+
+Autobahn
+<button onclick="changeDrive('ab',-1)">-</button>
+<span id="autobahnCount">0</span>
+<button onclick="changeDrive('ab',1)">+</button>
+
+</div>
+
+<div class="fahrt">
+
+Nacht
+<button onclick="changeDrive('na',-1)">-</button>
+<span id="nachtCount">0</span>
+<button onclick="changeDrive('na',1)">+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<div id="addPanel" class="hidden panel">
+
+<h2>Fahrschüler</h2>
+
+<input id="name" placeholder="Name">
+<input id="vorname" placeholder="Vorname">
+
+<select id="klasse">
+<option>B</option>
+<option>BE</option>
+<option>L</option>
+</select>
+
+<button onclick="saveStudent()">Speichern</button>
+<button onclick="closeAdd()">Abbrechen</button>
+
+</div>
+
+<script src="js/app.js"></script>
+<script src="js/students.js"></script>
+<script src="js/sonderfahrten.js"></script>
+<script src="js/fahrten.js"></script>
+<script src="js/backup.js"></script>
+
+<script>
+if ("serviceWorker" in navigator) {
+ navigator.serviceWorker.register("sw.js")
+}
+</script>
+
+</body>
+</html>
