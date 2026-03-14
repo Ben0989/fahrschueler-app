@@ -211,7 +211,6 @@ container.appendChild(block)
 function renderGesamtProgress(){
 
 let s = students[current]
-
 if(!s) return
 
 if(!document.getElementById("gesamtProgress")) return
@@ -225,9 +224,7 @@ let fields = DIAGRAMM[section]
 
 fields.forEach(f=>{
 total++
-
 if(s.checkboxes && s.checkboxes[f]) done++
-
 })
 
 })
@@ -236,7 +233,6 @@ let percent = Math.round((done/total)*100)
 
 document.getElementById("gesamtProgress").innerText =
 "Ausbildung abgeschlossen: " + percent + "%"
-
 
 /* =============================
    AMPEL
@@ -247,58 +243,74 @@ let ampel = document.getElementById("ausbildungsAmpel")
 if(ampel){
 
 if(percent < 40){
-
 ampel.innerText="Status: Ausbildung am Anfang"
 ampel.style.color="#d32f2f"
-
-}else if(percent < 80){
-
+}
+else if(percent < 80){
 ampel.innerText="Status: Ausbildung fortgeschritten"
 ampel.style.color="#f9a825"
-
-}else{
-
+}
+else{
 ampel.innerText="Status: Ausbildung weit fortgeschritten"
 ampel.style.color="#2e7d32"
-
 }
 
 }
 
+/* =============================
+   SONDERFAHRTEN NACH KLASSE
+============================= */
+
+let klasse = s.klasse || "B"
+
+let maxUL = 5
+let maxAB = 4
+let maxNA = 3
+
+if(klasse === "BE"){
+maxUL = 3
+maxAB = 1
+maxNA = 1
+}
+
+let sonderOK =
+s.sonderfahrten &&
+s.sonderfahrten.ul >= maxUL &&
+s.sonderfahrten.ab >= maxAB &&
+s.sonderfahrten.na >= maxNA
+
+/* =============================
+   REIFE-, TESTSTUFE
+============================= */
+
+let reifeOK = true
+
+if(DIAGRAMM["Reife-, Teststufe"]){
+
+DIAGRAMM["Reife-, Teststufe"].forEach(field=>{
+if(!s.checkboxes || !s.checkboxes[field])
+reifeOK=false
+})
+
+}
 
 /* =============================
    PRÜFUNGSREIFE
 ============================= */
 
-let reifeFelder = DIAGRAMM["Reife-, Teststufe"]
-
-let reifeOK = true
-
-reifeFelder.forEach(f=>{
-if(!s.checkboxes || !s.checkboxes[f]) reifeOK=false
-})
-
-let sonderOK =
-s.sonderfahrten &&
-s.sonderfahrten.ul >= 5 &&
-s.sonderfahrten.ab >= 4 &&
-s.sonderfahrten.na >= 3
-
 let el = document.getElementById("pruefungsreifeStatus")
 
-if(el){
+if(!el) return
 
-if(reifeOK && sonderOK){
+if(sonderOK && reifeOK){
 
-el.innerText = "PRÜFUNGSREIF ✔"
-el.className = "pruefungOK"
+el.innerText="PRÜFUNGSREIF ✔"
+el.className="pruefungOK"
 
 }else{
 
-el.innerText = "Noch nicht prüfungsreif"
-el.className = "pruefungNO"
-
-}
+el.innerText="Noch nicht prüfungsreif"
+el.className="pruefungNO"
 
 }
 
@@ -311,10 +323,33 @@ el.className = "pruefungNO"
 function changeDrive(type,val){
 
 let s=students[current]
+if(!s) return
+
+let klasse = s.klasse || "B"
+
+let maxUL = 5
+let maxAB = 4
+let maxNA = 3
+
+if(klasse === "BE"){
+maxUL = 3
+maxAB = 1
+maxNA = 1
+}
+
+let max={
+ul:maxUL,
+ab:maxAB,
+na:maxNA
+}
 
 s.sonderfahrten[type]+=val
 
-if(s.sonderfahrten[type]<0) s.sonderfahrten[type]=0
+if(s.sonderfahrten[type]<0)
+s.sonderfahrten[type]=0
+
+if(s.sonderfahrten[type]>max[type])
+s.sonderfahrten[type]=max[type]
 
 saveDB()
 
@@ -326,7 +361,6 @@ renderGesamtProgress()
 function updateProgress(){
 
 let s=students[current]
-
 if(!s) return
 
 document.getElementById("ueberlandCount").innerText=s.sonderfahrten.ul
