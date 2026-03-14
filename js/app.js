@@ -67,6 +67,7 @@ renderDiagram()
 loadDiagram()
 updateProgress()
 renderProgress()
+renderGesamtProgress()
 
 showTab("info")
 
@@ -128,6 +129,7 @@ students[current].checkboxes[field]=cb.checked
 saveDB()
 
 renderProgress()
+renderGesamtProgress()
 
 })
 
@@ -158,7 +160,7 @@ cb.checked=students[current].checkboxes?.[field] || false
 }
 
 /* =============================
-   FORTSCHRITT BERECHNEN
+   STUFENFORTSCHRITT
 ============================= */
 
 function renderProgress(){
@@ -203,6 +205,106 @@ container.appendChild(block)
 }
 
 /* =============================
+   GESAMTFORTSCHRITT + AMPEL
+============================= */
+
+function renderGesamtProgress(){
+
+let s = students[current]
+
+if(!s) return
+
+if(!document.getElementById("gesamtProgress")) return
+
+let total = 0
+let done = 0
+
+Object.keys(DIAGRAMM).forEach(section=>{
+
+let fields = DIAGRAMM[section]
+
+fields.forEach(f=>{
+total++
+
+if(s.checkboxes && s.checkboxes[f]) done++
+
+})
+
+})
+
+let percent = Math.round((done/total)*100)
+
+document.getElementById("gesamtProgress").innerText =
+"Ausbildung abgeschlossen: " + percent + "%"
+
+
+/* =============================
+   AMPEL
+============================= */
+
+let ampel = document.getElementById("ausbildungsAmpel")
+
+if(ampel){
+
+if(percent < 40){
+
+ampel.innerText="Status: Ausbildung am Anfang"
+ampel.style.color="#d32f2f"
+
+}else if(percent < 80){
+
+ampel.innerText="Status: Ausbildung fortgeschritten"
+ampel.style.color="#f9a825"
+
+}else{
+
+ampel.innerText="Status: Ausbildung weit fortgeschritten"
+ampel.style.color="#2e7d32"
+
+}
+
+}
+
+
+/* =============================
+   PRÜFUNGSREIFE
+============================= */
+
+let reifeFelder = DIAGRAMM["Reife-, Teststufe"]
+
+let reifeOK = true
+
+reifeFelder.forEach(f=>{
+if(!s.checkboxes || !s.checkboxes[f]) reifeOK=false
+})
+
+let sonderOK =
+s.sonderfahrten &&
+s.sonderfahrten.ul >= 5 &&
+s.sonderfahrten.ab >= 4 &&
+s.sonderfahrten.na >= 3
+
+let el = document.getElementById("pruefungsreifeStatus")
+
+if(el){
+
+if(reifeOK && sonderOK){
+
+el.innerText = "PRÜFUNGSREIF ✔"
+el.className = "pruefungOK"
+
+}else{
+
+el.innerText = "Noch nicht prüfungsreif"
+el.className = "pruefungNO"
+
+}
+
+}
+
+}
+
+/* =============================
    SONDERFAHRTEN
 ============================= */
 
@@ -217,6 +319,7 @@ if(s.sonderfahrten[type]<0) s.sonderfahrten[type]=0
 saveDB()
 
 updateProgress()
+renderGesamtProgress()
 
 }
 
