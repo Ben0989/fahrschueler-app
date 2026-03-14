@@ -1,255 +1,1080 @@
-<!DOCTYPE html>
-<html lang="de">
+	<!DOCTYPE html>
+	<html lang="de">
+	<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width,initial-scale=1" />
+	<title>Fahrschüler – Beobachtung & Dokumentation</title>
+	<meta name="theme-color" content="#0f172a" />
+	<style>
+	:root{--pri:#28a745;--bg:#0f172a;--card:#1e293b;--txt:#f8fafc;--mut:#94a3b8;--bd:#475569}
+	*{box-sizing:border-box}
+	html,body{height:100%}
+	body{margin:0;background:var(--bg);color:var(--txt);font-family:system-ui,Segoe UI,Roboto,sans-serif;padding:12px}
+	h1,h2,h3,h4{margin:.4rem 0}
+	small{color:var(--mut)}
+	.card{background:var(--card);border-radius:12px;box-shadow:0 2px 10px rgba(0,0,0,.45);padding:12px;margin-top:12px}
+	input,select,textarea,button{width:100%;padding:.6rem;border-radius:10px;border:1px solid var(--bd);background:#0b1220;color:var(--txt)}
+	textarea{resize:vertical}
+	button{cursor:pointer}
+	button.primary{background:var(--pri);border:0;color:#fff}
+	button.ghost{background:#1e293b;border:1px solid var(--bd);color:var(--txt)}
+	.row{display:flex;gap:10px;flex-wrap:wrap}
+	.row>*{flex:1}
+	.grid{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+	.tabs{display:flex;gap:6px;margin:10px 0;flex-wrap:wrap}
+	.tabs button{flex:1;background:#334155;border:1px solid var(--bd);color:#fff}
+	.tabs button.active{background:var(--pri);border-color:var(--pri)}
+	.hidden{display:none}
+	table{width:100%;border-collapse:collapse;margin:.5rem 0}
+	th,td{border:1px solid var(--bd);padding:.35rem;text-align:center}
+	th.sticky{position:sticky;top:0;background:#223047}
+	.label{font-weight:600;margin-top:.35rem;display:block}
+	.hr{height:1px;background:var(--bd);opacity:.5;margin:.8rem 0}
+	.badge{display:inline-block;padding:.2rem .5rem;border-radius:.6rem;border:1px solid var(--bd);color:var(--mut);font-size:.8rem}
+	pre{white-space:pre-wrap;word-break:break-word}
+	.zweier-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+@media(max-width: 780px){
+  .zweier-grid {
+    grid-template-columns: 1fr; /* Auf Handy automatisch 1 Spalte */
+  }
+}
+.inline-check {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+}
+.label-inline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 8px;
+}
+.label-inline span {
+  flex: 1;
+}
+.label-inline input[type="checkbox"] {
+  margin-left: 8px;
+  transform: scale(1.2); /* optional größer */
+}
+.gridlist {
+  display: grid;
+  grid-template-columns: 1fr auto; /* Text links, Checkbox rechts */
+  gap: 8px 22px;                   /* vertikal | horizontal Abstand */
+  align-items: center;
+}
+.gridlist input[type="checkbox"] {
+  transform: scale(1.1);           /* etwas größer, angenehmer */
+  justify-self: end;               /* bündig rechts */
+}
+#gpsMap {
+  width: 100%;
+  min-height: 300px;
+}
+.gps-map {
+  height: 300px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
 
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+	</style>
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+	<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+	</head>
+	<body>
 
-<title>Fahrschüler App</title>
+	<h1>Fahrschüler – Beobachtung & Dokumentation</h1>
 
-<link rel="stylesheet" href="style.css">
+	<!-- SCHÜLER-VERWALTUNG -->
+	<div class="card">
+	  <h2>Fahrschüler</h2>
+	  <label class="label">Auswählen</label>
+	  <select id="studentSelect" onchange="onSelectStudent()">
+		<option value="">-- Bitte wählen --</option>
+	  </select>
 
-</head>
+	  <div class="hr"></div>
 
-<body>
+	  <div class="row">
+		<div>
+		  <label class="label">Neuer Schüler</label>
+		  <input id="newStudentName" placeholder="z. B. Max Mustermann" />
+		</div>
+		<div>
+		  <label class="label">Führerscheinklasse(n)</label>
+		  <select id="klasseSelect" multiple size="6">
+			<option>AM</option><option>A1</option><option>A2</option><option>A</option>
+			<option>B</option><option>BE</option><option>B97</option><option>B197</option><option>C1</option><option>C1E</option><option>C</option>
+			<option>CE</option><option>D1</option><option>D1E</option><option>D</option><option>L</option><option>T</option>
+		  </select>
+		</div>
+	  </div>
+	  <div class="row">
+		<button class="primary" onclick="addStudent()">Schüler hinzufügen</button>
+		<button class="ghost" onclick="deleteStudent()">Schüler löschen</button>
+	  </div>
+	  <small>Speicherung lokal auf diesem Gerät. Offline nutzbar.</small>
+	</div>
 
+	<!-- TABS -->
+	<div class="tabs">
+	  <button id="tab-beratung"  onclick="switchTab('beratung')">Beratung</button>
+	  <button id="tab-theorie"   onclick="switchTab('theorie')">Theorie</button>
+	  <button id="tab-praxis"    onclick="switchTab('praxis')">Praxis</button>
+	  <button id="tab-uebersicht"onclick="switchTab('uebersicht')">Übersicht</button>
+	</div>
 
-<header>
+	<!-- BERATUNG – PDF 03 1:1 -->
+	<div id="beratung" class="card">
+	  <h3>Beobachtungshilfe – Beratungsgespräch</h3>
 
-<h1>Fahrschüler</h1>
+	  <div class="grid">
+		<div><label class="label">Datum</label><input type="date" id="b_datum"></div>
+		<div><label class="label">Dauer (Min)</label><input type="number" id="b_dauer"></div>
+		<div><label class="label">Gesprächspartner</label><input id="b_partner" placeholder="Fahrschüler, Elternteil, …"></div>
+		<div><label class="label">Gesprächsführer</label><input id="b_partner" placeholder="Fahrschul Leiter, Bürokraft, angestelter FL, andere "></div>
+		<div><label class="label">Fahrerlaubnisklasse</label><input id="b_klasse" placeholder="B, BE, A …"></div>
+	  </div>
 
-<button onclick="openAdd()">+</button>
+	  <div class="hr"></div>
 
-</header>
+	  <div class="grid">
+		<label class="inline-check">Inhalte/Ausbildung erklärt <input type="checkbox" id="b_inhalte"></label>
+		<label class="inline-check">Ängste/Erwartungen erfragt <input type="checkbox" id="b_aengste"></label>
+		<label class="inline-check">Rückfragen geklärt <input type="checkbox" id="b_fragen"></label>
+	  </div>
+	  
+	  <label class="label">Folgende Informationen wurden bei dem Gespräch übermittelt:</label>
+	  <textarea id="b_bem" rows="5"></textarea>
+	  
+	   <label class="label">Was ist Ihnen im Beratungsgespräch aufgefallen, welchen Eindruck hatten Sie?:</label>
+	 <table>
+		<thead>
+		  <tr>
+			<th class="sticky"></th>
+			<th>Ja</th><th>Nein</th><th>Bemerkung</th>
+		  </tr>
+		</thead>
+		 <tbody>
+		  <tr>
+			<td>freundliche Begrüßung</td>
+			<td><input type="radio" name="b_gruß" value="Ja"></td>
+			<td><input type="radio" name="b_gruß" value="Nein"></td>
+			<td><input id="b_gruß_bem"></td>
+		  </tr>
+		  <tr>
+			<td>Auf Kundenfragen wurde eingegangen</td>
+			<td><input type="radio" name="b_kfrage" value="Ja"></td>
+			<td><input type="radio" name="b_kfrage" value="Nein"></td>
+			<td><input id="b_kfrage_bem"></td>
+		  </tr>
+		  <tr>
+			<td>das Gespräch war dem Kunden zugewandt</td>
+			<td><input type="radio" name="b_zugewandt" value="Ja"></td>
+			<td><input type="radio" name="b_zugewandt" value="Nein"></td>
+			<td><input id="b_zugewandt_bem"></td>
+		  </tr>
+		  <tr>
+			<td>Die Sprechgeschwindigkeit war angemessen</td>
+			<td><input type="radio" name="b_sprech" value="Ja"></td>
+			<td><input type="radio" name="b_sprech" value="Nein"></td>
+			<td><input id="b_sprech_bem"></td>
+		  </tr>
+		  <tr>
+			
+			<td>Die Inhalte wurden verständlich erklärt</td>
+			<td><input type="radio" name="b_inhalt" value="Ja"></td>
+			<td><input type="radio" name="b_inhalt" value="Nein"></td>
+			<td><input id="b_inhalt_bem"></td>
+		  </tr>
+		  <tr>
+			
+			<td>Kunden konnten Fragen stellen</td>
+			<td><input type="radio" name="b_ffragen" value="Ja"></td>
+			<td><input type="radio" name="b_ffragen" value="Nein"></td>
+			<td><input id="b_ffragen_bem"></td>
+			
+		  </tr>
+		  <tr>	
+			<td>Auf die Fragen der interessierten Person wurde eingegangen</td>
+			<td><input type="radio" name="b_eingehen" value="Ja"></td>
+			<td><input type="radio" name="b_eingehen" value="Nein"></td>
+			<td><input id="b_eingehen_bem"></td>
+		  </tr>
+		  <tr>
+			<td>Bedenken, Ängste, Befürchtungen wurden thematisiert</td>
+			<td><input type="radio" name="b_thema" value="Ja"></td>
+			<td><input type="radio" name="b_thema" value="Nein"></td>
+			<td><input id="b_thema_bem"></td>
+		  </tr>
+		 </tbody>
+	   </table>
+	   
+	  
+	  <div class="zweier-grid">
+		<div>
+		  <label class="label">Welchen Eindruck haben Sie über die Zufriedenheit des Kunden*der Kundin?</label>
+		  <textarea id="b_eindruck" rows="3"></textarea>
+		</div>
+		<div>
+		  <label class="label">Was fanden Sie von der beratenden Person angenehm, positiv und passend für diese Situation?</label>
+		  <textarea id="b_situation" rows="3"></textarea>
+		</div>
+		<div>
+		  <label class="label">Welche Rolle spielten Preise und Kosten für die Entscheidungsfindung?</label>
+		  <textarea id="b_rolle" rows="3"></textarea>
+		</div>
+		<div>
+		  <label class="label"> Welche Hintergrundinformationen hätten Ihnen selbst, zur Durchführung des Gesprächs gefehlt?</label>
+		  <textarea id="b_infos" rows="3"></textarea>
+		</div>
+		<div>
+		  <label class="label">Welche Abläufe über die Ausbildung / Fahrausbildung wurden besprochen?</label>
+		  <textarea id="b_ablauf" rows="3"></textarea>
+		</div>
+		<div>
+		  <label class="label">Welche Lehrmittel / Lernunterlagen wurden angeboten?</label>
+		  <textarea id="b_lern" rows="3"></textarea>
+		</div>
+	</div>
 
+	  <div class="row">
+		<button class="primary" onclick="saveBeratung()">Beratung speichern</button>
+	  </div>
+	</div>
 
-<div id="studentList"></div>
+	<!-- THEORIE – PDF 05 1:1 (mit °) -->
+	<div id="theorie" class="card hidden">
+	  <h3>Beobachtungshilfe – Theorieunterricht</h3>
 
+	  <div class="grid">
+		<div><label class="label">Datum</label><input type="date" id="t_datum"></div>
+		<div><label class="label">Uhrzeit</label><input type="time" id="t_time"></div>
+		<div><label class="label">Anzahl FS*</label><input type="number" id="t_anz"></div>
+		<div><label class="label">Lektion / Thema</label><input id="t_thema"></div>
+	  </div>
 
+	  <div class="grid">
+		<label class="label-inline"><span>Grundstoff</span><input type="checkbox" id="t_grund"></label>
+		<label class="label-inline"><span>Zusatzstoff</span><input type="checkbox" id="t_zusatz"></label>
+	  </div>
 
-<div id="studentPanel" class="hidden panel">
+	  <h4>Fahrlehrerverhalten</h4>
+	  <table>
+		<thead> 	
+		  <tr>
+			<th class="sticky">Aspekt</th>
+			<th>++</th><th>+</th><th>°</th><th>-</th><th>- -</th>
+			<th>Bemerkung</th>
+		  </tr>
+		</thead>
+		<tbody>
+		  <!-- Pro Zeile eine Radio-Gruppe (nur eine Auswahl erlaubt) -->
+		  <tr>
+			<td>Umgangston</td>
+			<td><input type="radio" name="t_ton" value="++"></td>
+			<td><input type="radio" name="t_ton" value="+"></td>
+			<td><input type="radio" name="t_ton" value="°"></td>
+			<td><input type="radio" name="t_ton" value="-"></td>
+			<td><input type="radio" name="t_ton" value="--"></td>
+			<td><input id="t_ton_bem"></td>
+		  </tr>
+		  <tr>
+			<td>Variantenreiche Lautstärke</td>
+			<td><input type="radio" name="t_laut" value="++"></td>
+			<td><input type="radio" name="t_laut" value="+"></td>
+			<td><input type="radio" name="t_laut" value="°"></td>
+			<td><input type="radio" name="t_laut" value="-"></td>
+			<td><input type="radio" name="t_laut" value="--"></td>
+			<td><input id="t_laut_bem"></td>
+		  </tr>
+		  <tr>
+			<td>Arbeit mit der Stimme (Betonung)</td>
+			<td><input type="radio" name="t_stimme" value="++"></td>
+			<td><input type="radio" name="t_stimme" value="+"></td>
+			<td><input type="radio" name="t_stimme" value="°"></td>
+			<td><input type="radio" name="t_stimme" value="-"></td>
+			<td><input type="radio" name="t_stimme" value="--"></td>
+			<td><input id="t_stimme_bem"></td>
+		  </tr>
+		  <tr>
+			<td>Sprechtempo</td>
+			<td><input type="radio" name="t_tempo" value="++"></td>
+			<td><input type="radio" name="t_tempo" value="+"></td>
+			<td><input type="radio" name="t_tempo" value="°"></td>
+			<td><input type="radio" name="t_tempo" value="-"></td>
+			<td><input type="radio" name="t_tempo" value="--"></td>
+			<td><input id="t_tempo_bem"></td>
+		  </tr>
+		  <tr>
+			<td>Fachbegriffe/Alltagssprache</td>
+			<td><input type="radio" name="t_begr" value="++"></td>
+			<td><input type="radio" name="t_begr" value="+"></td>
+			<td><input type="radio" name="t_begr" value="°"></td>
+			<td><input type="radio" name="t_begr" value="-"></td>
+			<td><input type="radio" name="t_begr" value="--"></td>
+			<td><input id="t_begr_bem"></td>
+		  </tr>
+		  <tr>
+			<td>Gestik/Bewegung</td>
+			<td><input type="radio" name="t_gestik" value="++"></td>
+			<td><input type="radio" name="t_gestik" value="+"></td>
+			<td><input type="radio" name="t_gestik" value="°"></td>
+			<td><input type="radio" name="t_gestik" value="-"></td>
+			<td><input type="radio" name="t_gestik" value="--"></td>
+			<td><input id="t_gestik_bem"></td>
+		  </tr>
+		  <tr>
+			<td>Blickkontakt</td>
+			<td><input type="radio" name="t_blick" value="++"></td>
+			<td><input type="radio" name="t_blick" value="+"></td>
+			<td><input type="radio" name="t_blick" value="°"></td>
+			<td><input type="radio" name="t_blick" value="-"></td>
+			<td><input type="radio" name="t_blick" value="--"></td>
+			<td><input id="t_blick_bem"></td>
+		  </tr>
+		  <tr>
+			<td>Mimik</td>
+			<td><input type="radio" name="t_mimik" value="++"></td>
+			<td><input type="radio" name="t_mimik" value="+"></td>
+			<td><input type="radio" name="t_mimik" value="°"></td>
+			<td><input type="radio" name="t_mimik" value="-"></td>
+			<td><input type="radio" name="t_mimik" value="--"></td>
+			<td><input id="t_mimik_bem"></td>
+		  </tr>
+		  <tr>
+			<td>FL* sitzt / steht/ bewegt sich im Raum</td>
+			<td><input type="radio" name="t_bewegung" value="++"></td>
+			<td><input type="radio" name="t_bewegung" value="+"></td>
+			<td><input type="radio" name="t_bewegung" value="°"></td>
+			<td><input type="radio" name="t_bewegung" value="-"></td>
+			<td><input type="radio" name="t_bewegung" value="--"></td>
+			<td><input id="t_bewegung_bem"></td>
+		  </tr>
+		  <tr>
+			<td>Lehrer–Schüler–Verhältnis</td>
+			<td><input type="radio" name="t_ls" value="++"></td>
+			<td><input type="radio" name="t_ls" value="+"></td>
+			<td><input type="radio" name="t_ls" value="°"></td>
+			<td><input type="radio" name="t_ls" value="-"></td>
+			<td><input type="radio" name="t_ls" value="--"></td>
+			<td><input id="t_ls_bem"></td>
+		  </tr>
+		</tbody>
+	  </table>
 
-<h2 id="studentTitle"></h2>
+	<div class="row">
+  <div>
+    <h4>Methoden</h4>
+    <div class="gridlist">
+      <span>Frontalunterricht</span><input type="checkbox" id="t_m_frontal">
+      <span>Lehrgespräch</span><input type="checkbox" id="t_m_lehr">
+      <span>Gruppen-/Partnerarbeit</span><input type="checkbox" id="t_m_gruppe">
+      <span>Fragen stellen</span><input type="checkbox" id="t_m_fragen">
+      <span>Diskussion</span><input type="checkbox" id="t_m_disk">
+      <span>Erklaerung</span><input type="checkbox" id="t_m_erklaerung">
+      <span>Zurufsammlung</span><input type="checkbox" id="t_m_ruf">
+    </div>
+  </div>
 
-
-
-<div class="tabs">
-
-<button onclick="showTab('info')">Infos</button>
-
-<button onclick="showTab('diagramm')">
-Diagrammkarte
-</button>
-
-<button onclick="showTab('fahrten')">
-Fahrtprotokoll
-</button>
-
-<button onclick="showTab('status')">
-Ausbildungsstand
-</button>
-
-<button onclick="showTab('boegen')">
-Beobachtungsbögen
-</button>
-
+  <div>
+    <h4>Medien</h4>
+    <div class="gridlist">
+      <span>Lehrbuch</span><input type="checkbox" id="t_med_lehrbuch">
+      <span>Arbeitsblätter</span><input type="checkbox" id="t_med_blatt">
+      <span>Flipchart</span><input type="checkbox" id="t_med_flipchart">
+      <span>Whiteboard/Tafel</span><input type="checkbox" id="t_med_white">
+      <span>Computer / Laptop / Beamer</span><input type="checkbox" id="t_med_beamer">
+      <span>Smartboard</span><input type="checkbox" id="t_med_board">
+      <span>Handy</span><input type="checkbox" id="t_med_handy">
+    </div>
+  </div>
 </div>
 
 
+	  <div class="row">
+		<div>
+			<label class="label">Redeanteil FL (%)</label>
+			<input type="number" id="t_redenfl" min="0" max="100" placeholder="0 - 100" oninput="calcRedeanteil()">
+		</div>
+		<div>
+			<label class="label">Redeanteil FS (%)</label>
+			<input type="number" id="t_redefs" readonly>
+		</div>
+	  </div>
 
-<!-- =============================
-     INFOS
-============================= -->
+	  <label class="label">Stimmung im Unterricht</label><textarea id="t_stimmung" rows="2"></textarea>
+	  <label class="label">Reaktionen der FS* auf Fragen/Aufgaben</label><textarea id="t_reaktion" rows="2"></textarea>
+	  <label class="label">Zusätzliche Methoden</label><textarea id="t_meth_extra" rows="2"></textarea>
+	  <label class="label">Zusätzliche Medien</label><textarea id="t_med_extra" rows="2"></textarea>
+	  <label class="label">Haben Sie inhaltliche Schwerpunkte erkannt</label><textarea id="t_schwerpunkt" rows="2"></textarea>
+		<label class="label">Bemerkung</label><textarea id="t_bem" rows="2"></textarea>
+	  
+		  
+		
 
-<div id="info" class="tab"></div>
+	  <div class="row">
+		<button class="primary" onclick="saveTheorie()">Theorie speichern</button>
+	  </div>
+	</div>
 
+	<!-- PRAXIS – PDF 04 1:1 -->
+	  <div id="praxis" class="card hidden">
+  <h3>Beobachtungshilfe – Praktische Ausbildung</h3>
 
+  <!-- Grunddaten -->
+  <div class="grid">
+    <div>
+      <label class="label">Datum</label>
+      <input type="date" id="p_datum">
+    </div>
+    <div>
+      <label class="label">Dauer (Min)</label>
+      <input type="number" id="p_dauer">
+    </div>
+    <div>
+      <label class="label">Art der Fahrstunde</label>
+      <select id="p_art">
+        <option>Grundausbildung</option>
+        <option>Überlandfahrt</option>
+        <option>Autobahnfahrt</option>
+        <option>Nachtfahrt</option>
+        <option>Prüfungsvorbereitung</option>
+      </select>
+    </div>
+    <div>
+      <label class="label">Bisherige Fahrstunden (Anzahl)</label>
+      <input type="number" id="p_anzahl_fs">
+    </div>
+    <div>
+      <label class="label">Schwerpunkt</label>
+      <input type="text" id="p_schwerpunkt" placeholder="z. B. Abbiegen / Parken / Verkehrsfluss">
+    </div>
+  </div>
 
-<!-- =============================
-     DIAGRAMMKARTE
-============================= -->
+  <!-- Wirkung -->
+  <div class="hr"></div>
+  <h4>Wirkung des Fahrschülers</h4>
+  <div class="grid">
+    <label class="label-inline"><span>ruhig</span><input type="checkbox" id="p_wirkt_ruhig"></label>
+    <label class="label-inline"><span>konzentriert</span><input type="checkbox" id="p_wirkt_konz"></input></label>
+    <label class="label-inline"><span>nervös</span><input type="checkbox" id="p_wirkt_nerv"></label>
+    <label class="label-inline"><span>aufgeregt</span><input type="checkbox" id="p_wirkt_aufg"></label>
+    <label class="label-inline"><span>unsicher</span><input type="checkbox" id="p_wirkt_unsich"></label>
+    <label class="label-inline"><span>übermütig</span><input type="checkbox" id="p_wirkt_ueberm"></label>
+    <label class="label-inline"><span>ängstlich</span><input type="checkbox" id="p_wirkt_angst"></label>
+    <label class="label-inline"><span>unaufmerksam</span><input type="checkbox" id="p_wirkt_unaufm"></label>
+  </div>
 
-<div id="diagramm" class="tab hidden">
+  <!-- Durchführung 2-Spalten -->
+  <div class="hr"></div>
+  <h4>Durchführung / Ablauf</h4>
+  <div class="grid">
+    <label class="label-inline"><span>Begrüßung / Einstieg</span><input type="checkbox" id="p_einstieg"></label>
+    <label class="label-inline"><span>Anknüpfung an letzte FS</span><input type="checkbox" id="p_ankn"></label>
+    <label class="label-inline"><span>Ziele benannt</span><input type="checkbox" id="p_ziele"></label>
+    <label class="label-inline"><span>Wünsche aufgenommen</span><input type="checkbox" id="p_wuensche"></label>
+    <label class="label-inline"><span>Hinweise vor Durchführung</span><input type="checkbox" id="p_vor"></label>
+    <label class="label-inline"><span>Hinweise nach Durchführung</span><input type="checkbox" id="p_nach"></label>
+    <label class="label-inline"><span>Wiederholung von Aufgaben</span><input type="checkbox" id="p_wdh"></label>
+    <label class="label-inline"><span>Nachbesprechung</span><input type="checkbox" id="p_nachbespr"></label>
+    <label class="label-inline"><span>Ausblick nächste FS</span><input type="checkbox" id="p_ausblick"></label>
+    <label class="label-inline"><span>Aufgaben bis nächste FS</span><input type="checkbox" id="p_aufgaben"></label>
+  </div>
 
-<div id="diagramContainer"></div>
+  <!-- Aufgabenblock -->
+  <div class="hr"></div>
+  <label class="label">Wie lautete die Aufgabe?</label>
+  <textarea id="p_aufgabe" rows="2"></textarea>
 
+  <label class="label">Weitere Notizen</label>
+  <textarea id="p_notizen" rows="2"></textarea>
+
+  <!-- Dauer Gespräche -->
+  <div class="grid">
+    <div>
+      <label class="label">Dauer Einleitungsgespräch (Min)</label>
+      <input type="number" id="p_d_einl">
+    </div>
+    <div>
+      <label class="label">Dauer Abschlussgespräch (Min)</label>
+      <input type="number" id="p_d_absch">
+    </div>
+  </div>
+
+  <!-- Methoden -->
+  <div class="hr"></div>
+  <h4>Methoden</h4>
+  <div class="grid">
+    <label class="label-inline"><span>Erklären</span><input type="checkbox" id="p_m_erklaer"></label>
+    <label class="label-inline"><span>Vormachen</span><input type="checkbox" id="p_m_vormach"></label>
+    <label class="label-inline"><span>Ausprobieren lassen</span><input type="checkbox" id="p_m_ausprob"></label>
+    <label class="label-inline"><span>Fragen stellen</span><input type="checkbox" id="p_m_fragen"></label>
+    <label class="label-inline"><span>Impulse geben</span><input type="checkbox" id="p_m_impulse"></label>
+  </div>
+
+  <!-- Medien -->
+  <div class="hr"></div>
+  <h4>Medien</h4>
+  <div class="grid">
+    <label class="label-inline"><span>Zettel & Stift</span><input type="checkbox" id="p_med_zettel"></label>
+    <label class="label-inline"><span>Modellauto</span><input type="checkbox" id="p_med_modell"></label>
+    <label class="label-inline"><span>Ausbildungskarte</span><input type="checkbox" id="p_med_karte"></label>
+    <label class="label-inline"><span>Tablet</span><input type="checkbox" id="p_med_tablet"></label>
+    <label class="label-inline"><span>Lernapp</span><input type="checkbox" id="p_med_lernapp"></label>
+  </div>
+
+  <!-- Schlussbereich -->
+  <div class="hr"></div>
+  <label class="label">Stichpunkte Vorgespräch</label>
+  <textarea id="p_vor_gespr" rows="2"></textarea>
+
+  <label class="label">Stichpunkte Nachgespräch</label>
+  <textarea id="p_nach_gespr" rows="2"></textarea>
+
+  <label class="label">Wie dokumentiert?</label>
+  <textarea id="p_doku" rows="2"></textarea>
+  <div class="gps-status" id="gpsStatus">
+  📍 GPS inaktiv
+	</div>
+
+	<button id="gpsToggleBtn" class="primary" onclick="toggleGPS()"> 📍 Tracking starten</button>
+	<div style="margin-top: 10px;">
+  <div id="gpsLiveSpeed">🚗 Geschwindigkeit: –</div>
+  <div id="gpsLiveTime">⏱️ Zeit: –</div>
+  <div id="gpsLiveDist">📏 Strecke: –</div>
+</div>
+
+	<!-- MAP Container -->
+<div id="gpsMap"
+     style="height:300px; border-radius:12px; margin-top:10px; display:none;">
+</div>
+
+  <div class="row">
+    <button class="primary" onclick="savePraxis()">Praxis speichern</button>
+  </div>
 </div>
 
 
-
-<!-- =============================
-     FAHRTPROTOKOLL
-============================= -->
-
-<div id="fahrten" class="tab hidden">
-
-<h3>Fahrtprotokoll</h3>
-
-<input id="fahrtTitel" placeholder="Titel der Fahrstunde">
-
-<textarea id="fahrtNotiz" placeholder="Notizen zur Fahrstunde"></textarea>
-
-<br>
-
-<button onclick="saveFahrt()">Fahrt speichern</button>
-
-<hr>
-
-<div id="fahrtenListe"></div>
-
+<!-- Übersicht -->
+<div id="uebersicht" class="card hidden">
+  <h3>Übersicht</h3>
+  <div id="overview"></div>
 </div>
 
-
-
-<!-- =============================
-     AUSBILDUNGSSTAND
-============================= -->
-
-<div id="status" class="tab hidden">
-
-<h3>Besondere Ausbildungsfahrten</h3>
-
-
-<div class="fahrt">
-
-Überland
-
-<button onclick="changeDrive('ul',-1)">-</button>
-
-<span id="ueberlandCount">0</span>
-
-<button onclick="changeDrive('ul',1)">+</button>
-
-</div>
-
-
-<div class="fahrt">
-
-Autobahn
-
-<button onclick="changeDrive('ab',-1)">-</button>
-
-<span id="autobahnCount">0</span>
-
-<button onclick="changeDrive('ab',1)">+</button>
-
-</div>
-
-
-<div class="fahrt">
-
-Nacht
-
-<button onclick="changeDrive('na',-1)">-</button>
-
-<span id="nachtCount">0</span>
-
-<button onclick="changeDrive('na',1)">+</button>
-
-</div>
-
-</div>
-
-
-
-<!-- =============================
-     BEOBACHTUNGSBÖGEN
-============================= -->
-
-<div id="boegen" class="tab hidden">
-
-<h3>Beobachtungsbögen</h3>
-
-<p>Hier können später die digitalen Bögen eingefügt werden:</p>
-
-<ul>
-<li>Beratungsgespräch</li>
-<li>Theorieunterricht</li>
-<li>Praktische Ausbildung</li>
-</ul>
-
-</div>
-
-
-
-</div>
-
-
-
-<!-- =============================
-     FAHRSCHÜLER ANLEGEN / BEARBEITEN
-============================= -->
-
-<div id="addPanel" class="hidden panel">
-
-<h2>Fahrschüler</h2>
-
-
-<input id="name" placeholder="Name">
-
-<input id="vorname" placeholder="Vorname">
-
-
-<select id="klasse">
-
-<option>B</option>
-<option>BE</option>
-<option>L</option>
-
-</select>
-
-
-<input id="telefon" placeholder="Telefon">
-
-<input id="adresse" placeholder="Adresse">
-
-<input id="vorbesitz" placeholder="Vorbesitz">
-
-
-<label>Start Ausbildung</label>
-
-<input id="startAusbildung" type="date">
-
-
-<label>Prüfung Theorie</label>
-
-<input id="pruefungTheorie" type="date">
-
-
-<label>Prüfung Praxis</label>
-
-<input id="pruefungPraxis" type="date">
-
-
-<br><br>
-
-
-<button onclick="saveStudent()">Speichern</button>
-
-<button onclick="closeAdd()">Abbrechen</button>
-
-
-</div>
-
-
-
-<!-- =============================
-     SCRIPTS
-============================= -->
-
-<script src="js/diagrammData.js"></script>
-
-<script src="js/app.js"></script>
-
-<script src="js/students.js"></script>
-
-<script src="js/sonderfahrten.js"></script>
-
-<script src="js/fahrten.js"></script>
-
-<script src="js/backup.js"></script>
-
-
-</body>
-
-</html>
+	<script>
+	/* =================== STORAGE KEYS =================== */
+	const LS_STUDENTS="fs_students_v1";
+	const LS_BER="fs_beratung_v1";
+	const LS_THEO="fs_theorie_v1";
+	const LS_PRAX="fs_praxis_v1";
+	const LS_CUR="fs_current";
+
+	/* =================== HELPERS =================== */
+	const getJ=(k,d)=>{try{return JSON.parse(localStorage.getItem(k)||d);}catch(_){return JSON.parse(d)}};
+	const setJ=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+	const q=(s)=>document.querySelector(s);
+	const id=(s)=>document.getElementById(s);
+	function activeSID(){return localStorage.getItem(LS_CUR)||"";}
+	function ensureSID(){const s=activeSID(); if(!s){alert("Bitte zuerst einen Fahrschüler wählen."); return null;} return s;}
+
+	/* =================== STUDENTS =================== */
+	function loadStudents(){
+	  const data=getJ(LS_STUDENTS,"{}");
+	  const sel=id("studentSelect");
+	  sel.innerHTML='<option value="">-- Bitte wählen --</option>'+
+		Object.keys(data).map(k=>`<option value="${k}">${data[k].name} (${(data[k].klassen||[]).join(", ")})</option>`).join("");
+	  const cur=activeSID(); if(cur && data[cur]) sel.value=cur;
+	}
+	function addStudent(){
+	  const name=id("newStudentName").value.trim();
+	  const klassen=Array.from(id("klasseSelect").selectedOptions).map(o=>o.value);
+	  if(!name) return alert("Name fehlt.");
+	  if(klassen.length===0) return alert("Mindestens eine Klasse wählen.");
+	  const data=getJ(LS_STUDENTS,"{}");
+	  const sid=crypto.randomUUID();
+	  data[sid]={name,klassen};
+	  setJ(LS_STUDENTS,data);
+	  id("newStudentName").value=""; id("klasseSelect").selectedIndex=-1;
+	  localStorage.setItem(LS_CUR,sid);
+	  loadStudents();
+	  alert("Schüler angelegt.");
+	}
+	function deleteStudent(){
+	  const sid=activeSID(); if(!sid) return alert("Kein Schüler gewählt.");
+	  if(!confirm("Diesen Schüler samt Einträgen löschen?")) return;
+	  const S=getJ(LS_STUDENTS,"{}"); const B=getJ(LS_BER,"{}"); const T=getJ(LS_THEO,"{}"); const P=getJ(LS_PRAX,"{}");
+	  delete S[sid]; delete B[sid]; delete T[sid]; delete P[sid];
+	  setJ(LS_STUDENTS,S); setJ(LS_BER,B); setJ(LS_THEO,T); setJ(LS_PRAX,P);
+	  localStorage.removeItem(LS_CUR);
+	  loadStudents(); id("overview").innerHTML="";
+	  alert("Gelöscht.");
+	}
+	function onSelectStudent(){
+	  const v=id("studentSelect").value;
+	  if(v) localStorage.setItem(LS_CUR,v);
+	}
+
+	/* =================== TABS =================== */
+	function switchTab(tab){
+	  ["beratung","theorie","praxis","uebersicht"].forEach(t=>{
+		id(t).classList.add("hidden");
+		id("tab-"+t).classList.remove("active");
+	  });
+	  id(tab).classList.remove("hidden");
+	  id("tab-"+tab).classList.add("active");
+	  if(tab==="uebersicht") renderOverview();
+	}
+
+	/* =================== BERATUNG SAVE =================== */
+	function valRadio(name){const x=[...document.getElementsByName(name)].find(e=>e.checked);return x?x.value:"";}
+	function saveBeratung(){
+	  const sid=ensureSID(); if(!sid) return;
+	  const all=getJ(LS_BER,"{}");
+	  all[sid]=all[sid]||[];
+	  all[sid].push({
+		datum:id("b_datum").value || new Date().toISOString().slice(0,10),
+		dauer:id("b_dauer").value,
+		partner:id("b_partner").value,
+		klasse:id("b_klasse").value,
+		  gruß:valRadio("b_gruß"), gruß_b:id("b_gruß_bem").value,
+		  kfrage:valRadio("b_kfrage"), kfrage_b:id("b_kfrage_bem").value,
+		  zugewandt:valRadio("b_zugewandt"), zugewandt_b:id("b_zugewandt_bem").value,
+		  sprech:valRadio("b_sprech"), sprech_b:id("b_sprech_bem").value,
+		  inhalt:valRadio("b_inhalt"), inhalt_b:id("b_inhalt_bem").value,
+		  ffragen:valRadio("b_ffragen"), ffragen_b:id("b_ffragen_bem").value,
+		 eingehen:valRadio("b_eingehen"), eingehen_b:id("b_eingehen_bem").value,
+		 b_thema:valRadio("b_thema"), thema_b:id("b_thema_bem").value,	
+		inhalte:id("b_inhalte").checked,
+		aengste:id("b_aengste").checked,
+		fragen:id("b_fragen").checked,
+		eindruck:id("b_eindruck").value,
+		situation:id("b_situation").value,
+		rolle:id("b_rolle").value,
+		infos:id("b_infos").value,
+		ablauf:id("b_ablauf").value,
+		lern:id("b_lern").value,
+		ts:Date.now()
+	  });
+	  setJ(LS_BER,all);
+	  alert("Beratung gespeichert.");
+	}
+
+	/* =================== THEORIE SAVE =================== */
+	function valRadio(name){const x=[...document.getElementsByName(name)].find(e=>e.checked);return x?x.value:"";}
+	function calcRedeanteil(){
+  const fl = parseFloat(document.getElementById("t_redenfl").value) || 0;
+  let fs = 100 - fl;
+  if(fs < 0) fs = 0;
+  if(fs > 100) fs = 100;
+  document.getElementById("t_redefs").value = fs;
+}
+
+	function saveTheorie(){
+	  const sid=ensureSID(); if(!sid) return;
+	  const all=getJ(LS_THEO,"{}");
+	  all[sid]=all[sid]||[];
+	  all[sid].push({
+		datum:id("t_datum").value || new Date().toISOString().slice(0,10),
+		uhr:id("t_time").value,
+		anzahl:id("t_anz").value,
+		thema:id("t_thema").value,
+		grund:id("t_grund").checked, zusatz:id("t_zusatz").checked,
+		verhalten:{
+		  ton:valRadio("t_ton"), ton_b:id("t_ton_bem").value,
+		  laut:valRadio("t_laut"), laut_b:id("t_laut_bem").value,
+		  stimme:valRadio("t_stimme"), stimme_b:id("t_stimme_bem").value,
+		  tempo:valRadio("t_tempo"), tempo_b:id("t_tempo_bem").value,
+		  begr:valRadio("t_begr"), begr_b:id("t_begr_bem").value,
+		  gestik:valRadio("t_gestik"), gestik_b:id("t_gestik_bem").value,
+		  blick:valRadio("t_blick"), blick_b:id("t_blick_bem").value,
+		  mimik:valRadio("t_mimik"), mimik_b:id("t_mimik_bem").value,
+		  bewegung:valRadio("t_bewegung"), bewegung_b:id("t_bewegung_bem").value,
+		  ls:valRadio("t_ls"), ls_b:id("t_ls_bem").value
+		},
+		methoden:{
+		  frontal:id("t_m_frontal").checked,
+		  lehr:id("t_m_lehr").checked,
+		  gruppe:id("t_m_gruppe").checked,
+		  fragen:id("t_m_fragen").checked,
+		  disk:id("t_m_disk").checked,
+		  erklaerung:id("t_m_erklaerung").checked,
+		  ruf:id("t_m_ruf").checked
+		},
+		medien:{
+		  lehrbuch:id("t_med_lehrbuch").checked,
+		  blatt:id("t_med_blatt").checked,
+		  white:id("t_med_white").checked,
+		  beamer:id("t_med_beamer").checked,
+		  handy:id("t_med_handy").checked,
+		  board:id("t_med_board").checked,
+		  flipchart:id("t_med_flipchart").checked
+		},
+		stimmung:id("t_stimmung").value,
+		reaktion:id("t_reaktion").value,
+		meth_extra:id("t_meth_extra").value,
+		med_extra:id("t_med_extra").value,
+		bem:id("t_bem").value,
+		schwerpunkt:id("t_schwerpunkt").value,
+		redenfl:id("t_redenfl").value,
+		redefs:id("t_redefs").value,
+		ts:Date.now()
+	  });
+	  
+	  setJ(LS_THEO,all);
+	  alert("Theorie gespeichert.");
+	}
+
+/* =================== PRAXIS SAVE =================== */
+function savePraxis(){
+  const sid = ensureSID(); 
+  if(!sid) return;
+
+  // --- GPS Tracking Prüfung ---
+  if(typeof gpsReady === "undefined") gpsReady = false;
+  if(typeof gpsRoute === "undefined") gpsRoute = [];
+
+  if(!gpsReady || gpsRoute.length === 0){
+    if(!confirm("⚠️ Das GPS-Tracking wurde nicht gestoppt oder es sind keine Punkte vorhanden.\nTrotzdem speichern?")) {
+      return;
+    }
+  }
+
+  const all = getJ(LS_PRAX,"{}");
+  all[sid] = all[sid] || [];
+
+  all[sid].push({
+    datum: id("p_datum").value || new Date().toISOString().slice(0,10),
+    dauer: id("p_dauer").value,
+    art: id("p_art").value,
+    anzahl_fs: id("p_anzahl_fs").value,
+    schwerpunkt: id("p_schwerpunkt").value,
+
+    // Wirkung
+    wirkung: {
+      ruhig: id("p_wirkt_ruhig").checked,
+      konzentriert: id("p_wirkt_konz").checked,
+      nervoes: id("p_wirkt_nerv").checked,
+      aufgeregt: id("p_wirkt_aufg").checked,
+      unsicher: id("p_wirkt_unsich").checked,
+      uebermuetig: id("p_wirkt_ueberm").checked,
+      aengstlich: id("p_wirkt_angst").checked,
+      unaufmerksam: id("p_wirkt_unaufm").checked
+    },
+
+    // Ablauf / Didaktik
+    ablauf: {
+      einstieg: id("p_einstieg").checked,
+      anknuepfung: id("p_ankn").checked,
+      ziele: id("p_ziele").checked,
+      wuensche: id("p_wuensche").checked,
+      hinweis_vor: id("p_vor").checked,
+      hinweis_nach: id("p_nach").checked,
+      wiederholung: id("p_wdh").checked,
+      nachbesprechung: id("p_nachbespr").checked,
+      ausblick: id("p_ausblick").checked,
+      aufgaben: id("p_aufgaben").checked
+    },
+
+    // Aufgabenblock
+    aufgabe: id("p_aufgabe").value,
+    notizen: id("p_notizen").value,
+
+    // Gesprächsdauer
+    gespraeche: {
+      einleitung: id("p_d_einl").value,
+      abschluss: id("p_d_absch").value
+    },
+
+    // Methoden
+    methoden: {
+      erklaer: id("p_m_erklaer").checked,
+      vormach: id("p_m_vormach").checked,
+      ausprobieren: id("p_m_ausprob").checked,
+      fragen: id("p_m_fragen").checked,
+      impulse: id("p_m_impulse").checked
+    },
+
+    // Medien
+    medien: {
+      zettel: id("p_med_zettel").checked,
+      modell: id("p_med_modell").checked,
+      karte: id("p_med_karte").checked,
+      tablet: id("p_med_tablet").checked,
+      lernapp: id("p_med_lernapp").checked
+    },
+
+    // Abschluss
+    vorgespr: id("p_vor_gespr").value,
+    nachgespr: id("p_nach_gespr").value,
+    dokumentation: id("p_doku").value,
+
+    // --- GPS-Daten hinzufügen ---
+    route: gpsRoute || [],
+    gps_punkte: gpsRoute.length || 0,
+    gps_abgeschlossen: gpsReady,
+
+    ts: Date.now()
+  });
+
+  setJ(LS_PRAX, all);
+  alert("✅ Praxis gespeichert mit " + (gpsRoute.length || 0) + " GPS-Punkten.");
+  resetGPSTracking(); // ← Nur ein Aufruf, keine doppelten Zeilen mehr
+  
+}
+
+	/* =================== OVERVIEW =================== */
+
+function renderOverview() {
+  const sid = ensureSID();
+  if (!sid) {
+    id("overview").innerHTML = "";
+    return;
+  }
+
+  const S = getJ(LS_STUDENTS, "{}")[sid];
+  const B = getJ(LS_BER, "{}")[sid] || [];
+  const T = getJ(LS_THEO, "{}")[sid] || [];
+  const P = getJ(LS_PRAX, "{}")[sid] || [];
+
+  // 1. Schülerdaten + Beratung + Theorie
+  let html = `
+    <p><span class="badge">${S?.name || "Unbekannt"}</span> 
+    <span class="badge">${(S?.klassen || []).join(", ")}</span></p>
+
+    <h4>Beratung (${B.length})</h4>
+    ${B.map((x, i) => `
+      <details>
+        <summary>#${i + 1} – ${x.datum}</summary>
+        <pre>${escape(JSON.stringify(x, null, 2))}</pre>
+      </details>
+    `).join("")}
+
+    <h4>Theorie (${T.length})</h4>
+    ${T.map((x, i) => `
+      <details>
+        <summary>#${i + 1} – ${x.datum} ${x.thema || ""}</summary>
+        <pre>${escape(JSON.stringify(x, null, 2))}</pre>
+      </details>
+    `).join("")}
+
+    <h4>Praxis (${P.length})</h4>
+  `;
+
+  id("overview").innerHTML = html;
+
+  // 2. Praxis-Details mit Karte separat anhängen
+  P.forEach((x, i) => {
+    const idMap = `gpsmap_${i}`;
+    const wrap = document.createElement("details");
+    wrap.open = true;
+
+    const points = x.route || [];
+    let stats = "";
+
+    if (points.length > 1) {
+      const start = new Date(points[0].timestamp);
+      const end = new Date(points[points.length - 1].timestamp);
+      const durationMin = ((end - start) / 60000).toFixed(1);
+
+      let dist = 0;
+      for (let j = 1; j < points.length; j++) {
+        dist += haversine(points[j - 1], points[j]);
+      }
+
+      const km = dist.toFixed(2);
+      const avgSpeed = ((dist / (durationMin / 60)) || 0).toFixed(1);
+
+      stats = `📏 ${km} km ⏱️ ${durationMin} Min 🚗 Ø ${avgSpeed} km/h`;
+    }
+
+    wrap.innerHTML = `
+      <summary>#${i + 1} – ${x.datum} ${x.art || ""}</summary>
+      <div class="gps-meta">${stats}</div>
+      <div id="${idMap}" class="gps-map"></div>
+      <pre>${escape(JSON.stringify(x, null, 2))}</pre>
+    `;
+
+    id("overview").appendChild(wrap);
+
+    // Karte initialisieren (wenn Route vorhanden)
+    if (points.length > 1) {
+      setTimeout(() => {
+        const map = L.map(idMap).setView([points[0].lat, points[0].lng], 15);
+        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+          attribution: "&copy; OpenStreetMap"
+        }).addTo(map);
+        const path = L.polyline(points.map(p => [p.lat, p.lng]), {
+          color: "blue"
+        }).addTo(map);
+        map.fitBounds(path.getBounds());
+      }, 200);
+    } else {
+      document.getElementById(idMap).innerText = "Keine Route vorhanden.";
+    }
+  });
+}
+
+// Escape für JSON-Ausgabe im HTML
+function escape(s) {
+  return s.replace(/[&<>"]/g, m => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;"
+  }[m]));
+}
+
+// Haversine-Distanz in km
+function haversine(a, b) {
+  const R = 6371; // Erdradius in km
+  const toRad = d => d * Math.PI / 180;
+  const dLat = toRad(b.lat - a.lat);
+  const dLon = toRad(b.lng - a.lng);
+  const lat1 = toRad(a.lat);
+  const lat2 = toRad(b.lat);
+  const a1 = Math.sin(dLat / 2) ** 2 + Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLon / 2) ** 2;
+  const c = 2 * Math.atan2(Math.sqrt(a1), Math.sqrt(1 - a1));
+  return R * c;
+}
+
+	/* =================== INIT =================== */
+	window.addEventListener("load",()=>{
+	  loadStudents();
+	  switchTab("beratung");
+	});
+	</script>
+	<!-- GPS-Tracking-Script -->
+<script>
+let gpsWatchId = null;
+let gpsRoute = [];
+let gpsReady = false;
+let gpsMap = null;
+let gpsPath = null;
+let gpsMarker = null;
+let gpsStartTime = null;
+let gpsDistance = 0;
+let gpsLastPos = null;
+
+/* Hilfsfunktion */
+function haversineDistance(a, b) {
+  const R = 6371; // Erdradius in km
+  const toRad = x => x * Math.PI / 180;
+  const dLat = toRad(b.lat - a.lat);
+  const dLon = toRad(b.lng - a.lng);
+  const lat1 = toRad(a.lat);
+  const lat2 = toRad(b.lat);
+
+  const a1 = Math.sin(dLat/2)**2 + Math.cos(lat1)*Math.cos(lat2)*Math.sin(dLon/2)**2;
+  const c = 2 * Math.atan2(Math.sqrt(a1), Math.sqrt(1 - a1));
+  return R * c;
+}
+
+/* Map initialisieren */
+function initMapIfNeeded(lat, lng) {
+  if (!gpsMap) {
+    gpsMap = L.map('gpsMap').setView([lat, lng], 16);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap'
+    }).addTo(gpsMap);
+    gpsPath = L.polyline([], { color: 'lime' }).addTo(gpsMap);
+    gpsMarker = L.marker([lat, lng]).addTo(gpsMap);
+    document.getElementById('gpsMap').style.display = "block";
+  }
+}
+
+/* GPS starten / stoppen */
+function toggleGPS() {
+  switchTab("praxis");
+  const btn = document.getElementById("gpsToggleBtn");
+  const stat = document.getElementById("gpsStatus");
+  const mapDiv = document.getElementById("gpsMap");
+
+  if (gpsWatchId === null) {
+    gpsRoute = [];
+    gpsReady = false;
+    gpsDistance = 0;
+    gpsStartTime = Date.now();
+    gpsLastPos = null;
+
+    if (gpsMap) {
+      gpsMap.remove();
+      gpsMap = null;
+    }
+
+    mapDiv.style.display = "block";
+
+    gpsWatchId = navigator.geolocation.watchPosition(
+      pos => {
+        const { latitude, longitude } = pos.coords;
+        const timestamp = new Date().toISOString();
+        gpsRoute.push({ lat: latitude, lng: longitude, timestamp });
+
+        initMapIfNeeded(latitude, longitude);
+
+        gpsMarker.setLatLng([latitude, longitude]);
+        gpsPath.addLatLng([latitude, longitude]);
+        gpsMap.panTo([latitude, longitude]);
+
+        // Distanz berechnen
+        if (gpsLastPos) {
+          const d = haversineDistance(gpsLastPos, { lat: latitude, lng: longitude });
+          gpsDistance += d;
+        }
+        gpsLastPos = { lat: latitude, lng: longitude };
+
+        // Live-Anzeigen aktualisieren
+        const speedKmh = pos.coords.speed ? (pos.coords.speed * 3.6).toFixed(1) + " km/h" : "–";
+        const elapsedMin = ((Date.now() - gpsStartTime) / 60000).toFixed(1);
+
+        document.getElementById("gpsLiveSpeed").innerText = `🚗 ${speedKmh}`;
+        document.getElementById("gpsLiveTime").innerText = `⏱️ ${elapsedMin} Min`;
+        document.getElementById("gpsLiveDist").innerText = `📏 ${gpsDistance.toFixed(2)} km`;
+
+        stat.innerText = `📡 Tracking läuft… Punkte: ${gpsRoute.length}`;
+      },
+      err => {
+        stat.innerText = "❌ Fehler: " + err.message;
+      },
+      { enableHighAccuracy: true, maximumAge: 0, timeout: 5000 }
+    );
+
+    btn.innerText = "⏹️ Tracking stoppen";
+    stat.innerText = "📡 Tracking gestartet…";
+  } else {
+    navigator.geolocation.clearWatch(gpsWatchId);
+    gpsWatchId = null;
+    gpsReady = true;
+
+    btn.innerText = "📍 Tracking starten";
+    stat.innerText = `⏹️ Tracking gestoppt. Punkte: ${gpsRoute.length}`;
+  }
+}
+
+/* Reset nach dem Speichern */
+function resetGPSTracking() {
+  gpsRoute = [];
+  gpsReady = false;
+  gpsDistance = 0;
+  gpsLastPos = null;
+  gpsStartTime = null;
+
+  document.getElementById("gpsLiveSpeed").innerText = "🚗 Geschwindigkeit: –";
+  document.getElementById("gpsLiveTime").innerText = "⏱️ Zeit: –";
+  document.getElementById("gpsLiveDist").innerText = "📏 Strecke: –";
+
+  if (gpsMap) {
+    gpsMap.remove();
+    gpsMap = null;
+  }
+}
+</script>
+ 
+	</body>
+	</html>

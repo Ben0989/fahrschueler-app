@@ -1,115 +1,28 @@
-/* =================================
-   BASIS
-================================= */
 
 body{
-font-family:Arial, Helvetica, sans-serif;
+font-family:Arial;
 margin:0;
 background:#f2f2f2;
 }
 
-
-/* =================================
-   HEADER
-================================= */
-
 header{
-background:linear-gradient(90deg,#1976d2,#00bcd4);
+background:#1f2937;
 color:white;
-padding:12px 16px;
+padding:10px;
 display:flex;
 justify-content:space-between;
-align-items:center;
-box-shadow:0 2px 6px rgba(0,0,0,0.2);
 }
-
-header h1{
-margin:0;
-font-size:22px;
-}
-
-header button{
-background:white;
-color:#1976d2;
-border:none;
-border-radius:6px;
-padding:6px 12px;
-font-size:20px;
-cursor:pointer;
-}
-
-
-/* =================================
-   SUCHFELD
-================================= */
-
-#search{
-margin:10px;
-padding:8px;
-width:calc(100% - 20px);
-border-radius:6px;
-border:1px solid #ccc;
-}
-
-
-/* =================================
-   PANELS
-================================= */
 
 .panel{
 background:white;
 padding:15px;
 margin:10px;
 border-radius:8px;
-box-shadow:0 2px 6px rgba(0,0,0,0.1);
 }
 
 .hidden{
 display:none;
 }
-
-
-/* =================================
-   INPUTS
-================================= */
-
-input, select, textarea{
-display:block;
-margin:6px 0;
-padding:6px;
-width:260px;
-border-radius:6px;
-border:1px solid #ccc;
-}
-
-textarea{
-width:400px;
-height:90px;
-}
-
-
-/* =================================
-   BUTTONS
-================================= */
-
-button{
-padding:8px 12px;
-margin:5px 5px 0 0;
-cursor:pointer;
-border:none;
-border-radius:6px;
-background:#1976d2;
-color:white;
-}
-
-button:hover{
-background:#1565c0;
-}
-
-
-/* =================================
-   SCHÜLER LISTE
-================================= */
 
 #studentList div{
 background:white;
@@ -117,147 +30,52 @@ padding:10px;
 margin:8px;
 border-radius:6px;
 cursor:pointer;
-box-shadow:0 1px 3px rgba(0,0,0,0.1);
-}
-
-.studentCard{
-background:white;
-padding:12px;
-border-radius:8px;
-margin:8px;
-cursor:pointer;
-box-shadow:0 2px 5px rgba(0,0,0,0.1);
-}
-
-.studentCard:hover{
-background:#f5f5f5;
-}
-
-
-/* =================================
-   TABS
-================================= */
-
-.tabs{
-margin-bottom:10px;
 }
 
 .tabs button{
-background:#eee;
-color:#333;
+margin-right:5px;
 }
 
-.tabs button:hover{
-background:#ddd;
+.diagramBox{
+padding:12px;
+margin:12px 0;
+border-radius:6px;
+background:#f5f5f5;
 }
 
-.tab{
-margin-top:10px;
+.diagramBox label{
+display:flex;
+justify-content:space-between;
+margin:3px 0;
 }
 
 
-/* =================================
-   DIAGRAMMKARTE GRID
-================================= */
+/* DIAGRAM GRID */
 
 #diagramContainer{
-
 display:grid;
 grid-template-columns:repeat(3,1fr);
 gap:16px;
 padding:10px;
-
 }
 
+.diagramBox:nth-child(1){background:#ffe0b2;}
+.diagramBox:nth-child(2){background:#ffccbc;}
+.diagramBox:nth-child(3){background:#ffcdd2;}
+.diagramBox:nth-child(4){background:#fff9c4;}
+.diagramBox:nth-child(5){background:#e6ee9c;}
+.diagramBox:nth-child(6){background:#c5e1a5;}
+.diagramBox:nth-child(7){background:#b2dfdb;}
+.diagramBox:nth-child(8){background:#bbdefb;}
+.diagramBox:nth-child(9){background:#d1c4e9;}
+.diagramBox:nth-child(10){background:#e1bee7;}
+.diagramBox:nth-child(11){background:#f8bbd0;}
+.diagramBox:nth-child(12){background:#d7ccc8;}
+.diagramBox:nth-child(13){background:#cfd8dc;}
 
-/* =================================
-   DIAGRAMMBOX
-================================= */
+/* PROGRESS */
 
-.diagramBox{
-
-padding:14px;
-border-radius:10px;
-box-shadow:0 2px 6px rgba(0,0,0,0.1);
-
-}
-
-.diagramBox h3{
-margin-top:0;
-font-size:18px;
-}
-
-
-/* =================================
-   DIAGRAMM EINTRÄGE
-================================= */
-
-.diagramBox label{
-
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin:4px 0;
-
-}
-
-.diagramBox input[type="checkbox"]{
-margin-left:10px;
-}
-
-
-/* =================================
-   FARBIGE STUFEN
-================================= */
-
-.diagramBox:nth-child(1){background:#ffe0b2;}   
-.diagramBox:nth-child(2){background:#ffccbc;}   
-.diagramBox:nth-child(3){background:#ffcdd2;}   
-
-.diagramBox:nth-child(4){background:#fff9c4;}   
-.diagramBox:nth-child(5){background:#e6ee9c;}   
-.diagramBox:nth-child(6){background:#c5e1a5;}   
-
-.diagramBox:nth-child(7){background:#b2dfdb;}   
-.diagramBox:nth-child(8){background:#bbdefb;}   
-.diagramBox:nth-child(9){background:#d1c4e9;}   
-
-.diagramBox:nth-child(10){background:#e1bee7;}  
-.diagramBox:nth-child(11){background:#f8bbd0;}  
-.diagramBox:nth-child(12){background:#d7ccc8;}  
-
-.diagramBox:nth-child(13){background:#cfd8dc;}  
-
-
-/* =================================
-   SONDERFAHRTEN
-================================= */
-
-.fahrt{
-margin:6px 0;
-font-size:16px;
-}
-
-.fahrt button{
-margin:0 6px;
-width:30px;
-}
-
-
-/* =================================
-   FAHRTENPROTOKOLL
-================================= */
-
-#fahrtenListe{
-margin-top:10px;
-}
-
-.fahrtEintrag{
-padding:6px;
-border-bottom:1px solid #ccc;
-}
-
-
-
-
-}
+.progressBlock{margin:10px 0;}
+.progressTitle{font-weight:bold;margin-bottom:4px;}
+.progressBar{background:#ddd;border-radius:6px;height:16px;overflow:hidden;}
+.progressFill{background:#4caf50;height:100%;width:0%;transition:width .3s;}
