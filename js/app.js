@@ -135,12 +135,12 @@ container.appendChild(box)
 
 function loadDiagram(){
 
-const checkboxes=document.querySelectorAll("#diagramContainer input")
+const checkboxes=document.querySelectorAll("#diagramContainer input[type='checkbox']")
 
 checkboxes.forEach(cb=>{
 
 let field=cb.dataset.field
-cb.checked=students[current].checkboxes[field] || false
+cb.checked=students[current].checkboxes?.[field] || false
 
 })
 
