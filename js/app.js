@@ -820,10 +820,7 @@ document.getElementById("addPanel").classList.add("hidden")
 function saveStudent(){
 
 let data={
-if(!data.name || !data.vorname){
-alert("Bitte Name und Vorname eingeben")
-return
-}
+
 name:document.getElementById("name").value,
 vorname:document.getElementById("vorname").value,
 klasse:document.getElementById("klasse").value,
@@ -836,6 +833,13 @@ startAusbildung:document.getElementById("startAusbildung").value,
 pruefungTheorie:document.getElementById("pruefungTheorie").value,
 pruefungPraxis:document.getElementById("pruefungPraxis").value
 
+}
+
+/* Pflichtfelder prüfen */
+
+if(!data.name || !data.vorname){
+alert("Bitte Name und Vorname eingeben")
+return
 }
 
 if(editMode){
