@@ -154,7 +154,45 @@ BEOBACHTUNGSBÖGEN
 <button onclick="showSubTab('praxis')">Praxis</button>
 </div>
 
+<!-- =============================
+BERATUNGSGESPRÄCH
+============================= -->
 
+<div id="beratung" class="subtab hidden">
+
+<h3>Beobachtung – Beratungsgespräch</h3>
+
+<label>Datum</label>
+<input type="date" id="b_datum">
+
+<label>Dauer (Minuten)</label>
+<input type="number" id="b_dauer">
+
+<label>Gesprächspartner</label>
+<input id="b_partner">
+
+<label>Fahrerlaubnisklasse</label>
+<input id="b_klasse">
+
+<h4>Inhalte des Gesprächs</h4>
+
+<label><input type="checkbox" id="b_ablauf"> Ablauf der Ausbildung erklärt</label>
+<label><input type="checkbox" id="b_kosten"> Kosten / Ausbildung erläutert</label>
+<label><input type="checkbox" id="b_pruefung"> Prüfungsablauf erklärt</label>
+<label><input type="checkbox" id="b_voraussetzungen"> Voraussetzungen besprochen</label>
+
+<h4>Persönliche Aspekte</h4>
+
+<label><input type="checkbox" id="b_aengste"> Ängste / Unsicherheiten erfragt</label>
+<label><input type="checkbox" id="b_erfahrung"> Vorerfahrung im Straßenverkehr</label>
+<label><input type="checkbox" id="b_motivation"> Motivation des Fahrschülers</label>
+
+<label>Bemerkungen</label>
+<textarea id="b_bem"></textarea>
+
+<button onclick="saveBeratung()">Beratung speichern</button>
+
+</div>
 <!-- =============================
 THEORIEBEOBACHTUNG
 ============================= -->
