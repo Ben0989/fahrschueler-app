@@ -499,6 +499,8 @@ s.fahrten.push(fahrt)
 saveDB()
 
 renderFahrten()
+
+stopTracking()
    
 route=[]
 }
@@ -864,7 +866,10 @@ if(!data.name || !data.vorname){
 alert("Bitte Name und Vorname eingeben")
 return
 }
+
+if(!editMode){
 document.getElementById("studentPanel").classList.add("hidden")
+}
    
 if(editMode){
 
