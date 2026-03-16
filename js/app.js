@@ -65,6 +65,8 @@ renderList()
 
 function openStudent(i){
 
+if(i===undefined || !students[i]) return
+   
 current=i
 let s=students[i]
 
@@ -833,7 +835,8 @@ document.getElementById("pruefungPraxis").value=""
 
 function editStudent(){
 
-let s=students[current]
+let s=getStudent()
+if(!s) return
 editMode=true
 
 document.getElementById("addPanel").classList.remove("hidden")
