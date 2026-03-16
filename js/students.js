@@ -1,5 +1,4 @@
 
-let editMode=false
 
 function renderList(){
 
