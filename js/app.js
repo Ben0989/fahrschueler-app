@@ -709,6 +709,61 @@ alert("Praxisbeobachtung gespeichert")
 
 }
 
+/* =============================
+   BEOBACHTUNGSBÖGEN LISTE
+============================= */
+
+function renderBoegen(){
+
+let s = students[current]
+
+const container = document.getElementById("boegenListe")
+
+if(!container || !s || !s.boegen) return
+
+container.innerHTML=""
+
+let list=[]
+
+s.boegen.beratung.forEach(b=>{
+list.push({
+typ:"Beratung",
+datum:b.datum || "-"
+})
+})
+
+s.boegen.theorie.forEach(b=>{
+list.push({
+typ:"Theorieunterricht",
+datum:b.datum || "-"
+})
+})
+
+s.boegen.praxis.forEach(b=>{
+list.push({
+typ:"Praxisbeobachtung",
+datum:b.datum || "-"
+})
+})
+
+list.sort((a,b)=> new Date(b.datum) - new Date(a.datum))
+
+list.forEach(e=>{
+
+let div=document.createElement("div")
+
+div.className="bogenEintrag"
+
+div.innerHTML=`
+<b>${e.typ}</b><br>
+Datum: ${e.datum}
+`
+
+container.appendChild(div)
+
+})
+
+}
 
 /* =============================
    FORMULAR
