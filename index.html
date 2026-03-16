@@ -150,49 +150,14 @@ BEOBACHTUNGSBÖGEN
 <button onclick="showSubTab('praxis')">Praxis</button>
 </div>
 
-<!-- =============================
-BERATUNG
-============================= -->
-
-<div id="beratung" class="subtab hidden">
-
-<h3>Beobachtung – Beratungsgespräch</h3>
-
-<label>Datum</label>
-<input type="date" id="b_datum">
-
-<label>Dauer</label>
-<input type="number" id="b_dauer">
-
-<label>Gesprächspartner</label>
-<input id="b_partner">
-
-<label>Fahrerlaubnisklasse</label>
-<input id="b_klasse">
-
-<label>Informationen zur Ausbildung erklärt</label>
-<input type="checkbox" id="b_inhalte">
-
-<label>Ängste / Erwartungen erfragt</label>
-<input type="checkbox" id="b_aengste">
-
-<label>Rückfragen geklärt</label>
-<input type="checkbox" id="b_fragen">
-
-<label>Bemerkung</label>
-<textarea id="b_bem"></textarea>
-
-<button onclick="saveBeratung()">Beratung speichern</button>
-
-</div>
 
 <!-- =============================
-THEORIE
+THEORIEBEOBACHTUNG
 ============================= -->
 
 <div id="theorie" class="subtab hidden">
 
-<h3>Beobachtung – Theorieunterricht</h3>
+<h3>Beobachtungshilfe – Theorieunterricht</h3>
 
 <label>Datum</label>
 <input type="date" id="t_datum">
@@ -200,8 +165,15 @@ THEORIE
 <label>Uhrzeit</label>
 <input type="time" id="t_time">
 
-<label>Thema</label>
+<label>Anzahl Fahrschüler</label>
+<input id="t_fs">
+
+<label>Lektion / Thema</label>
 <input id="t_thema">
+
+<label><input type="checkbox" id="t_grundstoff"> Grundstoff</label>
+<label><input type="checkbox" id="t_zusatzstoff"> Zusatzstoff</label>
+
 
 <h4>Fahrlehrerverhalten</h4>
 
@@ -214,47 +186,153 @@ THEORIE
 <th>°</th>
 <th>-</th>
 <th>--</th>
+<th>Bemerkung</th>
 </tr>
 
 <tr>
 <td>Umgangston</td>
-<td><input type="radio" name="t_ton" value="++"></td>
-<td><input type="radio" name="t_ton" value="+"></td>
-<td><input type="radio" name="t_ton" value="°"></td>
-<td><input type="radio" name="t_ton" value="-"></td>
-<td><input type="radio" name="t_ton" value="--"></td>
+<td><input type="radio" name="ton" value="++"></td>
+<td><input type="radio" name="ton" value="+"></td>
+<td><input type="radio" name="ton" value="°"></td>
+<td><input type="radio" name="ton" value="-"></td>
+<td><input type="radio" name="ton" value="--"></td>
+<td><input id="ton_bem"></td>
+</tr>
+
+<tr>
+<td>Variantenreiche Lautstärke</td>
+<td><input type="radio" name="laut" value="++"></td>
+<td><input type="radio" name="laut" value="+"></td>
+<td><input type="radio" name="laut" value="°"></td>
+<td><input type="radio" name="laut" value="-"></td>
+<td><input type="radio" name="laut" value="--"></td>
+<td><input id="laut_bem"></td>
+</tr>
+
+<tr>
+<td>Arbeit mit der Stimme</td>
+<td><input type="radio" name="stimme" value="++"></td>
+<td><input type="radio" name="stimme" value="+"></td>
+<td><input type="radio" name="stimme" value="°"></td>
+<td><input type="radio" name="stimme" value="-"></td>
+<td><input type="radio" name="stimme" value="--"></td>
+<td><input id="stimme_bem"></td>
+</tr>
+
+<tr>
+<td>Sprechtempo</td>
+<td><input type="radio" name="tempo" value="++"></td>
+<td><input type="radio" name="tempo" value="+"></td>
+<td><input type="radio" name="tempo" value="°"></td>
+<td><input type="radio" name="tempo" value="-"></td>
+<td><input type="radio" name="tempo" value="--"></td>
+<td><input id="tempo_bem"></td>
+</tr>
+
+<tr>
+<td>Fachbegriffe / Alltagssprache</td>
+<td><input type="radio" name="sprache" value="++"></td>
+<td><input type="radio" name="sprache" value="+"></td>
+<td><input type="radio" name="sprache" value="°"></td>
+<td><input type="radio" name="sprache" value="-"></td>
+<td><input type="radio" name="sprache" value="--"></td>
+<td><input id="sprache_bem"></td>
+</tr>
+
+<tr>
+<td>Gestik / Bewegung</td>
+<td><input type="radio" name="gestik" value="++"></td>
+<td><input type="radio" name="gestik" value="+"></td>
+<td><input type="radio" name="gestik" value="°"></td>
+<td><input type="radio" name="gestik" value="-"></td>
+<td><input type="radio" name="gestik" value="--"></td>
+<td><input id="gestik_bem"></td>
 </tr>
 
 <tr>
 <td>Blickkontakt</td>
-<td><input type="radio" name="t_blick" value="++"></td>
-<td><input type="radio" name="t_blick" value="+"></td>
-<td><input type="radio" name="t_blick" value="°"></td>
-<td><input type="radio" name="t_blick" value="-"></td>
-<td><input type="radio" name="t_blick" value="--"></td>
+<td><input type="radio" name="blick" value="++"></td>
+<td><input type="radio" name="blick" value="+"></td>
+<td><input type="radio" name="blick" value="°"></td>
+<td><input type="radio" name="blick" value="-"></td>
+<td><input type="radio" name="blick" value="--"></td>
+<td><input id="blick_bem"></td>
+</tr>
+
+<tr>
+<td>Mimik</td>
+<td><input type="radio" name="mimik" value="++"></td>
+<td><input type="radio" name="mimik" value="+"></td>
+<td><input type="radio" name="mimik" value="°"></td>
+<td><input type="radio" name="mimik" value="-"></td>
+<td><input type="radio" name="mimik" value="--"></td>
+<td><input id="mimik_bem"></td>
 </tr>
 
 </table>
 
-<label>Bemerkung</label>
-<textarea id="t_bem"></textarea>
+
+<h4>Methoden</h4>
+
+<label><input type="checkbox" id="m_frontal"> Frontalunterricht</label>
+<label><input type="checkbox" id="m_lehrgespraech"> Lehrgespräch</label>
+<label><input type="checkbox" id="m_gruppe"> Gruppenarbeit</label>
+<label><input type="checkbox" id="m_fragen"> Fragen stellen</label>
+<label><input type="checkbox" id="m_diskussion"> Diskussion</label>
+<label><input type="checkbox" id="m_erklaerung"> Erklärung</label>
+<label><input type="checkbox" id="m_zuruf"> Zurufsammlung</label>
+
+
+<h4>Medien</h4>
+
+<label><input type="checkbox" id="med_lehrbuch"> Lehrbuch</label>
+<label><input type="checkbox" id="med_arbeitsblatt"> Arbeitsblätter</label>
+<label><input type="checkbox" id="med_flipchart"> Flipchart</label>
+<label><input type="checkbox" id="med_tafel"> Whiteboard / Tafel</label>
+<label><input type="checkbox" id="med_beamer"> Computer / Beamer</label>
+<label><input type="checkbox" id="med_smartboard"> Smartboard</label>
+<label><input type="checkbox" id="med_handy"> Handy</label>
+
+
+<label>Redeanteil FL (%)</label>
+<input id="rede_fl">
+
+<label>Redeanteil FS (%)</label>
+<input id="rede_fs">
+
+
+<label>Stimmung im Unterricht</label>
+<textarea id="t_stimmung"></textarea>
+
+<label>Reaktionen der Fahrschüler</label>
+<textarea id="t_reaktion"></textarea>
+
+<label>Zusätzliche Methoden</label>
+<textarea id="t_methoden_extra"></textarea>
+
+<label>Zusätzliche Medien</label>
+<textarea id="t_medien_extra"></textarea>
+
+<label>Inhaltliche Schwerpunkte erkannt</label>
+<textarea id="t_schwerpunkte"></textarea>
 
 <button onclick="saveTheorie()">Theorie speichern</button>
 
 </div>
 
+
 <!-- =============================
-PRAXIS
+PRAXISBEOBACHTUNG
 ============================= -->
 
 <div id="praxis" class="subtab hidden">
 
-<h3>Beobachtung – Praktische Ausbildung</h3>
+<h3>Beobachtungshilfe – Praktische Ausbildung</h3>
 
 <label>Datum</label>
 <input type="date" id="p_datum">
 
-<label>Dauer</label>
+<label>Dauer (Min)</label>
 <input type="number" id="p_dauer">
 
 <label>Art der Fahrstunde</label>
@@ -265,15 +343,63 @@ PRAXIS
 <option>Nachtfahrt</option>
 </select>
 
+<label>Bisherige Fahrstunden</label>
+<input id="p_fsanzahl">
+
 <label>Schwerpunkt</label>
 <input id="p_schwerpunkt">
 
-<label>Notizen</label>
+
+<h4>Wirkung des Fahrschülers</h4>
+
+<label><input type="checkbox" id="w_ruhig"> ruhig</label>
+<label><input type="checkbox" id="w_konzentriert"> konzentriert</label>
+<label><input type="checkbox" id="w_nervoes"> nervös</label>
+<label><input type="checkbox" id="w_aufgeregt"> aufgeregt</label>
+<label><input type="checkbox" id="w_unsicher"> unsicher</label>
+<label><input type="checkbox" id="w_uebermuetig"> übermütig</label>
+<label><input type="checkbox" id="w_aengstlich"> ängstlich</label>
+<label><input type="checkbox" id="w_unaufmerksam"> unaufmerksam</label>
+
+
+<h4>Durchführung / Ablauf</h4>
+
+<label><input type="checkbox" id="d_begruessung"> Begrüßung</label>
+<label><input type="checkbox" id="d_anknuepfung"> Anknüpfung letzte FS</label>
+<label><input type="checkbox" id="d_ziele"> Ziele benannt</label>
+<label><input type="checkbox" id="d_wuensche"> Wünsche aufgenommen</label>
+<label><input type="checkbox" id="d_hinweise_vor"> Hinweise vor Durchführung</label>
+<label><input type="checkbox" id="d_hinweise_nach"> Hinweise nach Durchführung</label>
+<label><input type="checkbox" id="d_wiederholung"> Wiederholung</label>
+<label><input type="checkbox" id="d_nachbesprechung"> Nachbesprechung</label>
+<label><input type="checkbox" id="d_ausblick"> Ausblick nächste FS</label>
+<label><input type="checkbox" id="d_aufgaben"> Aufgaben bis nächste FS</label>
+
+
+<label>Wie lautete die Aufgabe?</label>
+<textarea id="p_aufgabe"></textarea>
+
+<label>Weitere Notizen</label>
 <textarea id="p_notizen"></textarea>
 
-<button onclick="savePraxis()">Praxis speichern</button>
 
-</div>
+<label>Dauer Einleitungsgespräch</label>
+<input id="p_einleitung">
+
+<label>Dauer Abschlussgespräch</label>
+<input id="p_abschluss">
+
+
+<label>Stichpunkte Vorgespräch</label>
+<textarea id="p_vorgespräch"></textarea>
+
+<label>Stichpunkte Nachgespräch</label>
+<textarea id="p_nachgespräch"></textarea>
+
+<label>Wie dokumentiert?</label>
+<textarea id="p_dokumentation"></textarea>
+
+<button onclick="savePraxis()">Praxis speichern</button>
 
 </div>
 
