@@ -554,42 +554,161 @@ alert("Beratung gespeichert")
 
 function saveTheorie(){
 
-let s=students[current]
+let s = students[current]
+
+if(!s.boegen) s.boegen={beratung:[],theorie:[],praxis:[]}
+
+function radio(name){
+let el=document.querySelector("input[name='"+name+"']:checked")
+return el ? el.value : ""
+}
 
 let data={
+
 datum:document.getElementById("t_datum").value,
-zeit:document.getElementById("t_time").value,
+uhrzeit:document.getElementById("t_time").value,
+anzahlFS:document.getElementById("t_fs").value,
 thema:document.getElementById("t_thema").value,
-bem:document.getElementById("t_bem").value
+
+grundstoff:document.getElementById("t_grundstoff").checked,
+zusatzstoff:document.getElementById("t_zusatzstoff").checked,
+
+fahrlehrer:{
+
+umgangston:radio("ton"),
+lautstaerke:radio("laut"),
+stimme:radio("stimme"),
+sprechtempo:radio("tempo"),
+sprache:radio("sprache"),
+gestik:radio("gestik"),
+blickkontakt:radio("blick"),
+mimik:radio("mimik")
+
+},
+
+bemerkungen:{
+
+ton:document.getElementById("ton_bem").value,
+laut:document.getElementById("laut_bem").value,
+stimme:document.getElementById("stimme_bem").value,
+tempo:document.getElementById("tempo_bem").value,
+sprache:document.getElementById("sprache_bem").value,
+gestik:document.getElementById("gestik_bem").value,
+blick:document.getElementById("blick_bem").value,
+mimik:document.getElementById("mimik_bem").value
+
+},
+
+methoden:{
+
+frontal:document.getElementById("m_frontal").checked,
+lehrgespraech:document.getElementById("m_lehrgespraech").checked,
+gruppe:document.getElementById("m_gruppe").checked,
+fragen:document.getElementById("m_fragen").checked,
+diskussion:document.getElementById("m_diskussion").checked,
+erklaerung:document.getElementById("m_erklaerung").checked,
+zuruf:document.getElementById("m_zuruf").checked
+
+},
+
+medien:{
+
+lehrbuch:document.getElementById("med_lehrbuch").checked,
+arbeitsblatt:document.getElementById("med_arbeitsblatt").checked,
+flipchart:document.getElementById("med_flipchart").checked,
+tafel:document.getElementById("med_tafel").checked,
+beamer:document.getElementById("med_beamer").checked,
+smartboard:document.getElementById("med_smartboard").checked,
+handy:document.getElementById("med_handy").checked
+
+},
+
+redeanteilFL:document.getElementById("rede_fl").value,
+redeanteilFS:document.getElementById("rede_fs").value,
+
+stimmung:document.getElementById("t_stimmung").value,
+reaktion:document.getElementById("t_reaktion").value,
+
+extraMethoden:document.getElementById("t_methoden_extra").value,
+extraMedien:document.getElementById("t_medien_extra").value,
+
+schwerpunkte:document.getElementById("t_schwerpunkte").value
+
 }
 
 s.boegen.theorie.push(data)
 
 saveDB()
 
-alert("Theorie gespeichert")
+alert("Theoriebeobachtung gespeichert")
 
 }
 
 function savePraxis(){
 
-let s=students[current]
+let s = students[current]
+
+if(!s.boegen) s.boegen={beratung:[],theorie:[],praxis:[]}
 
 let data={
+
 datum:document.getElementById("p_datum").value,
 dauer:document.getElementById("p_dauer").value,
 art:document.getElementById("p_art").value,
+bisherigeFS:document.getElementById("p_fsanzahl").value,
 schwerpunkt:document.getElementById("p_schwerpunkt").value,
-notizen:document.getElementById("p_notizen").value
+
+wirkung:{
+
+ruhig:document.getElementById("w_ruhig").checked,
+konzentriert:document.getElementById("w_konzentriert").checked,
+nervoes:document.getElementById("w_nervoes").checked,
+aufgeregt:document.getElementById("w_aufgeregt").checked,
+unsicher:document.getElementById("w_unsicher").checked,
+uebermuetig:document.getElementById("w_uebermuetig").checked,
+aengstlich:document.getElementById("w_aengstlich").checked,
+unaufmerksam:document.getElementById("w_unaufmerksam").checked
+
+},
+
+ablauf:{
+
+begruessung:document.getElementById("d_begruessung").checked,
+anknuepfung:document.getElementById("d_anknuepfung").checked,
+ziele:document.getElementById("d_ziele").checked,
+wuensche:document.getElementById("d_wuensche").checked,
+hinweiseVor:document.getElementById("d_hinweise_vor").checked,
+hinweiseNach:document.getElementById("d_hinweise_nach").checked,
+wiederholung:document.getElementById("d_wiederholung").checked,
+nachbesprechung:document.getElementById("d_nachbesprechung").checked,
+ausblick:document.getElementById("d_ausblick").checked,
+aufgaben:document.getElementById("d_aufgaben").checked
+
+},
+
+aufgabe:document.getElementById("p_aufgabe").value,
+notizen:document.getElementById("p_notizen").value,
+
+einleitung:document.getElementById("p_einleitung").value,
+abschluss:document.getElementById("p_abschluss").value,
+
+vorgespraech:document.getElementById("p_vorgespräch").value,
+nachgespraech:document.getElementById("p_nachgespräch").value,
+
+dokumentation:document.getElementById("p_dokumentation").value,
+
+route:route
+
 }
 
 s.boegen.praxis.push(data)
 
 saveDB()
 
-alert("Praxis gespeichert")
+alert("Praxisbeobachtung gespeichert")
 
 }
+
 
 /* =============================
    FORMULAR
