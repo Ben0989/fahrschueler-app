@@ -37,7 +37,13 @@ list.appendChild(div)
 })
 
 }
+document.getElementById("search").addEventListener("input", e=>{
+let q=e.target.value.toLowerCase()
 
+document.querySelectorAll("#studentList div").forEach(d=>{
+d.style.display=d.innerText.toLowerCase().includes(q) ? "block":"none"
+})
+})
 renderList()
 
 /* =============================
