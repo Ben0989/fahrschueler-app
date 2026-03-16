@@ -1,4 +1,4 @@
-const CACHE_NAME = "fs-app-cache-v3"
+const CACHE_NAME = "fs-app-cache-v4"
 
 const ASSETS = [
 "./",
