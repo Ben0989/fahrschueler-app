@@ -770,8 +770,26 @@ container.appendChild(div)
 ============================= */
 
 function openAdd(){
+
 editMode=false
+current=null
+
 document.getElementById("addPanel").classList.remove("hidden")
+
+/* Formular komplett leeren */
+
+document.getElementById("name").value=""
+document.getElementById("vorname").value=""
+document.getElementById("klasse").value="B"
+
+document.getElementById("telefon").value=""
+document.getElementById("adresse").value=""
+document.getElementById("vorbesitz").value=""
+
+document.getElementById("startAusbildung").value=""
+document.getElementById("pruefungTheorie").value=""
+document.getElementById("pruefungPraxis").value=""
+
 }
 
 function editStudent(){
@@ -802,7 +820,10 @@ document.getElementById("addPanel").classList.add("hidden")
 function saveStudent(){
 
 let data={
-
+if(!data.name || !data.vorname){
+alert("Bitte Name und Vorname eingeben")
+return
+}
 name:document.getElementById("name").value,
 vorname:document.getElementById("vorname").value,
 klasse:document.getElementById("klasse").value,
