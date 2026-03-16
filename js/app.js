@@ -930,3 +930,7 @@ navigator.serviceWorker.getRegistrations().then(regs=>{
 regs.forEach(r=>r.update())
 })
 }
+
+document.addEventListener("DOMContentLoaded", function(){
+renderList()
+})
