@@ -903,16 +903,6 @@ alert("Bitte Name und Vorname eingeben")
 return
 }
 
-if(!editMode){
-document.getElementById("studentPanel").classList.add("hidden")
-}
-   
-if(editMode){
-
-students[current]={...students[current],...data}
-
-}else{
-
 students.push({
 ...data,
 sonderfahrten:{ul:0,ab:0,na:0},
@@ -921,10 +911,11 @@ fahrten:[],
 boegen:{beratung:[],theorie:[],praxis:[]}
 })
 
-}
 
-saveDB()
+localStorage.setItem("students",JSON.stringify(students))
+
 renderList()
+   
 closeAdd()
 
 }
