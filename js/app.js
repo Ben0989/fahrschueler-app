@@ -816,7 +816,15 @@ document.getElementById("pruefungPraxis").value=s.pruefungPraxis || ""
 }
 
 function closeAdd(){
+
 document.getElementById("addPanel").classList.add("hidden")
+
+/* wenn kein Schüler aktiv ist → Panel komplett schließen */
+
+if(current === null){
+document.getElementById("studentPanel").classList.add("hidden")
+}
+
 }
 
 function saveStudent(){
