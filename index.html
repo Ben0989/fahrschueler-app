@@ -448,15 +448,16 @@ PRAXISBEOBACHTUNG
 </div>
 
 <!-- =============================
-FAHRSCHÜLER ANLEGEN
+FAHRSCHÜLER POPUP
 ============================= -->
 
-<div id="addPanel" class="hidden panel">
+<div id="studentModal" class="modal hidden">
 
-<h2>Fahrschüler anlegen</h2>
+<div class="modalBox">
+
+<h2 id="modalTitle">Fahrschüler anlegen</h2>
 
 <input id="name" placeholder="Name">
-
 <input id="vorname" placeholder="Vorname">
 
 <select id="klasse">
@@ -466,9 +467,7 @@ FAHRSCHÜLER ANLEGEN
 </select>
 
 <input id="telefon" placeholder="Telefon">
-
 <input id="adresse" placeholder="Adresse">
-
 <input id="vorbesitz" placeholder="Vorbesitz">
 
 <label>Start Ausbildung</label>
@@ -483,7 +482,9 @@ FAHRSCHÜLER ANLEGEN
 <div class="buttons">
 
 <button onclick="saveStudent()">Speichern</button>
-<button onclick="closeAdd()">Abbrechen</button>
+<button onclick="closeModal()">Abbrechen</button>
+
+</div>
 
 </div>
 
