@@ -11,7 +11,10 @@ let startTime=null
 function saveDB(){
 localStorage.setItem("students",JSON.stringify(students))
 }
-
+function getStudent(){
+if(current===null) return null
+return students[current]
+}
 /* =============================
    LISTE
 ============================= */
@@ -350,6 +353,8 @@ el.innerText="Noch nicht prüfungsreif"
 
 function changeDrive(type,val){
 
+if(current===null) return
+   
 let s=students[current]
 if(!s) return
 
@@ -383,6 +388,8 @@ renderGesamtProgress()
 
 function updateProgress(){
 
+if(current===null) return
+   
 let s=students[current]
 if(!s) return
 
