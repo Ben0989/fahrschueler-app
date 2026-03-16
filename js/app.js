@@ -402,6 +402,15 @@ speed:pos.coords.speed || 0,
 time:now
 }
 
+function stopTracking(){
+
+if(watchId!==null){
+navigator.geolocation.clearWatch(watchId)
+watchId=null
+}
+
+}   
+   
 /* nur speichern wenn Bewegung */
 
 if(route.length>0){
@@ -470,7 +479,7 @@ if(!s) return
 let endTime=Date.now()
 
 let duration=Math.round((endTime-startTime)/60000)
-let distance=calcDistance(route).toFixed(2)
+let distance = route.length>1 ? calcDistance(route).toFixed(2) : 0
 
 let fahrt={
 datum:new Date().toISOString().split("T")[0],
@@ -553,7 +562,7 @@ bem:document.getElementById("b_bem").value
 s.boegen.beratung.push(data)
 
 saveDB()
-
+renderBoegen()
 alert("Beratung gespeichert")
 
 }
@@ -645,7 +654,7 @@ schwerpunkte:document.getElementById("t_schwerpunkte").value
 s.boegen.theorie.push(data)
 
 saveDB()
-
+renderBoegen()
 alert("Theoriebeobachtung gespeichert")
 
 }
@@ -710,7 +719,7 @@ route:route
 s.boegen.praxis.push(data)
 
 saveDB()
-
+renderBoegen()
 alert("Praxisbeobachtung gespeichert")
 
 }
@@ -843,7 +852,7 @@ pruefungTheorie:document.getElementById("pruefungTheorie").value,
 pruefungPraxis:document.getElementById("pruefungPraxis").value
 
 }
-
+document.getElementById("studentPanel").classList.add("hidden")
 /* Pflichtfelder prüfen */
 
 if(!data.name || !data.vorname){
