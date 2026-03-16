@@ -774,6 +774,8 @@ function openAdd(){
 editMode=false
 current=null
 
+/* wichtig: Panel sichtbar machen */
+document.getElementById("studentPanel").classList.remove("hidden")
 document.getElementById("addPanel").classList.remove("hidden")
 
 /* Formular komplett leeren */
