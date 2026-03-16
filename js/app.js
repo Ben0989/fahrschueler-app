@@ -8,6 +8,16 @@ let route=[]
 let watchId=null
 let startTime=null
 
+document.addEventListener("DOMContentLoaded", () => {
+
+const addBtn = document.getElementById("addStudentBtn")
+
+if(addBtn){
+addBtn.addEventListener("click", openAdd)
+}
+
+})
+
 function saveDB(){
 localStorage.setItem("students",JSON.stringify(students))
 }
