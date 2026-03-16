@@ -377,23 +377,43 @@ function startTracking(){
 route=[]
 startTime=Date.now()
 
+let lastSave=0
+
 watchId=navigator.geolocation.watchPosition(pos=>{
 
-route.push({
+let now=Date.now()
+
+/* nur alle 5 Sekunden speichern */
+
+if(now-lastSave<5000) return
+
+lastSave=now
+
+let point={
 lat:pos.coords.latitude,
-lng:pos.coords.longitude
+lng:pos.coords.longitude,
+speed:pos.coords.speed || 0,
+time:now
+}
+
+/* nur speichern wenn Bewegung */
+
+if(route.length>0){
+
+let last=route[route.length-1]
+
+let dist=Math.abs(point.lat-last.lat)+Math.abs(point.lng-last.lng)
+
+if(dist<0.00005) return
+}
+
+route.push(point)
+
+},{
+enableHighAccuracy:false,
+maximumAge:3000,
+timeout:5000
 })
-
-},{enableHighAccuracy:true})
-
-}
-
-function stopTracking(){
-
-if(watchId){
-navigator.geolocation.clearWatch(watchId)
-watchId=null
-}
 
 }
 
