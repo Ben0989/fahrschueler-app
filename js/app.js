@@ -353,9 +353,7 @@ el.innerText="Noch nicht prüfungsreif"
 
 function changeDrive(type,val){
 
-if(current===null) return
-   
-let s=students[current]
+let s = getStudent()
 if(!s) return
 
 let klasse=s.klasse || "B"
@@ -388,9 +386,7 @@ renderGesamtProgress()
 
 function updateProgress(){
 
-if(current===null) return
-   
-let s=students[current]
+let s = getStudent()
 if(!s) return
 
 document.getElementById("ueberlandCount").innerText=s.sonderfahrten.ul
@@ -492,7 +488,7 @@ return distance
 
 function saveFahrt(){
 
-let s=students[current]
+let s = getStudent()
 if(!s) return
 
 let endTime=Date.now()
@@ -526,7 +522,8 @@ route=[]
 
 function renderFahrten(){
 
-let s=students[current]
+let s = getStudent()
+if(!s) return
 const container=document.getElementById("fahrtenListe")
 
 if(!container) return
@@ -571,7 +568,8 @@ L.polyline(latlngs,{color:'blue'}).addTo(map)
 
 function saveBeratung(){
 
-let s=students[current]
+let s = getStudent()
+if(!s) return
 
 let data={
 datum:document.getElementById("b_datum").value,
@@ -591,7 +589,8 @@ alert("Beratung gespeichert")
 
 function saveTheorie(){
 
-let s = students[current]
+let s = getStudent()
+if(!s) return
 
 if(!s.boegen) s.boegen={beratung:[],theorie:[],praxis:[]}
 
@@ -683,7 +682,8 @@ alert("Theoriebeobachtung gespeichert")
 
 function savePraxis(){
 
-let s = students[current]
+let s = getStudent()
+if(!s) return
 
 if(!s.boegen) s.boegen={beratung:[],theorie:[],praxis:[]}
 
@@ -752,7 +752,8 @@ alert("Praxisbeobachtung gespeichert")
 
 function renderBoegen(){
 
-let s = students[current]
+let s = getStudent()
+if(!s) return
 
 const container = document.getElementById("boegenListe")
 
