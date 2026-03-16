@@ -130,6 +130,8 @@ document.getElementById(tab).classList.remove("hidden")
 
 function renderDiagram(){
 
+if(current===null) return
+   
 const container=document.getElementById("diagramContainer")
 if(!container) return
 
@@ -185,6 +187,8 @@ container.appendChild(box)
 
 function loadDiagram(){
 
+if(current===null) return
+   
 const checkboxes=document.querySelectorAll("#diagramContainer input[type='checkbox']")
 
 checkboxes.forEach(cb=>{
@@ -200,6 +204,8 @@ cb.checked=students[current].checkboxes?.[field] || false
 
 function renderProgress(){
 
+if(current===null) return
+   
 let s=students[current]
 
 const container=document.getElementById("progressContainer")
@@ -244,6 +250,8 @@ container.appendChild(block)
 
 function renderGesamtProgress(){
 
+if(current===null) return
+   
 let s=students[current]
 if(!s) return
 
