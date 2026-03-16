@@ -525,7 +525,7 @@ ${f.notiz}
 
 container.appendChild(div)
 
-if(f.route && f.route.length>0){
+if(f.route && f.route.length>1){
 
 let map=L.map("map"+i).setView([f.route[0].lat,f.route[0].lng],13)
 
@@ -850,14 +850,15 @@ pruefungTheorie:document.getElementById("pruefungTheorie").value,
 pruefungPraxis:document.getElementById("pruefungPraxis").value
 
 }
-document.getElementById("studentPanel").classList.add("hidden")
+
 /* Pflichtfelder prüfen */
 
 if(!data.name || !data.vorname){
 alert("Bitte Name und Vorname eingeben")
 return
 }
-
+document.getElementById("studentPanel").classList.add("hidden")
+   
 if(editMode){
 
 students[current]={...students[current],...data}
