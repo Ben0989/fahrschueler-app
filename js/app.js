@@ -393,10 +393,7 @@ watchId=navigator.geolocation.watchPosition(pos=>{
 
 let now=Date.now()
 
-/* nur alle 5 Sekunden speichern */
-
 if(now-lastSave<5000) return
-
 lastSave=now
 
 let point={
@@ -406,21 +403,9 @@ speed:pos.coords.speed || 0,
 time:now
 }
 
-function stopTracking(){
-
-if(watchId!==null){
-navigator.geolocation.clearWatch(watchId)
-watchId=null
-}
-
-}   
-   
-/* nur speichern wenn Bewegung */
-
 if(route.length>0){
 
 let last=route[route.length-1]
-
 let dist=Math.abs(point.lat-last.lat)+Math.abs(point.lng-last.lng)
 
 if(dist<0.00005) return
@@ -433,6 +418,15 @@ enableHighAccuracy:false,
 maximumAge:3000,
 timeout:5000
 })
+
+}
+
+function stopTracking(){
+
+if(watchId!==null){
+navigator.geolocation.clearWatch(watchId)
+watchId=null
+}
 
 }
 
