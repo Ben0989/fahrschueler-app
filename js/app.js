@@ -774,11 +774,7 @@ function openAdd(){
 editMode=false
 current=null
 
-/* wichtig: Panel sichtbar machen */
-document.getElementById("studentPanel").classList.remove("hidden")
 document.getElementById("addPanel").classList.remove("hidden")
-
-/* Formular komplett leeren */
 
 document.getElementById("name").value=""
 document.getElementById("vorname").value=""
@@ -818,12 +814,6 @@ document.getElementById("pruefungPraxis").value=s.pruefungPraxis || ""
 function closeAdd(){
 
 document.getElementById("addPanel").classList.add("hidden")
-
-/* wenn kein Schüler aktiv ist → Panel komplett schließen */
-
-if(current === null){
-document.getElementById("studentPanel").classList.add("hidden")
-}
 
 }
 
