@@ -493,7 +493,7 @@ s.fahrten.push(fahrt)
 saveDB()
 
 renderFahrten()
-
+route=[]
 }
 
 /* =============================
