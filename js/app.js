@@ -1,8 +1,11 @@
 let students = JSON.parse(localStorage.getItem("students") || "[]")
-if(!Array.isArray(students)) students=[]
 
-let current=null
-let editMode=false
+if(!Array.isArray(students)){
+students = []
+}
+
+let current = null
+let editMode = false
 
 let route=[]
 let watchId=null
