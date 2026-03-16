@@ -774,7 +774,10 @@ function openAdd(){
 editMode=false
 current=null
 
+/* addPanel unabhängig öffnen */
 document.getElementById("addPanel").classList.remove("hidden")
+
+/* Formular komplett leeren */
 
 document.getElementById("name").value=""
 document.getElementById("vorname").value=""
@@ -859,7 +862,7 @@ boegen:{beratung:[],theorie:[],praxis:[]}
 }
 
 saveDB()
-closeAdd()
 renderList()
+closeAdd()
 
 }
