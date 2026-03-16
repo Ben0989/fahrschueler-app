@@ -824,10 +824,14 @@ function openAdd(){
 editMode=false
 current=null
 
-/* addPanel unabhängig öffnen */
-document.getElementById("addPanel").classList.remove("hidden")
+const panel = document.getElementById("addPanel")
 
-/* Formular komplett leeren */
+if(!panel){
+console.error("addPanel nicht gefunden")
+return
+}
+
+panel.classList.remove("hidden")
 
 document.getElementById("name").value=""
 document.getElementById("vorname").value=""
