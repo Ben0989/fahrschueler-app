@@ -38,11 +38,15 @@ list.appendChild(div)
 
 }
 document.getElementById("search").addEventListener("input", e=>{
+
 let q=e.target.value.toLowerCase()
 
-document.querySelectorAll("#studentList div").forEach(d=>{
+const studentsDom=document.querySelectorAll("#studentList div")
+
+studentsDom.forEach(d=>{
 d.style.display=d.innerText.toLowerCase().includes(q) ? "block":"none"
 })
+
 })
 renderList()
 
