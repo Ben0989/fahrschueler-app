@@ -37,7 +37,11 @@ list.appendChild(div)
 })
 
 }
-document.getElementById("search").addEventListener("input", e=>{
+const searchInput=document.getElementById("search")
+
+if(searchInput){
+
+searchInput.addEventListener("input", e=>{
 
 let q=e.target.value.toLowerCase()
 
@@ -48,6 +52,8 @@ d.style.display=d.innerText.toLowerCase().includes(q) ? "block":"none"
 })
 
 })
+
+}
 renderList()
 
 /* =============================
@@ -493,6 +499,7 @@ s.fahrten.push(fahrt)
 saveDB()
 
 renderFahrten()
+   
 route=[]
 }
 
