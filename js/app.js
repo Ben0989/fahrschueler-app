@@ -46,7 +46,7 @@ list.appendChild(div)
 })
 
 }
-const searchInput=document.getElementById("search")
+
 document.addEventListener("DOMContentLoaded", () => {
 
 console.log("DOM geladen")
