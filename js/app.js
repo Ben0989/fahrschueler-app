@@ -920,10 +920,13 @@ renderList()
 closeAdd()
 
 }
+
 if ('serviceWorker' in navigator) {
-navigator.serviceWorker.getRegistrations().then(regs=>{
-regs.forEach(r=>r.update())
-})
+
+navigator.serviceWorker.register('sw.js')
+.then(()=>console.log("SW registriert"))
+.catch(err=>console.log("SW Fehler:", err))
+
 }
 
 document.addEventListener("DOMContentLoaded", function(){
