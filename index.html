@@ -63,16 +63,43 @@
 <!-- MODAL -->
 <div id="studentModal" class="modal">
   <div class="modalBox">
-    <h2>Neuer Schüler</h2>
 
-    <input id="name" placeholder="Name"><br><br>
-    <input id="vorname" placeholder="Vorname"><br><br>
+    <h2>Fahrschüler anlegen</h2>
+
+    <input id="name" placeholder="Name">
+    <input id="vorname" placeholder="Vorname">
+
+    <select id="klasse">
+      <option>B</option>
+      <option>BE</option>
+      <option>L</option>
+    </select>
+
+    <input id="telefon" placeholder="Telefon">
+    <input id="adresse" placeholder="Adresse">
+    <input id="vorbesitz" placeholder="Vorbesitz">
+
+    <label>Start Ausbildung</label>
+    <input id="startAusbildung" type="date">
+
+    <label>Theorieprüfung</label>
+    <input id="pruefungTheorie" type="date">
+
+    <label>Praxisprüfung</label>
+    <input id="pruefungPraxis" type="date">
+
+    <br>
 
     <button id="saveBtn">Speichern</button>
     <button id="closeBtn">Abbrechen</button>
+
   </div>
 </div>
 
+<!-- Liste -->
+<div id="studentList"></div>
+
+  
 <script src="js/app.js"></script>
 
 </body>
