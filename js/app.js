@@ -63,6 +63,9 @@ function openAdd(){
 
   const modal = document.getElementById("studentModal")
 
+  console.log(modal.className)
+
+  modal.classList.remove("hidden") // wichtig falls noch drin
   modal.classList.add("active")
 }
 
