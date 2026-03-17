@@ -59,7 +59,10 @@ list.appendChild(div)
 ============================= */
 
 function openAdd(){
+  console.log("CLICK FUNKTION WIRD AUFGERUFEN")
+
   const modal = document.getElementById("studentModal")
+
   modal.classList.add("active")
 }
 
