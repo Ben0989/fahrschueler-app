@@ -1,506 +1,79 @@
 <!DOCTYPE html>
 <html lang="de">
-
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fahrschüler App</title>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body{
+      font-family: Arial;
+      margin:0;
+      background:#f2f2f2;
+    }
 
-<title>Fahrschüler App</title>
+    header{
+      background:#1976d2;
+      color:white;
+      padding:12px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+    }
 
-<link rel="stylesheet" href="style.css">
+    button{
+      padding:8px 12px;
+      border:none;
+      border-radius:6px;
+      cursor:pointer;
+    }
 
-<!-- Leaflet Karte -->
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    /* MODAL */
+    .modal{
+      position:fixed;
+      top:0;
+      left:0;
+      width:100%;
+      height:100%;
+      background:rgba(0,0,0,0.5);
 
+      display:none;
+
+      justify-content:center;
+      align-items:center;
+      z-index:9999;
+    }
+
+    .modalBox{
+      background:white;
+      padding:20px;
+      border-radius:10px;
+      width:300px;
+    }
+  </style>
 </head>
 
 <body>
 
 <header>
-
-<h1>Fahrschüler</h1>
-
-<button id="addStudentBtn">+</button>
-
+  <h1>Fahrschüler</h1>
+  <button id="addStudentBtn">+</button>
 </header>
 
-<input id="search" placeholder="Fahrschüler suchen">
-
-<div id="studentList"></div>
-
-<!-- =============================
-SCHÜLER PANEL
-============================= -->
-
-<div id="studentPanel" class="hidden panel">
-
-<h2 id="studentTitle"></h2>
-
-<div class="tabs">
-
-<button onclick="showTab('info')">Infos</button>
-<button onclick="showTab('diagramm')">Diagrammkarte</button>
-<button onclick="showTab('fahrten')">Fahrt erfassen</button>
-<button onclick="showTab('status')">Ausbildungsstand</button>
-<button onclick="showTab('boegen')">Beobachtungsbögen</button>
-
-</div>
-
-<!-- =============================
-INFO TAB
-============================= -->
-
-<div id="info" class="tab"></div>
-
-<!-- =============================
-DIAGRAMMKARTE
-============================= -->
-
-<div id="diagramm" class="tab hidden">
-
-<div id="diagramContainer"></div>
-
-</div>
-
-<!-- =============================
-FAHRT ERFASSEN
-============================= -->
-
-<div id="fahrten" class="tab hidden">
-
-<h3>Neue Fahrstunde</h3>
-
-<input id="fahrtTitel" placeholder="Titel der Fahrstunde">
-
-<textarea id="fahrtNotiz" placeholder="Notizen zur Fahrstunde"></textarea>
-
-<br><br>
-
-<button onclick="startTracking()">GPS Start</button>
-<button onclick="stopTracking()">GPS Stop</button>
-
-<button onclick="saveFahrt()">Fahrt speichern</button>
-
-</div>
-
-<!-- =============================
-AUSBILDUNGSSTAND
-============================= -->
-
-<div id="status" class="tab hidden">
-
-<h3>Gesamtfortschritt</h3>
-
-<div id="gesamtProgress"></div>
-<div id="ausbildungsAmpel"></div>
-<div id="pruefungsreifeStatus"></div>
-
-<hr>
-
-<h3>Ausbildungsfortschritt</h3>
-
-<div id="progressContainer"></div>
-
-<hr>
-
-<h3>Besondere Ausbildungsfahrten</h3>
-
-<div class="fahrt">
-Überland
-<button onclick="changeDrive('ul',-1)">-</button>
-<span id="ueberlandCount">0</span>
-<button onclick="changeDrive('ul',1)">+</button>
-</div>
-
-<div class="fahrt">
-Autobahn
-<button onclick="changeDrive('ab',-1)">-</button>
-<span id="autobahnCount">0</span>
-<button onclick="changeDrive('ab',1)">+</button>
-</div>
-
-<div class="fahrt">
-Nacht
-<button onclick="changeDrive('na',-1)">-</button>
-<span id="nachtCount">0</span>
-<button onclick="changeDrive('na',1)">+</button>
-</div>
-
-<hr>
-
-<h3>Fahrtenübersicht</h3>
-
-<div id="fahrtenListe"></div>
-
-</div>
-
-<!-- =============================
-BEOBACHTUNGSBÖGEN
-============================= -->
-
-<div id="boegen" class="tab hidden">
-
-<h2>Beobachtungsbögen</h2>
-<h3>Gespeicherte Beobachtungen</h3>
-
-<div id="boegenListe"></div>
-
-<hr>
-<div class="tabs">
-<button onclick="showSubTab('beratung')">Beratung</button>
-<button onclick="showSubTab('theorie')">Theorie</button>
-<button onclick="showSubTab('praxis')">Praxis</button>
-</div>
-
-<!-- =============================
-BERATUNGSGESPRÄCH
-============================= -->
-
-<div id="beratung" class="subtab hidden">
-
-<h3>Beobachtung – Beratungsgespräch</h3>
-
-<label>Datum</label>
-<input type="date" id="b_datum">
-
-<label>Dauer (Minuten)</label>
-<input type="number" id="b_dauer">
-
-<label>Gesprächspartner</label>
-<input id="b_partner">
-
-<label>Fahrerlaubnisklasse</label>
-<input id="b_klasse">
-
-<h4>Inhalte des Gesprächs</h4>
-
-<label><input type="checkbox" id="b_ablauf"> Ablauf der Ausbildung erklärt</label>
-<label><input type="checkbox" id="b_kosten"> Kosten / Ausbildung erläutert</label>
-<label><input type="checkbox" id="b_pruefung"> Prüfungsablauf erklärt</label>
-<label><input type="checkbox" id="b_voraussetzungen"> Voraussetzungen besprochen</label>
-
-<h4>Persönliche Aspekte</h4>
-
-<label><input type="checkbox" id="b_aengste"> Ängste / Unsicherheiten erfragt</label>
-<label><input type="checkbox" id="b_erfahrung"> Vorerfahrung im Straßenverkehr</label>
-<label><input type="checkbox" id="b_motivation"> Motivation des Fahrschülers</label>
-
-<label>Bemerkungen</label>
-<textarea id="b_bem"></textarea>
-
-<button onclick="saveBeratung()">Beratung speichern</button>
-
-</div>
-<!-- =============================
-THEORIEBEOBACHTUNG
-============================= -->
-
-<div id="theorie" class="subtab hidden">
-
-<h3>Beobachtungshilfe – Theorieunterricht</h3>
-
-<label>Datum</label>
-<input type="date" id="t_datum">
-
-<label>Uhrzeit</label>
-<input type="time" id="t_time">
-
-<label>Anzahl Fahrschüler</label>
-<input id="t_fs">
-
-<label>Lektion / Thema</label>
-<input id="t_thema">
-
-<label><input type="checkbox" id="t_grundstoff"> Grundstoff</label>
-<label><input type="checkbox" id="t_zusatzstoff"> Zusatzstoff</label>
-
-
-<h4>Fahrlehrerverhalten</h4>
-
-<table>
-
-<tr>
-<th>Aspekt</th>
-<th>++</th>
-<th>+</th>
-<th>°</th>
-<th>-</th>
-<th>--</th>
-<th>Bemerkung</th>
-</tr>
-
-<tr>
-<td>Umgangston</td>
-<td><input type="radio" name="ton" value="++"></td>
-<td><input type="radio" name="ton" value="+"></td>
-<td><input type="radio" name="ton" value="°"></td>
-<td><input type="radio" name="ton" value="-"></td>
-<td><input type="radio" name="ton" value="--"></td>
-<td><input id="ton_bem"></td>
-</tr>
-
-<tr>
-<td>Variantenreiche Lautstärke</td>
-<td><input type="radio" name="laut" value="++"></td>
-<td><input type="radio" name="laut" value="+"></td>
-<td><input type="radio" name="laut" value="°"></td>
-<td><input type="radio" name="laut" value="-"></td>
-<td><input type="radio" name="laut" value="--"></td>
-<td><input id="laut_bem"></td>
-</tr>
-
-<tr>
-<td>Arbeit mit der Stimme</td>
-<td><input type="radio" name="stimme" value="++"></td>
-<td><input type="radio" name="stimme" value="+"></td>
-<td><input type="radio" name="stimme" value="°"></td>
-<td><input type="radio" name="stimme" value="-"></td>
-<td><input type="radio" name="stimme" value="--"></td>
-<td><input id="stimme_bem"></td>
-</tr>
-
-<tr>
-<td>Sprechtempo</td>
-<td><input type="radio" name="tempo" value="++"></td>
-<td><input type="radio" name="tempo" value="+"></td>
-<td><input type="radio" name="tempo" value="°"></td>
-<td><input type="radio" name="tempo" value="-"></td>
-<td><input type="radio" name="tempo" value="--"></td>
-<td><input id="tempo_bem"></td>
-</tr>
-
-<tr>
-<td>Fachbegriffe / Alltagssprache</td>
-<td><input type="radio" name="sprache" value="++"></td>
-<td><input type="radio" name="sprache" value="+"></td>
-<td><input type="radio" name="sprache" value="°"></td>
-<td><input type="radio" name="sprache" value="-"></td>
-<td><input type="radio" name="sprache" value="--"></td>
-<td><input id="sprache_bem"></td>
-</tr>
-
-<tr>
-<td>Gestik / Bewegung</td>
-<td><input type="radio" name="gestik" value="++"></td>
-<td><input type="radio" name="gestik" value="+"></td>
-<td><input type="radio" name="gestik" value="°"></td>
-<td><input type="radio" name="gestik" value="-"></td>
-<td><input type="radio" name="gestik" value="--"></td>
-<td><input id="gestik_bem"></td>
-</tr>
-
-<tr>
-<td>Blickkontakt</td>
-<td><input type="radio" name="blick" value="++"></td>
-<td><input type="radio" name="blick" value="+"></td>
-<td><input type="radio" name="blick" value="°"></td>
-<td><input type="radio" name="blick" value="-"></td>
-<td><input type="radio" name="blick" value="--"></td>
-<td><input id="blick_bem"></td>
-</tr>
-
-<tr>
-<td>Mimik</td>
-<td><input type="radio" name="mimik" value="++"></td>
-<td><input type="radio" name="mimik" value="+"></td>
-<td><input type="radio" name="mimik" value="°"></td>
-<td><input type="radio" name="mimik" value="-"></td>
-<td><input type="radio" name="mimik" value="--"></td>
-<td><input id="mimik_bem"></td>
-</tr>
-
-</table>
-
-
-<h4>Methoden</h4>
-
-<label><input type="checkbox" id="m_frontal"> Frontalunterricht</label>
-<label><input type="checkbox" id="m_lehrgespraech"> Lehrgespräch</label>
-<label><input type="checkbox" id="m_gruppe"> Gruppenarbeit</label>
-<label><input type="checkbox" id="m_fragen"> Fragen stellen</label>
-<label><input type="checkbox" id="m_diskussion"> Diskussion</label>
-<label><input type="checkbox" id="m_erklaerung"> Erklärung</label>
-<label><input type="checkbox" id="m_zuruf"> Zurufsammlung</label>
-
-
-<h4>Medien</h4>
-
-<label><input type="checkbox" id="med_lehrbuch"> Lehrbuch</label>
-<label><input type="checkbox" id="med_arbeitsblatt"> Arbeitsblätter</label>
-<label><input type="checkbox" id="med_flipchart"> Flipchart</label>
-<label><input type="checkbox" id="med_tafel"> Whiteboard / Tafel</label>
-<label><input type="checkbox" id="med_beamer"> Computer / Beamer</label>
-<label><input type="checkbox" id="med_smartboard"> Smartboard</label>
-<label><input type="checkbox" id="med_handy"> Handy</label>
-
-
-<label>Redeanteil FL (%)</label>
-<input id="rede_fl">
-
-<label>Redeanteil FS (%)</label>
-<input id="rede_fs">
-
-
-<label>Stimmung im Unterricht</label>
-<textarea id="t_stimmung"></textarea>
-
-<label>Reaktionen der Fahrschüler</label>
-<textarea id="t_reaktion"></textarea>
-
-<label>Zusätzliche Methoden</label>
-<textarea id="t_methoden_extra"></textarea>
-
-<label>Zusätzliche Medien</label>
-<textarea id="t_medien_extra"></textarea>
-
-<label>Inhaltliche Schwerpunkte erkannt</label>
-<textarea id="t_schwerpunkte"></textarea>
-
-<button onclick="saveTheorie()">Theorie speichern</button>
-
-</div>
-
-
-<!-- =============================
-PRAXISBEOBACHTUNG
-============================= -->
-
-<div id="praxis" class="subtab hidden">
-
-<h3>Beobachtungshilfe – Praktische Ausbildung</h3>
-
-<label>Datum</label>
-<input type="date" id="p_datum">
-
-<label>Dauer (Min)</label>
-<input type="number" id="p_dauer">
-
-<label>Art der Fahrstunde</label>
-<select id="p_art">
-<option>Grundausbildung</option>
-<option>Überlandfahrt</option>
-<option>Autobahnfahrt</option>
-<option>Nachtfahrt</option>
-</select>
-
-<label>Bisherige Fahrstunden</label>
-<input id="p_fsanzahl">
-
-<label>Schwerpunkt</label>
-<input id="p_schwerpunkt">
-
-
-<h4>Wirkung des Fahrschülers</h4>
-
-<label><input type="checkbox" id="w_ruhig"> ruhig</label>
-<label><input type="checkbox" id="w_konzentriert"> konzentriert</label>
-<label><input type="checkbox" id="w_nervoes"> nervös</label>
-<label><input type="checkbox" id="w_aufgeregt"> aufgeregt</label>
-<label><input type="checkbox" id="w_unsicher"> unsicher</label>
-<label><input type="checkbox" id="w_uebermuetig"> übermütig</label>
-<label><input type="checkbox" id="w_aengstlich"> ängstlich</label>
-<label><input type="checkbox" id="w_unaufmerksam"> unaufmerksam</label>
-
-
-<h4>Durchführung / Ablauf</h4>
-
-<label><input type="checkbox" id="d_begruessung"> Begrüßung</label>
-<label><input type="checkbox" id="d_anknuepfung"> Anknüpfung letzte FS</label>
-<label><input type="checkbox" id="d_ziele"> Ziele benannt</label>
-<label><input type="checkbox" id="d_wuensche"> Wünsche aufgenommen</label>
-<label><input type="checkbox" id="d_hinweise_vor"> Hinweise vor Durchführung</label>
-<label><input type="checkbox" id="d_hinweise_nach"> Hinweise nach Durchführung</label>
-<label><input type="checkbox" id="d_wiederholung"> Wiederholung</label>
-<label><input type="checkbox" id="d_nachbesprechung"> Nachbesprechung</label>
-<label><input type="checkbox" id="d_ausblick"> Ausblick nächste FS</label>
-<label><input type="checkbox" id="d_aufgaben"> Aufgaben bis nächste FS</label>
-
-
-<label>Wie lautete die Aufgabe?</label>
-<textarea id="p_aufgabe"></textarea>
-
-<label>Weitere Notizen</label>
-<textarea id="p_notizen"></textarea>
-
-
-<label>Dauer Einleitungsgespräch</label>
-<input id="p_einleitung">
-
-<label>Dauer Abschlussgespräch</label>
-<input id="p_abschluss">
-
-
-<label>Stichpunkte Vorgespräch</label>
-<textarea id="p_vorgespräch"></textarea>
-
-<label>Stichpunkte Nachgespräch</label>
-<textarea id="p_nachgespräch"></textarea>
-
-<label>Wie dokumentiert?</label>
-<textarea id="p_dokumentation"></textarea>
-
-<button onclick="savePraxis()">Praxis speichern</button>
-
-</div>
-
-</div>
-
-<!-- =============================
-FAHRSCHÜLER POPUP
-============================= -->
-
+<!-- MODAL -->
 <div id="studentModal" class="modal">
+  <div class="modalBox">
+    <h2>Neuer Schüler</h2>
 
-<div class="modalBox">
+    <input id="name" placeholder="Name"><br><br>
+    <input id="vorname" placeholder="Vorname"><br><br>
 
-<h2 id="modalTitle">Fahrschüler anlegen</h2>
-
-<input id="name" placeholder="Name">
-<input id="vorname" placeholder="Vorname">
-
-<select id="klasse">
-<option>B</option>
-<option>BE</option>
-<option>L</option>
-</select>
-
-<input id="telefon" placeholder="Telefon">
-<input id="adresse" placeholder="Adresse">
-<input id="vorbesitz" placeholder="Vorbesitz">
-
-<label>Start Ausbildung</label>
-<input id="startAusbildung" type="date">
-
-<label>Theorieprüfung</label>
-<input id="pruefungTheorie" type="date">
-
-<label>Praxisprüfung</label>
-<input id="pruefungPraxis" type="date">
-
-<div class="buttons">
-
-<button onclick="saveStudent()">Speichern</button>
-<button onclick="closeAdd()">Abbrechen</button>
-
+    <button id="saveBtn">Speichern</button>
+    <button id="closeBtn">Abbrechen</button>
+  </div>
 </div>
 
-</div>
+<script src="app.js"></script>
 
-</div>
-
-<!-- =============================
-SCRIPTS
-============================= -->
-
-<script src="js/diagrammData.js"></script>
-<script src="js/app.js"></script>
-
-<script>
-console.log("HTML SCRIPT LÄUFT")
-</script>
-
-  
 </body>
 </html>
