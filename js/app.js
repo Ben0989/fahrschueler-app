@@ -60,20 +60,14 @@ list.appendChild(div)
 
 function openAdd(){
 
-alert("läuft")
-
 const modal = document.getElementById("studentModal")
 
-// 1. Klasse entfernen
+if(!modal) return
+
+// Klasse entfernen → Hauptlogik
 modal.classList.remove("hidden")
 
-// 2. ALLE display-Regeln überschreiben
-modal.style.display = "flex"
-
-// 3. FORCE Reflow (entscheidend!)
-modal.offsetHeight
-
-// 4. nochmal setzen (iOS Fix)
+// Sicherheit für iPad
 modal.style.display = "flex"
 
 }
