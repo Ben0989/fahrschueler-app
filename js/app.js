@@ -868,7 +868,7 @@ document.getElementById("pruefungPraxis").value=s.pruefungPraxis || ""
 
 function closeAdd(){
 
-document.getElementById("studentPanel").classList.add("hidden")
+document.getElementById("studentModal").classList.add("hidden")
 
 }
 
