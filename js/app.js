@@ -1,3 +1,4 @@
+alert("APP JS GELADEN")
 console.log("APP STARTET")
 
 let students = JSON.parse(localStorage.getItem("students") || "[]")
