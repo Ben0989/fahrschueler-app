@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
 console.log("DOM geladen")
 
 // 🔥 NEUER BUTTON
-const addBtnNew = document.getElementById("addStudentBtnNew")
+const addBtnNew = document.getElementById("addStudentBtn")
 
 if(addBtnNew){
 addBtnNew.addEventListener("click", function(){
