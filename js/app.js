@@ -60,14 +60,9 @@ list.appendChild(div)
 
 function openAdd(){
 
-alert("läuft")
-
 const modal = document.getElementById("studentModal")
 
-modal.classList.remove("hidden")
-
-modal.style.display = "flex"
-modal.style.background = "red"
+alert(modal.outerHTML)
 
 }
 /* =============================
