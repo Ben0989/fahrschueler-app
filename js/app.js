@@ -13,7 +13,7 @@ students = []
 /* =============================
    INIT
 ============================= */
-
+function openAdd(){
 window.onload = () => {
 
 console.log("WINDOW LOADED")
@@ -29,6 +29,7 @@ addBtn.onclick = openAdd
 
 renderList()
 
+}
 }
 
 /* =============================
