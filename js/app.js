@@ -14,19 +14,22 @@ students = []
    INIT
 ============================= */
 
-document.addEventListener("DOMContentLoaded", () => {
+window.onload = () => {
 
-console.log("DOM READY")
+console.log("WINDOW LOADED")
 
 const addBtn = document.getElementById("addStudentBtn")
 
-if(addBtn){
-addBtn.addEventListener("click", openAdd)
+if(!addBtn){
+alert("BUTTON NICHT GEFUNDEN")
+return
 }
+
+addBtn.onclick = openAdd
 
 renderList()
 
-})
+}
 
 /* =============================
    LISTE RENDERN
