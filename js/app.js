@@ -47,9 +47,14 @@ list.appendChild(div)
 
 }
 const searchInput=document.getElementById("search")
+document.addEventListener("DOMContentLoaded", () => {
+
+console.log("DOM geladen")
+
+// Suche initialisieren
+const searchInput = document.getElementById("search")
 
 if(searchInput){
-
 searchInput.addEventListener("input", e=>{
 
 let q=e.target.value.toLowerCase()
@@ -61,9 +66,12 @@ d.style.display=d.innerText.toLowerCase().includes(q) ? "block":"none"
 })
 
 })
-
 }
+
+// Liste initial rendern
 renderList()
+
+})
 
 /* =============================
    SCHÜLER ÖFFNEN
