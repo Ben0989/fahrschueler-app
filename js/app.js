@@ -14,22 +14,29 @@ students = []
    INIT
 ============================= */
 function openAdd(){
-window.onload = () => {
 
-console.log("WINDOW LOADED")
+// DEBUG
+alert("openAdd läuft")
 
-const addBtn = document.getElementById("addStudentBtn")
+// Modal holen
+const modal = document.getElementById("studentModal")
 
-if(!addBtn){
-alert("BUTTON NICHT GEFUNDEN")
+if(!modal){
+alert("Modal NICHT gefunden")
 return
 }
 
-addBtn.onclick = openAdd
+// ALLE möglichen Blockaden entfernen
+modal.classList.remove("hidden")
 
-renderList()
+// zusätzlich absichern (iPad / CSS Bugs)
+modal.style.display = "flex"
+modal.style.visibility = "visible"
+modal.style.opacity = "1"
 
-}
+// Z-Index erzwingen (falls überdeckt)
+modal.style.zIndex = "9999"
+
 }
 
 /* =============================
