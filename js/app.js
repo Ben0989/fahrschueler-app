@@ -829,10 +829,10 @@ function openAdd(){
 editMode=false
 current=null
 
-const panel = document.getElementById("addPanel")
+const panel = document.getElementById("studentModal")
 
 if(!panel){
-console.error("addPanel nicht gefunden")
+console.error("studentModal nicht gefunden")
 return
 }
 
@@ -858,7 +858,7 @@ let s=getStudent()
 if(!s) return
 editMode=true
 
-document.getElementById("addPanel").classList.remove("hidden")
+document.getElementById("studentModal").classList.remove("hidden")
 
 document.getElementById("name").value=s.name || ""
 document.getElementById("vorname").value=s.vorname || ""
@@ -876,7 +876,7 @@ document.getElementById("pruefungPraxis").value=s.pruefungPraxis || ""
 
 function closeAdd(){
 
-document.getElementById("addPanel").classList.add("hidden")
+document.getElementById("studentPanel").classList.add("hidden")
 
 }
 
@@ -921,8 +921,3 @@ renderList()
 closeAdd()
 
 }
-
-
-document.addEventListener("DOMContentLoaded", function(){
-renderList()
-})
