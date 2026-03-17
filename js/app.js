@@ -51,6 +51,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
 console.log("DOM geladen")
 
+// 🔥 FIX: Button sauber binden
+const addBtn = document.getElementById("addStudentBtn")
+
+if(addBtn){
+addBtn.addEventListener("click", openAdd)
+}
+
 // Suche initialisieren
 const searchInput = document.getElementById("search")
 
