@@ -60,23 +60,16 @@ list.appendChild(div)
 
 function openAdd(){
 
-alert("openAdd läuft")
+alert("läuft")
 
 const modal = document.getElementById("studentModal")
 
-if(!modal){
-alert("Modal fehlt")
-return
-}
-
-// WICHTIG: Klasse entfernen
 modal.classList.remove("hidden")
 
-// HARTE Anzeige erzwingen
 modal.style.display = "flex"
+modal.style.background = "red"
 
 }
-
 /* =============================
    MODAL SCHLIESSEN
 ============================= */
