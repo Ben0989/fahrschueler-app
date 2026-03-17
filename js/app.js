@@ -1,5 +1,7 @@
 console.log("APP START")
 
+let students = JSON.parse(localStorage.getItem("students") || "[]")
+
 document.addEventListener("DOMContentLoaded", () => {
 
   console.log("DOM READY")
@@ -7,23 +9,101 @@ document.addEventListener("DOMContentLoaded", () => {
   const addBtn = document.getElementById("addStudentBtn")
   const modal = document.getElementById("studentModal")
   const closeBtn = document.getElementById("closeBtn")
+  const saveBtn = document.getElementById("saveBtn")
 
-  // Öffnen
+  // =========================
+  // MODAL ÖFFNEN
+  // =========================
   addBtn.addEventListener("click", () => {
-    console.log("OPEN MODAL")
     modal.style.display = "flex"
   })
 
-  // Schließen Button
-  closeBtn.addEventListener("click", () => {
-    modal.style.display = "none"
-  })
+  // =========================
+  // MODAL SCHLIESSEN
+  // =========================
+  closeBtn.addEventListener("click", closeModal)
 
-  // Klick außerhalb schließen
   modal.addEventListener("click", (e) => {
     if(e.target === modal){
-      modal.style.display = "none"
+      closeModal()
     }
   })
+
+  function closeModal(){
+    modal.style.display = "none"
+  }
+
+  // =========================
+  // SPEICHERN
+  // =========================
+  saveBtn.addEventListener("click", saveStudent)
+
+  function saveStudent(){
+
+    let student = {
+      name: document.getElementById("name").value,
+      vorname: document.getElementById("vorname").value,
+      klasse: document.getElementById("klasse").value,
+      telefon: document.getElementById("telefon").value,
+      adresse: document.getElementById("adresse").value,
+      vorbesitz: document.getElementById("vorbesitz").value,
+      startAusbildung: document.getElementById("startAusbildung").value,
+      pruefungTheorie: document.getElementById("pruefungTheorie").value,
+      pruefungPraxis: document.getElementById("pruefungPraxis").value
+    }
+
+    if(!student.name || !student.vorname){
+      alert("Name und Vorname fehlen")
+      return
+    }
+
+    students.push(student)
+
+    localStorage.setItem("students", JSON.stringify(students))
+
+    renderList()
+    closeModal()
+    clearForm()
+  }
+
+  // =========================
+  // LISTE RENDERN
+  // =========================
+  function renderList(){
+
+    const list = document.getElementById("studentList")
+    list.innerHTML = ""
+
+    students.forEach((s, i) => {
+
+      let div = document.createElement("div")
+      div.className = "studentCard"
+
+      div.innerHTML = `
+        <b>${s.name}</b> ${s.vorname}<br>
+        Klasse: ${s.klasse}
+      `
+
+      list.appendChild(div)
+    })
+  }
+
+  // =========================
+  // FORM LEEREN
+  // =========================
+  function clearForm(){
+
+    document.getElementById("name").value = ""
+    document.getElementById("vorname").value = ""
+    document.getElementById("telefon").value = ""
+    document.getElementById("adresse").value = ""
+    document.getElementById("vorbesitz").value = ""
+    document.getElementById("startAusbildung").value = ""
+    document.getElementById("pruefungTheorie").value = ""
+    document.getElementById("pruefungPraxis").value = ""
+  }
+
+  // Initial laden
+  renderList()
 
 })
