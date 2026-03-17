@@ -817,18 +817,12 @@ container.appendChild(div)
 
 function openAdd(){
 
-editMode=false
-current=null
+editMode = false
+current = null
 
-const panel = document.getElementById("studentModal")
+document.getElementById("studentModal").classList.remove("hidden")
 
-if(!panel){
-console.error("studentModal nicht gefunden")
-return
-}
-
-panel.classList.remove("hidden")
-
+// Felder leeren
 document.getElementById("name").value=""
 document.getElementById("vorname").value=""
 document.getElementById("klasse").value="B"
@@ -842,7 +836,6 @@ document.getElementById("pruefungTheorie").value=""
 document.getElementById("pruefungPraxis").value=""
 
 }
-
 function editStudent(){
 
 let s=getStudent()
@@ -873,7 +866,7 @@ document.getElementById("studentPanel").classList.add("hidden")
 
 function saveStudent(){
 
-let data={
+let data = {
 
 name:document.getElementById("name").value,
 vorname:document.getElementById("vorname").value,
@@ -889,13 +882,26 @@ pruefungPraxis:document.getElementById("pruefungPraxis").value
 
 }
 
-/* Pflichtfelder prüfen */
+/* Pflichtfelder */
 
 if(!data.name || !data.vorname){
 alert("Bitte Name und Vorname eingeben")
 return
 }
 
+/* NEU oder EDIT */
+
+if(editMode && current !== null){
+
+// Bearbeiten
+students[current] = {
+...students[current],
+...data
+}
+
+}else{
+
+// NEU anlegen
 students.push({
 ...data,
 sonderfahrten:{ul:0,ab:0,na:0},
@@ -904,11 +910,13 @@ fahrten:[],
 boegen:{beratung:[],theorie:[],praxis:[]}
 })
 
+// 👉 WICHTIG: neuen Index setzen
+current = students.length - 1
 
-localStorage.setItem("students",JSON.stringify(students))
+}
 
+saveDB()
 renderList()
-   
 closeAdd()
 
 }
