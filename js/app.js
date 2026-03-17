@@ -1,4 +1,4 @@
-alert("APP JS GELADEN")
+alert(typeof DIAGRAMM)
 console.log("APP STARTET")
 
 let students = JSON.parse(localStorage.getItem("students") || "[]")
