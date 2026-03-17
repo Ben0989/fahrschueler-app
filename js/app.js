@@ -13,31 +13,20 @@ students = []
 /* =============================
    INIT
 ============================= */
-function openAdd(){
 
-// DEBUG
-alert("openAdd läuft")
+document.addEventListener("DOMContentLoaded", () => {
 
-// Modal holen
-const modal = document.getElementById("studentModal")
+console.log("DOM READY")
 
-if(!modal){
-alert("Modal NICHT gefunden")
-return
+const addBtn = document.getElementById("addStudentBtn")
+
+if(addBtn){
+addBtn.addEventListener("click", openAdd)
 }
 
-// ALLE möglichen Blockaden entfernen
-modal.classList.remove("hidden")
+renderList()
 
-// zusätzlich absichern (iPad / CSS Bugs)
-modal.style.display = "flex"
-modal.style.visibility = "visible"
-modal.style.opacity = "1"
-
-// Z-Index erzwingen (falls überdeckt)
-modal.style.zIndex = "9999"
-
-}
+})
 
 /* =============================
    LISTE RENDERN
@@ -70,7 +59,23 @@ list.appendChild(div)
 ============================= */
 
 function openAdd(){
-alert("BUTTON FUNKTIONIERT")
+
+alert("openAdd läuft")
+
+const modal = document.getElementById("studentModal")
+
+if(!modal){
+alert("Modal NICHT gefunden")
+return
+}
+
+modal.classList.remove("hidden")
+
+modal.style.display = "flex"
+modal.style.visibility = "visible"
+modal.style.opacity = "1"
+modal.style.zIndex = "9999"
+
 }
 
 /* =============================
