@@ -51,11 +51,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
 console.log("DOM geladen")
 
-// 🔥 FIX: Button sauber binden
-const addBtn = document.getElementById("addStudentBtn")
+// 🔥 NEUER BUTTON
+const addBtnNew = document.getElementById("addStudentBtnNew")
 
-if(addBtn){
-addBtn.addEventListener("click", openAdd)
+if(addBtnNew){
+addBtnNew.addEventListener("click", function(){
+
+console.log("NEUER BUTTON GEKLICKT")
+
+openAdd()
+
+})
 }
 
 // Suche initialisieren
