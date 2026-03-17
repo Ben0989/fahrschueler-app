@@ -65,13 +65,15 @@ alert("openAdd läuft")
 const modal = document.getElementById("studentModal")
 
 if(!modal){
-alert("❌ Modal NICHT im DOM")
+alert("Modal fehlt")
 return
 }
 
-alert("✅ Modal gefunden")
-
+// WICHTIG: Klasse entfernen
 modal.classList.remove("hidden")
+
+// HARTE Anzeige erzwingen
+modal.style.display = "flex"
 
 }
 
