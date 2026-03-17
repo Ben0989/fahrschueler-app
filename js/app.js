@@ -54,30 +54,42 @@ list.appendChild(div)
 
 }
 
-/* =============================
-   MODAL ÖFFNEN
-============================= */
-
+// =============================
+// MODAL ÖFFNEN
+// =============================
 function openAdd(){
-  console.log("CLICK FUNKTION WIRD AUFGERUFEN")
-
   const modal = document.getElementById("studentModal")
 
-  console.log(modal.className)
+  if(!modal){
+    console.error("Modal nicht gefunden")
+    return
+  }
 
-  modal.classList.remove("hidden") // wichtig falls noch drin
-  modal.classList.add("active")
   modal.style.display = "flex"
 }
 
-/* =============================
-   MODAL SCHLIESSEN
-============================= */
-
+// =============================
+// MODAL SCHLIESSEN
+// =============================
 function closeAdd(){
   const modal = document.getElementById("studentModal")
-  modal.classList.remove("active")
+
+  if(!modal) return
+
+  modal.style.display = "none"
 }
+
+// =============================
+// BUTTON EVENT
+// =============================
+document.addEventListener("DOMContentLoaded", () => {
+  const btn = document.getElementById("addStudentBtn")
+
+  if(btn){
+    btn.addEventListener("click", openAdd)
+  }
+})
+
 /* =============================
    SPEICHERN
 ============================= */
