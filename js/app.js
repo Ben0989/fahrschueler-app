@@ -15,7 +15,7 @@ let startTime=null
 
 document.addEventListener("DOMContentLoaded", () => {
 
-const addBtn = document.getElementById("addStudentBtn")
+const addBtn = document.getElementById("studentModal")
 
 if(addBtn){
 addBtn.addEventListener("click", openAdd)
