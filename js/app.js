@@ -65,21 +65,13 @@ alert("openAdd läuft")
 const modal = document.getElementById("studentModal")
 
 if(!modal){
-alert("Modal NICHT gefunden")
+alert("❌ Modal NICHT im DOM")
 return
 }
 
-// ALLES überschreiben
-modal.className = "modal"
+alert("✅ Modal gefunden")
 
-modal.style.display = "flex"
-modal.style.position = "fixed"
-modal.style.top = "0"
-modal.style.left = "0"
-modal.style.width = "100%"
-modal.style.height = "100%"
-modal.style.background = "rgba(0,0,0,0.7)"
-modal.style.zIndex = "999999"
+modal.classList.remove("hidden")
 
 }
 
