@@ -77,7 +77,10 @@ modal.style.display = "flex"
 
 function closeAdd(){
 
-document.getElementById("studentModal").classList.add("hidden")
+const modal = document.getElementById("studentModal")
+
+modal.classList.add("hidden")
+modal.style.display = "none"
 
 }
 
