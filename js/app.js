@@ -1,4 +1,13 @@
 console.log("APP STARTET")
+
+if ('serviceWorker' in navigator) {
+
+navigator.serviceWorker.register('sw.js')
+.then(()=>console.log("SW registriert"))
+.catch(err=>console.log("SW Fehler:", err))
+
+}
+
 let students = JSON.parse(localStorage.getItem("students") || "[]")
 
 if(!Array.isArray(students)){
@@ -921,13 +930,6 @@ closeAdd()
 
 }
 
-if ('serviceWorker' in navigator) {
-
-navigator.serviceWorker.register('sw.js')
-.then(()=>console.log("SW registriert"))
-.catch(err=>console.log("SW Fehler:", err))
-
-}
 
 document.addEventListener("DOMContentLoaded", function(){
 renderList()
