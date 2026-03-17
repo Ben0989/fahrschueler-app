@@ -69,12 +69,17 @@ alert("Modal NICHT gefunden")
 return
 }
 
-modal.classList.remove("hidden")
+// ALLES überschreiben
+modal.className = "modal"
 
 modal.style.display = "flex"
-modal.style.visibility = "visible"
-modal.style.opacity = "1"
-modal.style.zIndex = "9999"
+modal.style.position = "fixed"
+modal.style.top = "0"
+modal.style.left = "0"
+modal.style.width = "100%"
+modal.style.height = "100%"
+modal.style.background = "rgba(0,0,0,0.7)"
+modal.style.zIndex = "999999"
 
 }
 
