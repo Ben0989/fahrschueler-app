@@ -59,31 +59,18 @@ list.appendChild(div)
 ============================= */
 
 function openAdd(){
-
-const modal = document.getElementById("studentModal")
-
-if(!modal) return
-
-// Klasse entfernen → Hauptlogik
-modal.classList.remove("hidden")
-
-// Sicherheit für iPad
-modal.style.display = "flex"
-
+  const modal = document.getElementById("studentModal")
+  modal.classList.add("active")
 }
+
 /* =============================
    MODAL SCHLIESSEN
 ============================= */
 
 function closeAdd(){
-
-const modal = document.getElementById("studentModal")
-
-modal.classList.add("hidden")
-modal.style.display = "none"
-
+  const modal = document.getElementById("studentModal")
+  modal.classList.remove("active")
 }
-
 /* =============================
    SPEICHERN
 ============================= */
