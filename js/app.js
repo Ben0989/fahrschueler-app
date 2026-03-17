@@ -67,6 +67,7 @@ function openAdd(){
 
   modal.classList.remove("hidden") // wichtig falls noch drin
   modal.classList.add("active")
+  modal.style.display = "flex"
 }
 
 /* =============================
