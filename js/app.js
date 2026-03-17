@@ -1,3 +1,4 @@
+console.log("APP STARTET")
 let students = JSON.parse(localStorage.getItem("students") || "[]")
 
 if(!Array.isArray(students)){
