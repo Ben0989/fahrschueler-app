@@ -59,11 +59,7 @@ list.appendChild(div)
 ============================= */
 
 function openAdd(){
-
-console.log("BUTTON GEKLICKT")
-
-document.getElementById("studentModal").classList.remove("hidden")
-
+alert("BUTTON FUNKTIONIERT")
 }
 
 /* =============================
