@@ -40,6 +40,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const theorieInput = document.getElementById("pruefungTheorie")
   const praxisInput = document.getElementById("pruefungPraxis")
 
+  const diagramContainer = document.getElementById("diagramContainer")
+  
   // =========================
   // MODAL
   // =========================
@@ -133,7 +135,7 @@ document.getElementById("panelVorbesitz").textContent = s.vorbesitz || "-"
 document.getElementById("panelStart").textContent = s.startAusbildung || "-"
 document.getElementById("panelTheorie").textContent = s.pruefungTheorie || "-"
 document.getElementById("panelPraxis").textContent = s.pruefungPraxis || "-"
-    renderFahrten()
+    renderDiagram()
 
     showTab("info") // 🔥 WICHTIG
 
@@ -242,4 +244,57 @@ function showTab(tabId){
     active.style.display = "block"
   }
 
+}
+
+// =========================
+// DIAGRAMM FUNKTION
+// =========================
+
+
+function renderDiagram(){
+
+  diagramContainer.innerHTML = ""
+
+  let s = students[currentStudentIndex]
+
+  if(!s.diagramm){
+    s.diagramm = {}
+  }
+
+  Object.keys(DIAGRAMM).forEach(kategorie => {
+
+    let box = document.createElement("div")
+    box.className = "diagramBox"
+
+    let html = `<h3>${kategorie}</h3>`
+
+    DIAGRAMM[kategorie].forEach(item => {
+
+      let checked = s.diagramm[item] || false
+
+      html += `
+        <label>
+          ${item}
+          <input type="checkbox" ${checked ? "checked" : ""}>
+        </label>
+      `
+    })
+
+    box.innerHTML = html
+
+    box.querySelectorAll("input").forEach((cb, index) => {
+
+      let item = DIAGRAMM[kategorie][index]
+
+      cb.onchange = () => {
+
+        s.diagramm[item] = cb.checked
+
+        localStorage.setItem("students", JSON.stringify(students))
+      }
+
+    })
+
+    diagramContainer.appendChild(box)
+  })
 }
