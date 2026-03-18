@@ -83,19 +83,38 @@
   <!-- ========================= -->
   <div id="auswertung" class="tab" style="display:none;">
 
-    <h3>Auswertung</h3>
-    <div id="auswertungText"></div>
-
-  </div>
+  <h3>Fortschritt</h3>
+  <div id="progressContainer"></div>
 
   <hr>
 
-  <button id="editBtn" type="button">Bearbeiten</button>
-  <button id="deleteBtn" type="button">Löschen</button>
-  <button id="closePanelBtn" type="button">Schließen</button>
+  <h3>Besondere Ausbildungsfahrten</h3>
+
+  <div class="fahrt">
+    Überland
+    <button onclick="changeDrive('ul',-1)">-</button>
+    <span id="ulCount">0</span>
+    <button onclick="changeDrive('ul',1)">+</button>
+    <span id="ulMax"></span>
+  </div>
+
+  <div class="fahrt">
+    Autobahn
+    <button onclick="changeDrive('ab',-1)">-</button>
+    <span id="abCount">0</span>
+    <button onclick="changeDrive('ab',1)">+</button>
+    <span id="abMax"></span>
+  </div>
+
+  <div class="fahrt">
+    Nacht
+    <button onclick="changeDrive('na',-1)">-</button>
+    <span id="naCount">0</span>
+    <button onclick="changeDrive('na',1)">+</button>
+    <span id="naMax"></span>
+  </div>
 
 </div>
-
 <!-- ========================= -->
 <!-- MODAL -->
 <!-- ========================= -->
