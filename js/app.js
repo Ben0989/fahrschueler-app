@@ -2,10 +2,11 @@ console.log("APP START")
 
 let students = JSON.parse(localStorage.getItem("students") || "[]")
 
-// 🔥 Absicherung
 if(!Array.isArray(students)){
   students = []
 }
+
+let currentStudentIndex = null
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -14,6 +15,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const closeBtn = document.getElementById("closeBtn")
   const saveBtn = document.getElementById("saveBtn")
   const studentList = document.getElementById("studentList")
+
+  const studentPanel = document.getElementById("studentPanel")
+  const panelName = document.getElementById("panelName")
+  const panelVorname = document.getElementById("panelVorname")
+  const closePanelBtn = document.getElementById("closePanelBtn")
 
   const nameInput = document.getElementById("name")
   const vornameInput = document.getElementById("vorname")
@@ -70,14 +76,38 @@ document.addEventListener("DOMContentLoaded", () => {
 
     studentList.innerHTML = ""
 
-    students.forEach(s => {
+    students.forEach((s, i) => {
 
       let div = document.createElement("div")
 
       div.innerHTML = `<b>${s.name}</b> ${s.vorname}`
 
+      div.onclick = () => openStudent(i)
+
       studentList.appendChild(div)
     })
+  }
+
+  // =========================
+  // STUDENT ÖFFNEN
+  // =========================
+  function openStudent(index){
+
+    currentStudentIndex = index
+
+    let s = students[index]
+
+    panelName.textContent = s.name
+    panelVorname.textContent = s.vorname
+
+    studentPanel.style.display = "block"
+  }
+
+  // =========================
+  // PANEL SCHLIESSEN
+  // =========================
+  closePanelBtn.onclick = () => {
+    studentPanel.style.display = "none"
   }
 
   renderList()
