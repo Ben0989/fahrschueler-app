@@ -127,7 +127,12 @@ document.addEventListener("DOMContentLoaded", () => {
     panelName.textContent = s.name
     panelVorname.textContent = s.vorname
     panelKlasse.textContent = s.klasse
-
+    document.getElementById("panelTelefon").textContent = s.telefon || "-"
+document.getElementById("panelAdresse").textContent = s.adresse || "-"
+document.getElementById("panelVorbesitz").textContent = s.vorbesitz || "-"
+document.getElementById("panelStart").textContent = s.startAusbildung || "-"
+document.getElementById("panelTheorie").textContent = s.pruefungTheorie || "-"
+document.getElementById("panelPraxis").textContent = s.pruefungPraxis || "-"
     renderFahrten()
 
     showTab("info") // 🔥 WICHTIG
