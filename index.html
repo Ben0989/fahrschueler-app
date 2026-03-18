@@ -18,28 +18,75 @@
 <!-- LISTE -->
 <div id="studentList"></div>
 
+<!-- ========================= -->
 <!-- PANEL -->
-<div id="studentPanel" style="display:none; padding:15px;">
+<!-- ========================= -->
+
+<div id="studentPanel" class="panel" style="display:none;">
 
   <h2 id="panelName"></h2>
 
-  <p><b>Vorname:</b> <span id="panelVorname"></span></p>
-  <p><b>Klasse:</b> <span id="panelKlasse"></span></p>
+  <!-- TABS -->
+  <div class="tabs">
+    <button onclick="showTab('info')">Infos</button>
+    <button onclick="showTab('fahrten')">Fahrten</button>
+    <button onclick="showTab('diagramm')">Diagramm</button>
+    <button onclick="showTab('auswertung')">Auswertung</button>
+  </div>
 
-  <hr>
+  <!-- ========================= -->
+  <!-- INFO TAB -->
+  <!-- ========================= -->
+  <div id="info" class="tab">
 
-  <!-- ===================== -->
-  <!-- FAHRTEN -->
-  <!-- ===================== -->
+    <p><b>Vorname:</b> <span id="panelVorname"></span></p>
+    <p><b>Klasse:</b> <span id="panelKlasse"></span></p>
 
-  <h3>Fahrstunden</h3>
+    <p><b>Telefon:</b> <span id="panelTelefon"></span></p>
+    <p><b>Adresse:</b> <span id="panelAdresse"></span></p>
+    <p><b>Vorbesitz:</b> <span id="panelVorbesitz"></span></p>
 
-  <input id="fahrtTitel" placeholder="Titel (z. B. Einparken)">
-  <textarea id="fahrtNotiz" placeholder="Notizen"></textarea>
+    <p><b>Start:</b> <span id="panelStart"></span></p>
+    <p><b>Theorie:</b> <span id="panelTheorie"></span></p>
+    <p><b>Praxis:</b> <span id="panelPraxis"></span></p>
 
-  <button id="addFahrtBtn" type="button">Fahrt speichern</button>
+  </div>
 
-  <div id="fahrtenListe"></div>
+  <!-- ========================= -->
+  <!-- FAHRTEN TAB -->
+  <!-- ========================= -->
+  <div id="fahrten" class="tab" style="display:none;">
+
+    <h3>Fahrstunden</h3>
+
+    <input id="fahrtTitel" placeholder="Titel">
+    <textarea id="fahrtNotiz" placeholder="Notizen"></textarea>
+
+    <button id="addFahrtBtn" type="button">Fahrt speichern</button>
+
+    <div id="fahrtenListe"></div>
+
+  </div>
+
+  <!-- ========================= -->
+  <!-- DIAGRAMM TAB -->
+  <!-- ========================= -->
+  <div id="diagramm" class="tab" style="display:none;">
+
+    <h3>Diagramm</h3>
+    <div id="diagramContainer"></div>
+
+  </div>
+
+  <!-- ========================= -->
+  <!-- AUSWERTUNG TAB -->
+  <!-- ========================= -->
+  <div id="auswertung" class="tab" style="display:none;">
+
+    <h3>Auswertung</h3>
+    <div id="auswertungText"></div>
+
+  </div>
 
   <hr>
 
@@ -49,7 +96,10 @@
 
 </div>
 
+<!-- ========================= -->
 <!-- MODAL -->
+<!-- ========================= -->
+
 <div id="studentModal" class="modal">
   <div class="modalBox">
 
