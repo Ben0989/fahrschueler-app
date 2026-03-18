@@ -1,6 +1,12 @@
 console.log("APP START")
 
 let students = JSON.parse(localStorage.getItem("students") || "[]")
+
+// 🔥 WICHTIG: Absicherung
+if(!Array.isArray(students)){
+  students = []
+}
+
 let currentStudentIndex = null
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -29,7 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const addFahrtBtn = document.getElementById("addFahrtBtn")
   const fahrtenListe = document.getElementById("fahrtenListe")
 
-  // FORM FELDER
+  // FORM
   const nameInput = document.getElementById("name")
   const vornameInput = document.getElementById("vorname")
   const klasseInput = document.getElementById("klasse")
@@ -91,6 +97,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     renderList()
     modal.style.display = "none"
+
+    // optional reset
+    nameInput.value = ""
+    vornameInput.value = ""
   }
 
   // =========================
@@ -135,11 +145,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("panelTheorie").textContent = s.pruefungTheorie || "-"
     document.getElementById("panelPraxis").textContent = s.pruefungPraxis || "-"
 
-    renderDiagram()
-    renderAuswertung()
-    renderDrives()
-
-    showTab("info")
+    renderFahrten()
 
     studentPanel.style.display = "block"
   }
@@ -229,180 +235,3 @@ document.addEventListener("DOMContentLoaded", () => {
   renderList()
 
 })
-
-
-// =========================
-// TAB SYSTEM
-// =========================
-
-function showTab(tabId){
-
-  document.querySelectorAll(".tab").forEach(tab => {
-    tab.style.display = "none"
-  })
-
-  const active = document.getElementById(tabId)
-  if(active){
-    active.style.display = "block"
-  }
-
-  try{
-    if(tabId === "auswertung"){
-      renderAuswertung()
-      renderDrives()
-    }
-  }catch(e){
-    console.warn("Tab Fehler:", e)
-  }
-}
-
-
-// =========================
-// DIAGRAMM
-// =========================
-
-function renderDiagram(){
-
-  const diagramContainer = document.getElementById("diagramContainer")
-  if(!diagramContainer || typeof DIAGRAMM === "undefined") return
-
-  diagramContainer.innerHTML = ""
-
-  let s = students[currentStudentIndex]
-
-  if(!s.diagramm){
-    s.diagramm = {}
-  }
-
-  Object.keys(DIAGRAMM).forEach(kategorie => {
-
-    let box = document.createElement("div")
-    box.className = "diagramBox"
-
-    let html = `<h3>${kategorie}</h3>`
-
-    DIAGRAMM[kategorie].forEach(item => {
-
-      let checked = s.diagramm[item] || false
-
-      html += `
-        <label>
-          ${item}
-          <input type="checkbox" ${checked ? "checked" : ""}>
-        </label>
-      `
-    })
-
-    box.innerHTML = html
-
-    box.querySelectorAll("input").forEach((cb, index) => {
-
-      let item = DIAGRAMM[kategorie][index]
-
-      cb.onchange = () => {
-        s.diagramm[item] = cb.checked
-        localStorage.setItem("students", JSON.stringify(students))
-      }
-
-    })
-
-    diagramContainer.appendChild(box)
-  })
-}
-
-
-// =========================
-// AUSWERTUNG
-// =========================
-
-function renderAuswertung(){
-
-  const container = document.getElementById("progressContainer")
-  if(!container || typeof DIAGRAMM === "undefined") return
-
-  container.innerHTML = ""
-
-  let s = students[currentStudentIndex]
-
-  if(!s.diagramm) return
-
-  Object.keys(DIAGRAMM).forEach(kategorie => {
-
-    let items = DIAGRAMM[kategorie]
-
-    let done = items.filter(i => s.diagramm[i]).length
-    let percent = Math.round((done / items.length) * 100)
-
-    let div = document.createElement("div")
-    div.className = "progressBlock"
-
-    div.innerHTML = `
-      <div class="progressTitle">${kategorie} (${percent}%)</div>
-      <div class="progressBar">
-        <div class="progressFill" style="width:${percent}%"></div>
-      </div>
-    `
-
-    container.appendChild(div)
-  })
-}
-
-
-// =========================
-// SONDERFAHRTEN
-// =========================
-
-function getDriveLimits(klasse){
-
-  if(klasse === "B"){
-    return { ul:5, ab:4, na:3 }
-  }
-
-  if(klasse === "BE"){
-    return { ul:3, ab:1, na:0 }
-  }
-
-  return { ul:0, ab:0, na:0 }
-}
-
-function renderDrives(){
-
-  if(!document.getElementById("ulCount")) return
-
-  let s = students[currentStudentIndex]
-
-  if(!s.drives){
-    s.drives = { ul:0, ab:0, na:0 }
-  }
-
-  let limits = getDriveLimits(s.klasse)
-
-  document.getElementById("ulCount").textContent = s.drives.ul
-  document.getElementById("abCount").textContent = s.drives.ab
-  document.getElementById("naCount").textContent = s.drives.na
-
-  document.getElementById("ulMax").textContent = "/ " + limits.ul
-  document.getElementById("abMax").textContent = "/ " + limits.ab
-  document.getElementById("naMax").textContent = "/ " + limits.na
-}
-
-function changeDrive(type, delta){
-
-  let s = students[currentStudentIndex]
-  if(!s) return
-
-  if(!s.drives){
-    s.drives = { ul:0, ab:0, na:0 }
-  }
-
-  let limits = getDriveLimits(s.klasse)
-
-  s.drives[type] += delta
-
-  if(s.drives[type] < 0) s.drives[type] = 0
-  if(s.drives[type] > limits[type]) s.drives[type] = limits[type]
-
-  localStorage.setItem("students", JSON.stringify(students))
-
-  renderDrives()
-}
