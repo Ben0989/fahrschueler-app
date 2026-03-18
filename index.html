@@ -34,6 +34,14 @@
       padding:10px;
       margin:10px;
       border-radius:6px;
+      cursor:pointer;
+    }
+
+    .panel{
+      background:white;
+      margin:10px;
+      padding:15px;
+      border-radius:8px;
     }
 
     .modal{
@@ -65,6 +73,17 @@
 </header>
 
 <div id="studentList"></div>
+
+<!-- PANEL -->
+<div id="studentPanel" class="panel" style="display:none;">
+
+  <h2 id="panelName"></h2>
+
+  <p><b>Vorname:</b> <span id="panelVorname"></span></p>
+
+  <button id="closePanelBtn">Schließen</button>
+
+</div>
 
 <!-- MODAL -->
 <div id="studentModal" class="modal">
