@@ -131,6 +131,24 @@ input{
   margin-top:10px;
 }
 
+.diagramBox{
+  background:#f9f9f9;
+  padding:12px;
+  margin-bottom:12px;
+  border-radius:8px;
+}
+
+.diagramBox h3{
+  margin-top:0;
+}
+
+.diagramBox label{
+  display:flex;
+  justify-content:space-between;
+  margin:4px 0;
+}
+
+
 /* ==============================
    RESPONSIVE
 ============================== */
