@@ -40,8 +40,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const theorieInput = document.getElementById("pruefungTheorie")
   const praxisInput = document.getElementById("pruefungPraxis")
 
-  const diagramContainer = document.getElementById("diagramContainer")
-  
   // =========================
   // MODAL
   // =========================
@@ -129,16 +127,19 @@ document.addEventListener("DOMContentLoaded", () => {
     panelName.textContent = s.name
     panelVorname.textContent = s.vorname
     panelKlasse.textContent = s.klasse
+
     document.getElementById("panelTelefon").textContent = s.telefon || "-"
-document.getElementById("panelAdresse").textContent = s.adresse || "-"
-document.getElementById("panelVorbesitz").textContent = s.vorbesitz || "-"
-document.getElementById("panelStart").textContent = s.startAusbildung || "-"
-document.getElementById("panelTheorie").textContent = s.pruefungTheorie || "-"
-document.getElementById("panelPraxis").textContent = s.pruefungPraxis || "-"
+    document.getElementById("panelAdresse").textContent = s.adresse || "-"
+    document.getElementById("panelVorbesitz").textContent = s.vorbesitz || "-"
+    document.getElementById("panelStart").textContent = s.startAusbildung || "-"
+    document.getElementById("panelTheorie").textContent = s.pruefungTheorie || "-"
+    document.getElementById("panelPraxis").textContent = s.pruefungPraxis || "-"
+
     renderDiagram()
     renderAuswertung()
     renderDrives()
-    showTab("info") // 🔥 WICHTIG
+
+    showTab("info")
 
     studentPanel.style.display = "block"
   }
@@ -231,7 +232,7 @@ document.getElementById("panelPraxis").textContent = s.pruefungPraxis || "-"
 
 
 // =========================
-// TAB SYSTEM (NEU)
+// TAB SYSTEM
 // =========================
 
 function showTab(tabId){
@@ -240,20 +241,30 @@ function showTab(tabId){
     tab.style.display = "none"
   })
 
-  document.getElementById(tabId).style.display = "block"
-
-  if(tabId === "auswertung"){
-    renderAuswertung()
-    renderDrives()
+  const active = document.getElementById(tabId)
+  if(active){
+    active.style.display = "block"
   }
 
+  try{
+    if(tabId === "auswertung"){
+      renderAuswertung()
+      renderDrives()
+    }
+  }catch(e){
+    console.warn("Tab Fehler:", e)
+  }
 }
-// =========================
-// DIAGRAMM FUNKTION
-// =========================
 
+
+// =========================
+// DIAGRAMM
+// =========================
 
 function renderDiagram(){
+
+  const diagramContainer = document.getElementById("diagramContainer")
+  if(!diagramContainer || typeof DIAGRAMM === "undefined") return
 
   diagramContainer.innerHTML = ""
 
@@ -289,9 +300,7 @@ function renderDiagram(){
       let item = DIAGRAMM[kategorie][index]
 
       cb.onchange = () => {
-
         s.diagramm[item] = cb.checked
-
         localStorage.setItem("students", JSON.stringify(students))
       }
 
@@ -301,14 +310,16 @@ function renderDiagram(){
   })
 }
 
-// =========================
-// AUSWERTUNGS FUNKTION
-// =========================
 
+// =========================
+// AUSWERTUNG
+// =========================
 
 function renderAuswertung(){
 
   const container = document.getElementById("progressContainer")
+  if(!container || typeof DIAGRAMM === "undefined") return
+
   container.innerHTML = ""
 
   let s = students[currentStudentIndex]
@@ -336,10 +347,10 @@ function renderAuswertung(){
   })
 }
 
-// =========================
-// SONDERFAHRTEN FUNKTION
-// =========================
 
+// =========================
+// SONDERFAHRTEN
+// =========================
 
 function getDriveLimits(klasse){
 
@@ -355,6 +366,8 @@ function getDriveLimits(klasse){
 }
 
 function renderDrives(){
+
+  if(!document.getElementById("ulCount")) return
 
   let s = students[currentStudentIndex]
 
@@ -376,6 +389,7 @@ function renderDrives(){
 function changeDrive(type, delta){
 
   let s = students[currentStudentIndex]
+  if(!s) return
 
   if(!s.drives){
     s.drives = { ul:0, ab:0, na:0 }
@@ -392,6 +406,3 @@ function changeDrive(type, delta){
 
   renderDrives()
 }
-
-
-
