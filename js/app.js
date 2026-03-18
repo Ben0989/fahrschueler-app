@@ -1,4 +1,4 @@
-console.log("APP START")
+  console.log("APP START")
 
 let students = JSON.parse(localStorage.getItem("students") || "[]")
 let currentStudentIndex = null
@@ -37,10 +37,14 @@ document.addEventListener("DOMContentLoaded", () => {
   // =========================
   saveBtn.onclick = () => {
 
-    let student = {
-      name: name.value,
-      vorname: vorname.value,
-      klasse: klasse.value,
+      const nameInput = document.getElementById("name")
+      const vornameInput = document.getElementById("vorname")
+      const klasseInput = document.getElementById("klasse")
+
+      let student = {
+      name: nameInput.value,
+      vorname: vornameInput.value,
+      klasse: klasseInput.value
       telefon: telefon.value,
       adresse: adresse.value,
       vorbesitz: vorbesitz.value,
