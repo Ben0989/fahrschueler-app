@@ -113,6 +113,24 @@ input{
   border-radius:8px;
   box-shadow:0 2px 6px rgba(0,0,0,0.1);
 }
+
+.tabs{
+  margin-bottom:10px;
+}
+
+.tabs button{
+  background:#eee;
+  color:#333;
+}
+
+.tabs button:hover{
+  background:#ddd;
+}
+
+.tab{
+  margin-top:10px;
+}
+
 /* ==============================
    RESPONSIVE
 ============================== */
