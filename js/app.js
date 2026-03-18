@@ -1,20 +1,44 @@
-  console.log("APP START")
+console.log("APP START")
 
 let students = JSON.parse(localStorage.getItem("students") || "[]")
 let currentStudentIndex = null
 
 document.addEventListener("DOMContentLoaded", () => {
 
+  // =========================
+  // ELEMENTE
+  // =========================
   const addBtn = document.getElementById("addStudentBtn")
   const modal = document.getElementById("studentModal")
   const closeBtn = document.getElementById("closeBtn")
   const saveBtn = document.getElementById("saveBtn")
 
+  const studentList = document.getElementById("studentList")
+  const studentPanel = document.getElementById("studentPanel")
+
+  const panelName = document.getElementById("panelName")
+  const panelVorname = document.getElementById("panelVorname")
+  const panelKlasse = document.getElementById("panelKlasse")
+
   const deleteBtn = document.getElementById("deleteBtn")
   const editBtn = document.getElementById("editBtn")
   const closePanelBtn = document.getElementById("closePanelBtn")
 
+  const fahrtTitel = document.getElementById("fahrtTitel")
+  const fahrtNotiz = document.getElementById("fahrtNotiz")
   const addFahrtBtn = document.getElementById("addFahrtBtn")
+  const fahrtenListe = document.getElementById("fahrtenListe")
+
+  // FORM FELDER
+  const nameInput = document.getElementById("name")
+  const vornameInput = document.getElementById("vorname")
+  const klasseInput = document.getElementById("klasse")
+  const telefonInput = document.getElementById("telefon")
+  const adresseInput = document.getElementById("adresse")
+  const vorbesitzInput = document.getElementById("vorbesitz")
+  const startInput = document.getElementById("startAusbildung")
+  const theorieInput = document.getElementById("pruefungTheorie")
+  const praxisInput = document.getElementById("pruefungPraxis")
 
   // =========================
   // MODAL
@@ -37,20 +61,16 @@ document.addEventListener("DOMContentLoaded", () => {
   // =========================
   saveBtn.onclick = () => {
 
-      const nameInput = document.getElementById("name")
-      const vornameInput = document.getElementById("vorname")
-      const klasseInput = document.getElementById("klasse")
-
-      let student = {
+    let student = {
       name: nameInput.value,
       vorname: vornameInput.value,
-      klasse: klasseInput.value
-      telefon: telefon.value,
-      adresse: adresse.value,
-      vorbesitz: vorbesitz.value,
-      startAusbildung: startAusbildung.value,
-      pruefungTheorie: pruefungTheorie.value,
-      pruefungPraxis: pruefungPraxis.value,
+      klasse: klasseInput.value,
+      telefon: telefonInput.value,
+      adresse: adresseInput.value,
+      vorbesitz: vorbesitzInput.value,
+      startAusbildung: startInput.value,
+      pruefungTheorie: theorieInput.value,
+      pruefungPraxis: praxisInput.value,
       fahrten: []
     }
 
@@ -102,7 +122,6 @@ document.addEventListener("DOMContentLoaded", () => {
   function openStudent(index){
 
     currentStudentIndex = index
-
     let s = students[index]
 
     panelName.textContent = s.name
@@ -115,7 +134,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // =========================
-  // FAHRTEN SPEICHERN
+  // FAHRTEN
   // =========================
   addFahrtBtn.onclick = () => {
 
@@ -144,14 +163,11 @@ document.addEventListener("DOMContentLoaded", () => {
     fahrtNotiz.value = ""
   }
 
-  // =========================
-  // FAHRTEN ANZEIGEN
-  // =========================
   function renderFahrten(){
 
-    let s = students[currentStudentIndex]
-
     fahrtenListe.innerHTML = ""
+
+    let s = students[currentStudentIndex]
 
     if(!s.fahrten) return
 
@@ -192,9 +208,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let s = students[currentStudentIndex]
 
-    name.value = s.name
-    vorname.value = s.vorname
-    klasse.value = s.klasse
+    nameInput.value = s.name
+    vornameInput.value = s.vorname
+    klasseInput.value = s.klasse
 
     modal.style.display = "flex"
   }
