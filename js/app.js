@@ -136,7 +136,8 @@ document.getElementById("panelStart").textContent = s.startAusbildung || "-"
 document.getElementById("panelTheorie").textContent = s.pruefungTheorie || "-"
 document.getElementById("panelPraxis").textContent = s.pruefungPraxis || "-"
     renderDiagram()
-
+    renderAuswertung()
+    renderDrives()
     showTab("info") // 🔥 WICHTIG
 
     studentPanel.style.display = "block"
@@ -239,13 +240,14 @@ function showTab(tabId){
     tab.style.display = "none"
   })
 
-  const active = document.getElementById(tabId)
-  if(active){
-    active.style.display = "block"
+  document.getElementById(tabId).style.display = "block"
+
+  if(tabId === "auswertung"){
+    renderAuswertung()
+    renderDrives()
   }
 
 }
-
 // =========================
 // DIAGRAMM FUNKTION
 // =========================
@@ -298,3 +300,98 @@ function renderDiagram(){
     diagramContainer.appendChild(box)
   })
 }
+
+// =========================
+// AUSWERTUNGS FUNKTION
+// =========================
+
+
+function renderAuswertung(){
+
+  const container = document.getElementById("progressContainer")
+  container.innerHTML = ""
+
+  let s = students[currentStudentIndex]
+
+  if(!s.diagramm) return
+
+  Object.keys(DIAGRAMM).forEach(kategorie => {
+
+    let items = DIAGRAMM[kategorie]
+
+    let done = items.filter(i => s.diagramm[i]).length
+    let percent = Math.round((done / items.length) * 100)
+
+    let div = document.createElement("div")
+    div.className = "progressBlock"
+
+    div.innerHTML = `
+      <div class="progressTitle">${kategorie} (${percent}%)</div>
+      <div class="progressBar">
+        <div class="progressFill" style="width:${percent}%"></div>
+      </div>
+    `
+
+    container.appendChild(div)
+  })
+}
+
+// =========================
+// SONDERFAHRTEN FUNKTION
+// =========================
+
+
+function getDriveLimits(klasse){
+
+  if(klasse === "B"){
+    return { ul:5, ab:4, na:3 }
+  }
+
+  if(klasse === "BE"){
+    return { ul:3, ab:1, na:0 }
+  }
+
+  return { ul:0, ab:0, na:0 }
+}
+
+function renderDrives(){
+
+  let s = students[currentStudentIndex]
+
+  if(!s.drives){
+    s.drives = { ul:0, ab:0, na:0 }
+  }
+
+  let limits = getDriveLimits(s.klasse)
+
+  document.getElementById("ulCount").textContent = s.drives.ul
+  document.getElementById("abCount").textContent = s.drives.ab
+  document.getElementById("naCount").textContent = s.drives.na
+
+  document.getElementById("ulMax").textContent = "/ " + limits.ul
+  document.getElementById("abMax").textContent = "/ " + limits.ab
+  document.getElementById("naMax").textContent = "/ " + limits.na
+}
+
+function changeDrive(type, delta){
+
+  let s = students[currentStudentIndex]
+
+  if(!s.drives){
+    s.drives = { ul:0, ab:0, na:0 }
+  }
+
+  let limits = getDriveLimits(s.klasse)
+
+  s.drives[type] += delta
+
+  if(s.drives[type] < 0) s.drives[type] = 0
+  if(s.drives[type] > limits[type]) s.drives[type] = limits[type]
+
+  localStorage.setItem("students", JSON.stringify(students))
+
+  renderDrives()
+}
+
+
+
