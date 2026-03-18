@@ -15,7 +15,6 @@
   <button id="addStudentBtn">+</button>
 </header>
 
-<!-- LISTE -->
 <div id="studentList"></div>
 
 <!-- PANEL -->
@@ -28,13 +27,29 @@
 
   <hr>
 
-  <!-- ===================== -->
+  <!-- ========================= -->
+  <!-- FORTSCHRITT -->
+  <!-- ========================= -->
+
+  <h3>Ausbildungsfortschritt</h3>
+
+  <div class="progressBlock">
+    <div class="progressTitle">Gesamt</div>
+    <div class="progressBar">
+      <div id="progressFill" class="progressFill"></div>
+    </div>
+    <div id="progressText"></div>
+  </div>
+
+  <hr>
+
+  <!-- ========================= -->
   <!-- FAHRTEN -->
-  <!-- ===================== -->
+  <!-- ========================= -->
 
   <h3>Fahrstunden</h3>
 
-  <input id="fahrtTitel" placeholder="Titel (z. B. Einparken)">
+  <input id="fahrtTitel" placeholder="Titel">
   <textarea id="fahrtNotiz" placeholder="Notizen"></textarea>
 
   <button id="addFahrtBtn" type="button">Fahrt speichern</button>
@@ -63,19 +78,6 @@
       <option>BE</option>
       <option>L</option>
     </select>
-
-    <input id="telefon" placeholder="Telefon">
-    <input id="adresse" placeholder="Adresse">
-    <input id="vorbesitz" placeholder="Vorbesitz">
-
-    <label>Start Ausbildung</label>
-    <input id="startAusbildung" type="date">
-
-    <label>Theorieprüfung</label>
-    <input id="pruefungTheorie" type="date">
-
-    <label>Praxisprüfung</label>
-    <input id="pruefungPraxis" type="date">
 
     <button id="saveBtn" type="button">Speichern</button>
     <button id="closeBtn" type="button">Abbrechen</button>
