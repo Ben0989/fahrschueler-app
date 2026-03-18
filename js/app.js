@@ -130,6 +130,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     renderFahrten()
 
+    showTab("info") // 🔥 WICHTIG
+
     studentPanel.style.display = "block"
   }
 
@@ -218,3 +220,21 @@ document.addEventListener("DOMContentLoaded", () => {
   renderList()
 
 })
+
+
+// =========================
+// TAB SYSTEM (NEU)
+// =========================
+
+function showTab(tabId){
+
+  document.querySelectorAll(".tab").forEach(tab => {
+    tab.style.display = "none"
+  })
+
+  const active = document.getElementById(tabId)
+  if(active){
+    active.style.display = "block"
+  }
+
+}
