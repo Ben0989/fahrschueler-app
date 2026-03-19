@@ -10,6 +10,9 @@ let currentStudentIndex = null
 
 document.addEventListener("DOMContentLoaded", () => {
 
+  // =========================
+  // ELEMENTE
+  // =========================
   const addBtn = document.getElementById("addStudentBtn")
   const modal = document.getElementById("studentModal")
   const closeBtn = document.getElementById("closeBtn")
@@ -20,6 +23,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const panelName = document.getElementById("panelName")
   const panelVorname = document.getElementById("panelVorname")
   const closePanelBtn = document.getElementById("closePanelBtn")
+
+  const deleteBtn = document.getElementById("deleteBtn")
+  const editBtn = document.getElementById("editBtn")
 
   const nameInput = document.getElementById("name")
   const vornameInput = document.getElementById("vorname")
@@ -36,17 +42,16 @@ document.addEventListener("DOMContentLoaded", () => {
   const fahrtNotiz = document.getElementById("fahrtNotiz")
   const addFahrtBtn = document.getElementById("addFahrtBtn")
   const fahrtenListe = document.getElementById("fahrtenListe")
-  
+
   // =========================
   // MODAL
   // =========================
   addBtn.onclick = () => {
+    currentStudentIndex = null
     modal.style.display = "flex"
   }
 
-  closeBtn.onclick = () => {
-    modal.style.display = "none"
-  }
+  closeBtn.onclick = () => modal.style.display = "none"
 
   modal.onclick = (e) => {
     if(e.target === modal){
@@ -68,23 +73,34 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     let student = {
-    name: nameInput.value,
-    vorname: vornameInput.value,
-    klasse: klasseInput.value,
-    telefon: telefonInput.value,
-    adresse: adresseInput.value,
-    vorbesitz: vorbesitzInput.value,
-    startAusbildung: startInput.value,
-    pruefungTheorie: theorieInput.value,
-    pruefungPraxis: praxisInput.value
-}
+      name,
+      vorname,
+      klasse: klasseInput.value,
+      telefon: telefonInput.value,
+      adresse: adresseInput.value,
+      vorbesitz: vorbesitzInput.value,
+      startAusbildung: startInput.value,
+      pruefungTheorie: theorieInput.value,
+      pruefungPraxis: praxisInput.value
+    }
+
+    // 🔥 FIX: speichern / edit
+    if(currentStudentIndex !== null){
+
+      student.fahrten = students[currentStudentIndex].fahrten || []
+      students[currentStudentIndex] = student
+      currentStudentIndex = null
+
+    } else {
+      students.push(student)
+    }
 
     localStorage.setItem("students", JSON.stringify(students))
 
     renderList()
-
     modal.style.display = "none"
 
+    // reset
     nameInput.value = ""
     vornameInput.value = ""
     klasseInput.value = "B"
@@ -96,39 +112,64 @@ document.addEventListener("DOMContentLoaded", () => {
     praxisInput.value = ""
   }
 
-  
-    addFahrtBtn.onclick = () => {
+  // =========================
+  // FAHRTEN
+  // =========================
+  addFahrtBtn.onclick = () => {
 
-  if(currentStudentIndex === null) return
+    if(currentStudentIndex === null) return
 
-  let titel = fahrtTitel.value
-  let notiz = fahrtNotiz.value
+    let titel = fahrtTitel.value
+    let notiz = fahrtNotiz.value
 
-  if(!titel) return
+    if(!titel) return
 
-  let fahrt = {
-    titel,
-    notiz,
-    datum: new Date().toLocaleDateString()
+    let fahrt = {
+      titel,
+      notiz,
+      datum: new Date().toLocaleDateString()
+    }
+
+    let s = students[currentStudentIndex]
+
+    if(!s.fahrten){
+      s.fahrten = []
+    }
+
+    s.fahrten.push(fahrt)
+
+    localStorage.setItem("students", JSON.stringify(students))
+
+    renderFahrten()
+
+    fahrtTitel.value = ""
+    fahrtNotiz.value = ""
   }
 
-  let s = students[currentStudentIndex]
+  function renderFahrten(){
 
-  if(!s.fahrten){
-    s.fahrten = []
+    if(currentStudentIndex === null) return
+
+    fahrtenListe.innerHTML = ""
+
+    let s = students[currentStudentIndex]
+
+    if(!s.fahrten) return
+
+    s.fahrten.forEach(f => {
+
+      let div = document.createElement("div")
+
+      div.innerHTML = `
+        <b>${f.titel}</b> (${f.datum})<br>
+        ${f.notiz || ""}
+        <hr>
+      `
+
+      fahrtenListe.appendChild(div)
+    })
   }
 
-  s.fahrten.push(fahrt)
-
-  localStorage.setItem("students", JSON.stringify(students))
-
-  renderFahrten()
-
-  fahrtTitel.value = ""
-  fahrtNotiz.value = ""
-}
-
-  
   // =========================
   // LISTE
   // =========================
@@ -159,6 +200,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     panelName.textContent = s.name
     panelVorname.textContent = s.vorname
+
     document.getElementById("panelKlasse").textContent = s.klasse || "-"
     document.getElementById("panelTelefon").textContent = s.telefon || "-"
     document.getElementById("panelAdresse").textContent = s.adresse || "-"
@@ -167,44 +209,75 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("panelTheorie").textContent = s.pruefungTheorie || "-"
     document.getElementById("panelPraxis").textContent = s.pruefungPraxis || "-"
 
-    
     studentPanel.style.display = "block"
+
+    renderFahrten()
+    showTab("info")
   }
 
-
-  function renderFahrten(){
-
-  if(currentStudentIndex === null) return
-
-  const fahrtenListe = document.getElementById("fahrtenListe")
-  if(!fahrtenListe) return
-
-  fahrtenListe.innerHTML = ""
-
-  let s = students[currentStudentIndex]
-
-  if(!s.fahrten) return
-
-  s.fahrten.forEach(f => {
-
-    let div = document.createElement("div")
-
-    div.innerHTML = `
-      <b>${f.titel}</b> (${f.datum})<br>
-      ${f.notiz || ""}
-      <hr>
-    `
-
-    fahrtenListe.appendChild(div)
-  })
-}
   // =========================
-  // PANEL SCHLIESSEN
+  // DELETE
+  // =========================
+  deleteBtn.onclick = () => {
+
+    if(currentStudentIndex === null) return
+
+    if(!confirm("Wirklich löschen?")) return
+
+    students.splice(currentStudentIndex, 1)
+
+    localStorage.setItem("students", JSON.stringify(students))
+
+    studentPanel.style.display = "none"
+
+    renderList()
+  }
+
+  // =========================
+  // EDIT
+  // =========================
+  editBtn.onclick = () => {
+
+    if(currentStudentIndex === null) return
+
+    let s = students[currentStudentIndex]
+
+    nameInput.value = s.name
+    vornameInput.value = s.vorname
+    klasseInput.value = s.klasse || "B"
+    telefonInput.value = s.telefon || ""
+    adresseInput.value = s.adresse || ""
+    vorbesitzInput.value = s.vorbesitz || ""
+    startInput.value = s.startAusbildung || ""
+    theorieInput.value = s.pruefungTheorie || ""
+    praxisInput.value = s.pruefungPraxis || ""
+
+    modal.style.display = "flex"
+  }
+
+  // =========================
+  // PANEL
   // =========================
   closePanelBtn.onclick = () => {
     studentPanel.style.display = "none"
   }
 
   renderList()
-  renderFahrten()
+
 })
+
+
+// =========================
+// TAB SYSTEM
+// =========================
+function showTab(tabId){
+
+  document.querySelectorAll(".tab").forEach(tab => {
+    tab.style.display = "none"
+  })
+
+  const active = document.getElementById(tabId)
+  if(active){
+    active.style.display = "block"
+  }
+}
