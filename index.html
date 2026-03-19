@@ -154,6 +154,20 @@
     .orange{ background:#ff9800; }
     .red{ background:#f44336; }
 
+    /* =============================
+       SONDERFAHRTEN
+    ============================= */
+
+    .driveRow{
+      margin:8px 0;
+      font-size:16px;
+    }
+
+    .driveRow button{
+      margin:0 6px;
+      width:30px;
+    }
+
   </style>
 </head>
 
@@ -209,7 +223,7 @@
     <div id="diagramContainer"></div>
   </div>
 
-  <!-- 🔥 AUSWERTUNG -->
+  <!-- AUSWERTUNG -->
   <div id="auswertung" class="tab" style="display:none;">
 
     <h3>Gesamtfortschritt</h3>
@@ -223,6 +237,34 @@
     <h3>Fortschritt nach Bereichen</h3>
 
     <div id="progressContainer"></div>
+
+    <hr>
+
+    <h3>Besondere Ausbildungsfahrten</h3>
+
+    <div class="driveRow">
+      Überland:
+      <button onclick="changeDrive('ul', -1)">-</button>
+      <span id="ulCount">0</span>
+      <span id="ulMax"></span>
+      <button onclick="changeDrive('ul', 1)">+</button>
+    </div>
+
+    <div class="driveRow">
+      Autobahn:
+      <button onclick="changeDrive('ab', -1)">-</button>
+      <span id="abCount">0</span>
+      <span id="abMax"></span>
+      <button onclick="changeDrive('ab', 1)">+</button>
+    </div>
+
+    <div class="driveRow">
+      Nacht:
+      <button onclick="changeDrive('na', -1)">-</button>
+      <span id="naCount">0</span>
+      <span id="naMax"></span>
+      <button onclick="changeDrive('na', 1)">+</button>
+    </div>
 
   </div>
 
