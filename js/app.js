@@ -32,6 +32,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const theorieInput = document.getElementById("pruefungTheorie")
   const praxisInput = document.getElementById("pruefungPraxis")
 
+  const fahrtTitel = document.getElementById("fahrtTitel")
+  const fahrtNotiz = document.getElementById("fahrtNotiz")
+  const addFahrtBtn = document.getElementById("addFahrtBtn")
+  const fahrtenListe = document.getElementById("fahrtenListe")
+  
   // =========================
   // MODAL
   // =========================
@@ -90,7 +95,38 @@ document.addEventListener("DOMContentLoaded", () => {
     theorieInput.value = ""
     praxisInput.value = ""
   }
-    
+
+  
+    addFahrtBtn.onclick = () => {
+
+  if(currentStudentIndex === null) return
+
+  let titel = fahrtTitel.value
+  let notiz = fahrtNotiz.value
+
+  if(!titel) return
+
+  let fahrt = {
+    titel,
+    notiz,
+    datum: new Date().toLocaleDateString()
+  }
+
+  let s = students[currentStudentIndex]
+
+  if(!s.fahrten){
+    s.fahrten = []
+  }
+
+  s.fahrten.push(fahrt)
+
+  localStorage.setItem("students", JSON.stringify(students))
+
+  renderFahrten()
+
+  fahrtTitel.value = ""
+  fahrtNotiz.value = ""
+}
 
   
   // =========================
@@ -135,6 +171,33 @@ document.addEventListener("DOMContentLoaded", () => {
     studentPanel.style.display = "block"
   }
 
+
+  function renderFahrten(){
+
+  if(currentStudentIndex === null) return
+
+  const fahrtenListe = document.getElementById("fahrtenListe")
+  if(!fahrtenListe) return
+
+  fahrtenListe.innerHTML = ""
+
+  let s = students[currentStudentIndex]
+
+  if(!s.fahrten) return
+
+  s.fahrten.forEach(f => {
+
+    let div = document.createElement("div")
+
+    div.innerHTML = `
+      <b>${f.titel}</b> (${f.datum})<br>
+      ${f.notiz || ""}
+      <hr>
+    `
+
+    fahrtenListe.appendChild(div)
+  })
+}
   // =========================
   // PANEL SCHLIESSEN
   // =========================
