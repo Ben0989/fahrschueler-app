@@ -304,7 +304,7 @@ function renderDiagram(){
 
 
 // =========================
-// AUSWERTUNG
+// AUSWERTUNG (NEU LOGIK)
 // =========================
 function renderAuswertung(){
 
@@ -327,6 +327,8 @@ function renderAuswertung(){
   let total = 0
   let doneTotal = 0
 
+  let reifePercent = 0
+
   Object.keys(DIAGRAMM).forEach(kategorie => {
 
     let items = DIAGRAMM[kategorie]
@@ -336,6 +338,12 @@ function renderAuswertung(){
 
     total += items.length
     doneTotal += done
+
+    // 🔥 Reife/Test = eine Kategorie
+    if(kategorie.toLowerCase().includes("reife") || 
+       kategorie.toLowerCase().includes("test")){
+      reifePercent = percent
+    }
 
     let color = "red"
     if(percent >= 80) color = "green"
@@ -358,15 +366,34 @@ function renderAuswertung(){
 
   gesamt.textContent = "Gesamt: " + gesamtProzent + "%"
 
-  if(gesamtProzent >= 80){
+  // 🔥 Sonderfahrten prüfen
+  let drivesOK = false
+
+  if(s.drives){
+    let limits = getDriveLimits(s.klasse)
+
+    drivesOK =
+      s.drives.ul >= limits.ul &&
+      s.drives.ab >= limits.ab &&
+      s.drives.na >= limits.na
+  }
+
+  let pruefungsreif =
+    gesamtProzent >= 80 &&
+    reifePercent === 100 &&
+    drivesOK
+
+  if(pruefungsreif){
     ampel.textContent = "🟢"
     status.textContent = "Prüfungsreif"
-  } else if(gesamtProzent >= 50){
+  }
+  else if(gesamtProzent >= 50){
     ampel.textContent = "🟡"
-    status.textContent = "Fortgeschritten"
-  } else {
+    status.textContent = "Noch nicht prüfungsreif"
+  }
+  else{
     ampel.textContent = "🔴"
-    status.textContent = "Anfänger"
+    status.textContent = "Ausbildung unzureichend"
   }
 }
 
