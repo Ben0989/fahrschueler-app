@@ -67,77 +67,93 @@
       width:300px;
     }
 
-    /* 🔥 Diagramm Layout */
+    /* =============================
+       DIAGRAMM
+    ============================= */
+
     #diagramContainer{
       display:grid;
       grid-template-columns:repeat(3,1fr);
-      gap:10px;
-      margin-top:10px;
+      gap:15px;
+      margin-top:15px;
     }
 
     .diagramBox{
-      background:#e3f2fd;
-      padding:10px;
-      border-radius:8px;
+      padding:12px;
+      border-radius:10px;
+      box-shadow:0 2px 6px rgba(0,0,0,0.1);
+      font-size:14px;
     }
 
     .diagramBox h3{
       margin-top:0;
-      font-size:14px;
+      font-size:15px;
     }
 
-    #diagramContainer{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:15px;
-  margin-top:15px;
-}
+    .diagramBox label{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin:4px 0;
+    }
 
-.diagramBox{
-  padding:12px;
-  border-radius:10px;
-  box-shadow:0 2px 6px rgba(0,0,0,0.1);
-  font-size:14px;
-}
+    .diagramBox:nth-child(1){background:#ffe0b2;}
+    .diagramBox:nth-child(2){background:#ffccbc;}
+    .diagramBox:nth-child(3){background:#ffcdd2;}
+    .diagramBox:nth-child(4){background:#fff9c4;}
+    .diagramBox:nth-child(5){background:#e6ee9c;}
+    .diagramBox:nth-child(6){background:#c5e1a5;}
+    .diagramBox:nth-child(7){background:#b2dfdb;}
+    .diagramBox:nth-child(8){background:#bbdefb;}
+    .diagramBox:nth-child(9){background:#d1c4e9;}
 
-.diagramBox h3{
-  margin-top:0;
-  font-size:15px;
-}
+    /* =============================
+       AUSWERTUNG
+    ============================= */
 
-/* 🔥 Text + Checkbox nebeneinander */
-.diagramBox label{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin:4px 0;
-}
+    #gesamtProgress{
+      font-size:18px;
+      font-weight:bold;
+      margin-bottom:10px;
+    }
 
-.diagramBox input{
-  margin-left:10px;
-}
+    #ampel{
+      font-size:40px;
+      margin-bottom:10px;
+    }
 
+    #pruefungsreife{
+      font-size:18px;
+      font-weight:bold;
+      margin-bottom:15px;
+    }
 
-/* 🔥 Farbverteilung */
-.diagramBox:nth-child(1){background:#ffe0b2;}
-.diagramBox:nth-child(2){background:#ffccbc;}
-.diagramBox:nth-child(3){background:#ffcdd2;}
+    .progressBlock{
+      margin:12px 0;
+    }
 
-.diagramBox:nth-child(4){background:#fff9c4;}
-.diagramBox:nth-child(5){background:#e6ee9c;}
-.diagramBox:nth-child(6){background:#c5e1a5;}
+    .progressTitle{
+      font-weight:bold;
+      margin-bottom:4px;
+    }
 
-.diagramBox:nth-child(7){background:#b2dfdb;}
-.diagramBox:nth-child(8){background:#bbdefb;}
-.diagramBox:nth-child(9){background:#d1c4e9;}
+    .progressBar{
+      background:#ddd;
+      border-radius:6px;
+      overflow:hidden;
+      height:18px;
+    }
 
-.diagramBox:nth-child(10){background:#e1bee7;}
-.diagramBox:nth-child(11){background:#f8bbd0;}
-.diagramBox:nth-child(12){background:#d7ccc8;}
+    .progressFill{
+      height:100%;
+      width:0%;
+      transition:width 0.3s;
+    }
 
-.diagramBox:nth-child(13){background:#cfd8dc;}
+    .green{ background:#4caf50; }
+    .orange{ background:#ff9800; }
+    .red{ background:#f44336; }
 
-    
   </style>
 </head>
 
@@ -159,9 +175,10 @@
     <button onclick="showTab('info')">Infos</button>
     <button onclick="showTab('fahrten')">Fahrten</button>
     <button onclick="showTab('diagramm')">Diagramm</button>
+    <button onclick="showTab('auswertung')">Auswertung</button>
   </div>
 
-  <!-- TAB INFOS -->
+  <!-- INFOS -->
   <div id="info" class="tab">
     <p><b>Vorname:</b> <span id="panelVorname"></span></p>
     <p><b>Klasse:</b> <span id="panelKlasse"></span></p>
@@ -173,9 +190,8 @@
     <p><b>Praxis:</b> <span id="panelPraxis"></span></p>
   </div>
 
-  <!-- TAB FAHRTEN -->
+  <!-- FAHRTEN -->
   <div id="fahrten" class="tab" style="display:none;">
-
     <h3>Fahrstunden</h3>
 
     <input id="fahrtTitel" placeholder="Titel">
@@ -186,12 +202,28 @@
     <hr>
 
     <div id="fahrtenListe"></div>
-
   </div>
 
-  <!-- 🔥 NEU: DIAGRAMM TAB -->
+  <!-- DIAGRAMM -->
   <div id="diagramm" class="tab" style="display:none;">
     <div id="diagramContainer"></div>
+  </div>
+
+  <!-- 🔥 AUSWERTUNG -->
+  <div id="auswertung" class="tab" style="display:none;">
+
+    <h3>Gesamtfortschritt</h3>
+
+    <div id="gesamtProgress"></div>
+    <div id="ampel"></div>
+    <div id="pruefungsreife"></div>
+
+    <hr>
+
+    <h3>Fortschritt nach Bereichen</h3>
+
+    <div id="progressContainer"></div>
+
   </div>
 
   <hr>
@@ -236,7 +268,6 @@
   </div>
 </div>
 
-<!-- 🔥 WICHTIG: REIHENFOLGE -->
 <script src="js/diagrammData.js"></script>
 <script src="js/app.js"></script>
 
