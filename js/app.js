@@ -24,6 +24,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const nameInput = document.getElementById("name")
   const vornameInput = document.getElementById("vorname")
 
+  const klasseInput = document.getElementById("klasse")
+  const telefonInput = document.getElementById("telefon")
+  const adresseInput = document.getElementById("adresse")
+  const vorbesitzInput = document.getElementById("vorbesitz")
+  const startInput = document.getElementById("startAusbildung")
+  const theorieInput = document.getElementById("pruefungTheorie")
+  const praxisInput = document.getElementById("pruefungPraxis")
+
   // =========================
   // MODAL
   // =========================
@@ -54,10 +62,17 @@ document.addEventListener("DOMContentLoaded", () => {
       return
     }
 
-    students.push({
-      name,
-      vorname
-    })
+    let student = {
+    name: nameInput.value,
+    vorname: vornameInput.value,
+    klasse: klasseInput.value,
+    telefon: telefonInput.value,
+    adresse: adresseInput.value,
+    vorbesitz: vorbesitzInput.value,
+    startAusbildung: startInput.value,
+    pruefungTheorie: theorieInput.value,
+    pruefungPraxis: praxisInput.value
+}
 
     localStorage.setItem("students", JSON.stringify(students))
 
@@ -67,8 +82,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
     nameInput.value = ""
     vornameInput.value = ""
+    klasseInput.value = "B"
+    telefonInput.value = ""
+    adresseInput.value = ""
+    vorbesitzInput.value = ""
+    startInput.value = ""
+    theorieInput.value = ""
+    praxisInput.value = ""
   }
+    
 
+  
   // =========================
   // LISTE
   // =========================
@@ -99,7 +123,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     panelName.textContent = s.name
     panelVorname.textContent = s.vorname
+    document.getElementById("panelKlasse").textContent = s.klasse || "-"
+    document.getElementById("panelTelefon").textContent = s.telefon || "-"
+    document.getElementById("panelAdresse").textContent = s.adresse || "-"
+    document.getElementById("panelVorbesitz").textContent = s.vorbesitz || "-"
+    document.getElementById("panelStart").textContent = s.startAusbildung || "-"
+    document.getElementById("panelTheorie").textContent = s.pruefungTheorie || "-"
+    document.getElementById("panelPraxis").textContent = s.pruefungPraxis || "-"
 
+    
     studentPanel.style.display = "block"
   }
 
