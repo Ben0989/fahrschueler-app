@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Fahrschüler App</title>
+
   <link rel="icon" type="image/png" sizes="32x32" href="icons/icon-192.png">
   <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
   <link rel="icon" type="image/png" sizes="512x512" href="icons/icon-512.png">
@@ -65,8 +66,26 @@
       border-radius:10px;
       width:300px;
     }
+
+    /* 🔥 Diagramm Layout */
+    #diagramContainer{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:10px;
+      margin-top:10px;
+    }
+
+    .diagramBox{
+      background:#e3f2fd;
+      padding:10px;
+      border-radius:8px;
+    }
+
+    .diagramBox h3{
+      margin-top:0;
+      font-size:14px;
+    }
   </style>
-  
 </head>
 
 <body>
@@ -86,11 +105,11 @@
   <div class="tabs">
     <button onclick="showTab('info')">Infos</button>
     <button onclick="showTab('fahrten')">Fahrten</button>
+    <button onclick="showTab('diagramm')">Diagramm</button>
   </div>
 
   <!-- TAB INFOS -->
   <div id="info" class="tab">
-
     <p><b>Vorname:</b> <span id="panelVorname"></span></p>
     <p><b>Klasse:</b> <span id="panelKlasse"></span></p>
     <p><b>Telefon:</b> <span id="panelTelefon"></span></p>
@@ -99,7 +118,6 @@
     <p><b>Start:</b> <span id="panelStart"></span></p>
     <p><b>Theorie:</b> <span id="panelTheorie"></span></p>
     <p><b>Praxis:</b> <span id="panelPraxis"></span></p>
-
   </div>
 
   <!-- TAB FAHRTEN -->
@@ -118,13 +136,19 @@
 
   </div>
 
+  <!-- 🔥 NEU: DIAGRAMM TAB -->
+  <div id="diagramm" class="tab" style="display:none;">
+    <div id="diagramContainer"></div>
+  </div>
+
   <hr>
 
   <button id="editBtn" type="button">Bearbeiten</button>
   <button id="deleteBtn" type="button">Löschen</button>
   <button id="closePanelBtn" type="button">Schließen</button>
 
-</div>  
+</div>
+
 <!-- MODAL -->
 <div id="studentModal" class="modal">
   <div class="modalBox">
@@ -133,6 +157,7 @@
 
     <input id="name" placeholder="Name"><br><br>
     <input id="vorname" placeholder="Vorname"><br><br>
+
     <select id="klasse">
       <option>B</option>
       <option>BE</option>
@@ -142,13 +167,15 @@
     <input id="telefon" placeholder="Telefon"><br><br>
     <input id="adresse" placeholder="Adresse"><br><br>
     <input id="vorbesitz" placeholder="Vorbesitz"><br><br>
+
     <label>Start Ausbildung</label><br>
     <input id="startAusbildung" type="date"><br><br>
+
     <label>Theorieprüfung</label><br>
     <input id="pruefungTheorie" type="date"><br><br>
+
     <label>Praxisprüfung</label><br>
     <input id="pruefungPraxis" type="date"><br><br>
-    
     
     <button id="saveBtn" type="button">Speichern</button>
     <button id="closeBtn" type="button">Abbrechen</button>
@@ -156,6 +183,8 @@
   </div>
 </div>
 
+<!-- 🔥 WICHTIG: REIHENFOLGE -->
+<script src="js/diagrammData.js"></script>
 <script src="js/app.js"></script>
 
 </body>
