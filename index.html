@@ -83,29 +83,48 @@
 
   <h2 id="panelName"></h2>
 
-  <p><b>Vorname:</b> <span id="panelVorname"></span></p>
-  <p><b>Klasse:</b> <span id="panelKlasse"></span></p>
-  <p><b>Telefon:</b> <span id="panelTelefon"></span></p>
-  <p><b>Adresse:</b> <span id="panelAdresse"></span></p>
-  <p><b>Vorbesitz:</b> <span id="panelVorbesitz"></span></p>
-  <p><b>Start:</b> <span id="panelStart"></span></p>
-  <p><b>Theorie:</b> <span id="panelTheorie"></span></p>
-  <p><b>Praxis:</b> <span id="panelPraxis"></span></p>
-  <button id="closePanelBtn">Schließen</button>
+  <div class="tabs">
+    <button onclick="showTab('info')">Infos</button>
+    <button onclick="showTab('fahrten')">Fahrten</button>
+  </div>
 
-  <h3>Fahrstunden</h3>
+  <!-- TAB INFOS -->
+  <div id="info" class="tab">
 
-<input id="fahrtTitel" placeholder="Titel der Fahrstunde">
-<textarea id="fahrtNotiz" placeholder="Notizen"></textarea>
+    <p><b>Vorname:</b> <span id="panelVorname"></span></p>
+    <p><b>Klasse:</b> <span id="panelKlasse"></span></p>
+    <p><b>Telefon:</b> <span id="panelTelefon"></span></p>
+    <p><b>Adresse:</b> <span id="panelAdresse"></span></p>
+    <p><b>Vorbesitz:</b> <span id="panelVorbesitz"></span></p>
+    <p><b>Start:</b> <span id="panelStart"></span></p>
+    <p><b>Theorie:</b> <span id="panelTheorie"></span></p>
+    <p><b>Praxis:</b> <span id="panelPraxis"></span></p>
 
-<button id="addFahrtBtn" type="button">Fahrt speichern</button>
+  </div>
 
-<hr>
+  <!-- TAB FAHRTEN -->
+  <div id="fahrten" class="tab" style="display:none;">
 
-<div id="fahrtenListe"></div>
+    <h3>Fahrstunden</h3>
 
-</div>
+    <input id="fahrtTitel" placeholder="Titel">
+    <textarea id="fahrtNotiz" placeholder="Notizen"></textarea>
 
+    <button id="addFahrtBtn" type="button">Fahrt speichern</button>
+
+    <hr>
+
+    <div id="fahrtenListe"></div>
+
+  </div>
+
+  <hr>
+
+  <button id="editBtn" type="button">Bearbeiten</button>
+  <button id="deleteBtn" type="button">Löschen</button>
+  <button id="closePanelBtn" type="button">Schließen</button>
+
+</div>  
 <!-- MODAL -->
 <div id="studentModal" class="modal">
   <div class="modalBox">
