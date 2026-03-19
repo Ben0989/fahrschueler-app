@@ -85,6 +85,59 @@
       margin-top:0;
       font-size:14px;
     }
+
+    #diagramContainer{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:15px;
+  margin-top:15px;
+}
+
+.diagramBox{
+  padding:12px;
+  border-radius:10px;
+  box-shadow:0 2px 6px rgba(0,0,0,0.1);
+  font-size:14px;
+}
+
+.diagramBox h3{
+  margin-top:0;
+  font-size:15px;
+}
+
+/* 🔥 Text + Checkbox nebeneinander */
+.diagramBox label{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin:4px 0;
+}
+
+.diagramBox input{
+  margin-left:10px;
+}
+
+
+/* 🔥 Farbverteilung */
+.diagramBox:nth-child(1){background:#ffe0b2;}
+.diagramBox:nth-child(2){background:#ffccbc;}
+.diagramBox:nth-child(3){background:#ffcdd2;}
+
+.diagramBox:nth-child(4){background:#fff9c4;}
+.diagramBox:nth-child(5){background:#e6ee9c;}
+.diagramBox:nth-child(6){background:#c5e1a5;}
+
+.diagramBox:nth-child(7){background:#b2dfdb;}
+.diagramBox:nth-child(8){background:#bbdefb;}
+.diagramBox:nth-child(9){background:#d1c4e9;}
+
+.diagramBox:nth-child(10){background:#e1bee7;}
+.diagramBox:nth-child(11){background:#f8bbd0;}
+.diagramBox:nth-child(12){background:#d7ccc8;}
+
+.diagramBox:nth-child(13){background:#cfd8dc;}
+
+    
   </style>
 </head>
 
