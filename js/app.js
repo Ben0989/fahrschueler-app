@@ -84,13 +84,11 @@ document.addEventListener("DOMContentLoaded", () => {
       pruefungPraxis: praxisInput.value
     }
 
-    // 🔥 FIX: speichern / edit
     if(currentStudentIndex !== null){
-
       student.fahrten = students[currentStudentIndex].fahrten || []
+      student.diagramm = students[currentStudentIndex].diagramm || {}
       students[currentStudentIndex] = student
       currentStudentIndex = null
-
     } else {
       students.push(student)
     }
@@ -212,6 +210,7 @@ document.addEventListener("DOMContentLoaded", () => {
     studentPanel.style.display = "block"
 
     renderFahrten()
+    renderDiagram()
     showTab("info")
   }
 
@@ -255,9 +254,6 @@ document.addEventListener("DOMContentLoaded", () => {
     modal.style.display = "flex"
   }
 
-  // =========================
-  // PANEL
-  // =========================
   closePanelBtn.onclick = () => {
     studentPanel.style.display = "none"
   }
@@ -280,4 +276,63 @@ function showTab(tabId){
   if(active){
     active.style.display = "block"
   }
+
+  if(tabId === "diagramm"){
+    renderDiagram()
+  }
+}
+
+
+// =========================
+// DIAGRAMM
+// =========================
+function renderDiagram(){
+
+  const container = document.getElementById("diagramContainer")
+
+  if(!container || typeof DIAGRAMM === "undefined") return
+  if(currentStudentIndex === null) return
+
+  container.innerHTML = ""
+
+  let s = students[currentStudentIndex]
+
+  if(!s.diagramm){
+    s.diagramm = {}
+  }
+
+  Object.keys(DIAGRAMM).forEach(kategorie => {
+
+    let box = document.createElement("div")
+    box.className = "diagramBox"
+
+    let html = `<h3>${kategorie}</h3>`
+
+    DIAGRAMM[kategorie].forEach(item => {
+
+      let checked = s.diagramm[item] || false
+
+      html += `
+        <label>
+          ${item}
+          <input type="checkbox" ${checked ? "checked" : ""}>
+        </label>
+      `
+    })
+
+    box.innerHTML = html
+
+    box.querySelectorAll("input").forEach((cb, index) => {
+
+      let item = DIAGRAMM[kategorie][index]
+
+      cb.onchange = () => {
+        s.diagramm[item] = cb.checked
+        localStorage.setItem("students", JSON.stringify(students))
+      }
+
+    })
+
+    container.appendChild(box)
+  })
 }
