@@ -10,9 +10,6 @@ let currentStudentIndex = null
 
 document.addEventListener("DOMContentLoaded", () => {
 
-  // =========================
-  // ELEMENTE
-  // =========================
   const addBtn = document.getElementById("addStudentBtn")
   const modal = document.getElementById("studentModal")
   const closeBtn = document.getElementById("closeBtn")
@@ -43,9 +40,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const addFahrtBtn = document.getElementById("addFahrtBtn")
   const fahrtenListe = document.getElementById("fahrtenListe")
 
-  // =========================
-  // MODAL
-  // =========================
   addBtn.onclick = () => {
     currentStudentIndex = null
     modal.style.display = "flex"
@@ -59,9 +53,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // =========================
-  // SPEICHERN
-  // =========================
   saveBtn.onclick = () => {
 
     let name = nameInput.value
@@ -98,21 +89,11 @@ document.addEventListener("DOMContentLoaded", () => {
     renderList()
     modal.style.display = "none"
 
-    // reset
     nameInput.value = ""
     vornameInput.value = ""
     klasseInput.value = "B"
-    telefonInput.value = ""
-    adresseInput.value = ""
-    vorbesitzInput.value = ""
-    startInput.value = ""
-    theorieInput.value = ""
-    praxisInput.value = ""
   }
 
-  // =========================
-  // FAHRTEN
-  // =========================
   addFahrtBtn.onclick = () => {
 
     if(currentStudentIndex === null) return
@@ -139,9 +120,6 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.setItem("students", JSON.stringify(students))
 
     renderFahrten()
-
-    fahrtTitel.value = ""
-    fahrtNotiz.value = ""
   }
 
   function renderFahrten(){
@@ -168,9 +146,6 @@ document.addEventListener("DOMContentLoaded", () => {
     })
   }
 
-  // =========================
-  // LISTE
-  // =========================
   function renderList(){
 
     studentList.innerHTML = ""
@@ -187,9 +162,6 @@ document.addEventListener("DOMContentLoaded", () => {
     })
   }
 
-  // =========================
-  // STUDENT ÖFFNEN
-  // =========================
   function openStudent(index){
 
     currentStudentIndex = index
@@ -211,16 +183,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     renderFahrten()
     renderDiagram()
+    renderAuswertung()
     showTab("info")
   }
 
-  // =========================
-  // DELETE
-  // =========================
   deleteBtn.onclick = () => {
 
     if(currentStudentIndex === null) return
-
     if(!confirm("Wirklich löschen?")) return
 
     students.splice(currentStudentIndex, 1)
@@ -232,9 +201,6 @@ document.addEventListener("DOMContentLoaded", () => {
     renderList()
   }
 
-  // =========================
-  // EDIT
-  // =========================
   editBtn.onclick = () => {
 
     if(currentStudentIndex === null) return
@@ -244,12 +210,6 @@ document.addEventListener("DOMContentLoaded", () => {
     nameInput.value = s.name
     vornameInput.value = s.vorname
     klasseInput.value = s.klasse || "B"
-    telefonInput.value = s.telefon || ""
-    adresseInput.value = s.adresse || ""
-    vorbesitzInput.value = s.vorbesitz || ""
-    startInput.value = s.startAusbildung || ""
-    theorieInput.value = s.pruefungTheorie || ""
-    praxisInput.value = s.pruefungPraxis || ""
 
     modal.style.display = "flex"
   }
@@ -277,9 +237,8 @@ function showTab(tabId){
     active.style.display = "block"
   }
 
-  if(tabId === "diagramm"){
-    renderDiagram()
-  }
+  if(tabId === "diagramm") renderDiagram()
+  if(tabId === "auswertung") renderAuswertung()
 }
 
 
@@ -335,4 +294,72 @@ function renderDiagram(){
 
     container.appendChild(box)
   })
+}
+
+
+// =========================
+// AUSWERTUNG
+// =========================
+function renderAuswertung(){
+
+  if(currentStudentIndex === null) return
+  if(typeof DIAGRAMM === "undefined") return
+
+  let s = students[currentStudentIndex]
+
+  if(!s.diagramm) return
+
+  const container = document.getElementById("progressContainer")
+  const gesamt = document.getElementById("gesamtProgress")
+  const ampel = document.getElementById("ampel")
+  const status = document.getElementById("pruefungsreife")
+
+  if(!container) return
+
+  container.innerHTML = ""
+
+  let total = 0
+  let doneTotal = 0
+
+  Object.keys(DIAGRAMM).forEach(kategorie => {
+
+    let items = DIAGRAMM[kategorie]
+
+    let done = items.filter(i => s.diagramm[i]).length
+    let percent = Math.round((done / items.length) * 100)
+
+    total += items.length
+    doneTotal += done
+
+    let color = "red"
+    if(percent >= 80) color = "green"
+    else if(percent >= 50) color = "orange"
+
+    let div = document.createElement("div")
+    div.className = "progressBlock"
+
+    div.innerHTML = `
+      <div class="progressTitle">${kategorie} (${percent}%)</div>
+      <div class="progressBar">
+        <div class="progressFill ${color}" style="width:${percent}%"></div>
+      </div>
+    `
+
+    container.appendChild(div)
+  })
+
+  let gesamtProzent = Math.round((doneTotal / total) * 100)
+
+  gesamt.textContent = "Gesamt: " + gesamtProzent + "%"
+
+  if(gesamtProzent >= 80){
+    ampel.textContent = "🟢"
+    status.textContent = "Prüfungsreif"
+  } else if(gesamtProzent >= 50){
+    ampel.textContent = "🟡"
+    status.textContent = "Fortgeschritten"
+  } else {
+    ampel.textContent = "🔴"
+    status.textContent = "Anfänger"
+  }
 }
