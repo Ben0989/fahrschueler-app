@@ -381,7 +381,7 @@ function getDriveLimits(klasse){
   }
 
   if(klasse === "BE"){
-    return { ul:3, ab:1, na:0 }
+    return { ul:3, ab:1, na:1 }
   }
 
   return { ul:0, ab:0, na:0 }
