@@ -78,6 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if(currentStudentIndex !== null){
       student.fahrten = students[currentStudentIndex].fahrten || []
       student.diagramm = students[currentStudentIndex].diagramm || {}
+      student.drives = students[currentStudentIndex].drives || { ul:0, ab:0, na:0 }
       students[currentStudentIndex] = student
       currentStudentIndex = null
     } else {
@@ -184,6 +185,7 @@ document.addEventListener("DOMContentLoaded", () => {
     renderFahrten()
     renderDiagram()
     renderAuswertung()
+    renderDrives()
     showTab("info")
   }
 
@@ -238,7 +240,11 @@ function showTab(tabId){
   }
 
   if(tabId === "diagramm") renderDiagram()
-  if(tabId === "auswertung") renderAuswertung()
+
+  if(tabId === "auswertung"){
+    renderAuswertung()
+    renderDrives()
+  }
 }
 
 
@@ -362,4 +368,64 @@ function renderAuswertung(){
     ampel.textContent = "🔴"
     status.textContent = "Anfänger"
   }
+}
+
+
+// =========================
+// SONDERFAHRTEN
+// =========================
+function getDriveLimits(klasse){
+
+  if(klasse === "B"){
+    return { ul:5, ab:4, na:3 }
+  }
+
+  if(klasse === "BE"){
+    return { ul:3, ab:1, na:0 }
+  }
+
+  return { ul:0, ab:0, na:0 }
+}
+
+function renderDrives(){
+
+  if(currentStudentIndex === null) return
+
+  let s = students[currentStudentIndex]
+
+  if(!s.drives){
+    s.drives = { ul:0, ab:0, na:0 }
+  }
+
+  let limits = getDriveLimits(s.klasse)
+
+  document.getElementById("ulCount").textContent = s.drives.ul
+  document.getElementById("abCount").textContent = s.drives.ab
+  document.getElementById("naCount").textContent = s.drives.na
+
+  document.getElementById("ulMax").textContent = "/ " + limits.ul
+  document.getElementById("abMax").textContent = "/ " + limits.ab
+  document.getElementById("naMax").textContent = "/ " + limits.na
+}
+
+function changeDrive(type, delta){
+
+  if(currentStudentIndex === null) return
+
+  let s = students[currentStudentIndex]
+
+  if(!s.drives){
+    s.drives = { ul:0, ab:0, na:0 }
+  }
+
+  let limits = getDriveLimits(s.klasse)
+
+  s.drives[type] += delta
+
+  if(s.drives[type] < 0) s.drives[type] = 0
+  if(s.drives[type] > limits[type]) s.drives[type] = limits[type]
+
+  localStorage.setItem("students", JSON.stringify(students))
+
+  renderDrives()
 }
