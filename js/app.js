@@ -8,6 +8,12 @@ if(!Array.isArray(students)){
 
 let currentStudentIndex = null
 
+// 🔥 GPS VARIABLEN
+let watchId = null
+let route = []
+let startTime = null
+let totalDistance = 0
+
 document.addEventListener("DOMContentLoaded", () => {
 
   const addBtn = document.getElementById("addStudentBtn")
@@ -39,6 +45,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const fahrtNotiz = document.getElementById("fahrtNotiz")
   const addFahrtBtn = document.getElementById("addFahrtBtn")
   const fahrtenListe = document.getElementById("fahrtenListe")
+
+  // 🔥 GPS ELEMENTE
+  const startTrackingBtn = document.getElementById("startTrackingBtn")
+  const stopTrackingBtn = document.getElementById("stopTrackingBtn")
+  const distanceEl = document.getElementById("distance")
+  const durationEl = document.getElementById("duration")
+  const speedEl = document.getElementById("speed")
 
   addBtn.onclick = () => {
     currentStudentIndex = null
@@ -95,6 +108,60 @@ document.addEventListener("DOMContentLoaded", () => {
     klasseInput.value = "B"
   }
 
+  // =========================
+  // GPS START
+  // =========================
+  if(startTrackingBtn){
+    startTrackingBtn.onclick = () => {
+
+      if(!navigator.geolocation){
+        alert("GPS nicht verfügbar")
+        return
+      }
+
+      route = []
+      totalDistance = 0
+      startTime = Date.now()
+
+      watchId = navigator.geolocation.watchPosition(pos => {
+
+        let lat = pos.coords.latitude
+        let lng = pos.coords.longitude
+        let speed = pos.coords.speed || 0
+
+        let point = { lat, lng, time: Date.now() }
+        route.push(point)
+
+        if(route.length > 1){
+          let prev = route[route.length - 2]
+          totalDistance += getDistance(prev, point)
+        }
+
+        if(distanceEl) distanceEl.textContent = (totalDistance / 1000).toFixed(2)
+
+        let duration = (Date.now() - startTime) / 60000
+        if(durationEl) durationEl.textContent = duration.toFixed(1)
+
+        if(speedEl) speedEl.textContent = (speed * 3.6).toFixed(1)
+
+      }, err => console.error(err), {
+        enableHighAccuracy:true
+      })
+    }
+  }
+
+  // =========================
+  // GPS STOP
+  // =========================
+  if(stopTrackingBtn){
+    stopTrackingBtn.onclick = () => {
+      if(watchId !== null){
+        navigator.geolocation.clearWatch(watchId)
+        watchId = null
+      }
+    }
+  }
+
   addFahrtBtn.onclick = () => {
 
     if(currentStudentIndex === null) return
@@ -107,7 +174,12 @@ document.addEventListener("DOMContentLoaded", () => {
     let fahrt = {
       titel,
       notiz,
-      datum: new Date().toLocaleDateString()
+      datum: new Date().toLocaleDateString(),
+
+      // 🔥 GPS DATEN
+      distance: totalDistance,
+      duration: startTime ? (Date.now() - startTime) : 0,
+      route: route
     }
 
     let s = students[currentStudentIndex]
@@ -139,7 +211,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
       div.innerHTML = `
         <b>${f.titel}</b> (${f.datum})<br>
-        ${f.notiz || ""}
+        ${f.notiz || ""}<br>
+        Strecke: ${(f.distance/1000 || 0).toFixed(2)} km<br>
+        Dauer: ${((f.duration||0)/60000).toFixed(1)} min
         <hr>
       `
 
@@ -226,233 +300,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 // =========================
-// TAB SYSTEM
+// Haversine
 // =========================
-function showTab(tabId){
+function getDistance(a, b){
 
-  document.querySelectorAll(".tab").forEach(tab => {
-    tab.style.display = "none"
-  })
+  const R = 6371000
 
-  const active = document.getElementById(tabId)
-  if(active){
-    active.style.display = "block"
-  }
+  const dLat = (b.lat - a.lat) * Math.PI / 180
+  const dLon = (b.lng - a.lng) * Math.PI / 180
 
-  if(tabId === "diagramm") renderDiagram()
+  const lat1 = a.lat * Math.PI / 180
+  const lat2 = b.lat * Math.PI / 180
 
-  if(tabId === "auswertung"){
-    renderAuswertung()
-    renderDrives()
-  }
-}
+  const x = Math.sin(dLat/2) * Math.sin(dLat/2) +
+            Math.sin(dLon/2) * Math.sin(dLon/2) *
+            Math.cos(lat1) * Math.cos(lat2)
 
+  const y = 2 * Math.atan2(Math.sqrt(x), Math.sqrt(1-x))
 
-// =========================
-// DIAGRAMM
-// =========================
-function renderDiagram(){
-
-  const container = document.getElementById("diagramContainer")
-
-  if(!container || typeof DIAGRAMM === "undefined") return
-  if(currentStudentIndex === null) return
-
-  container.innerHTML = ""
-
-  let s = students[currentStudentIndex]
-
-  if(!s.diagramm){
-    s.diagramm = {}
-  }
-
-  Object.keys(DIAGRAMM).forEach(kategorie => {
-
-    let box = document.createElement("div")
-    box.className = "diagramBox"
-
-    let html = `<h3>${kategorie}</h3>`
-
-    DIAGRAMM[kategorie].forEach(item => {
-
-      let checked = s.diagramm[item] || false
-
-      html += `
-        <label>
-          ${item}
-          <input type="checkbox" ${checked ? "checked" : ""}>
-        </label>
-      `
-    })
-
-    box.innerHTML = html
-
-    box.querySelectorAll("input").forEach((cb, index) => {
-
-      let item = DIAGRAMM[kategorie][index]
-
-      cb.onchange = () => {
-        s.diagramm[item] = cb.checked
-        localStorage.setItem("students", JSON.stringify(students))
-      }
-
-    })
-
-    container.appendChild(box)
-  })
-}
-
-
-// =========================
-// AUSWERTUNG (NEU LOGIK)
-// =========================
-function renderAuswertung(){
-
-  if(currentStudentIndex === null) return
-  if(typeof DIAGRAMM === "undefined") return
-
-  let s = students[currentStudentIndex]
-
-  if(!s.diagramm) return
-
-  const container = document.getElementById("progressContainer")
-  const gesamt = document.getElementById("gesamtProgress")
-  const ampel = document.getElementById("ampel")
-  const status = document.getElementById("pruefungsreife")
-
-  if(!container) return
-
-  container.innerHTML = ""
-
-  let total = 0
-  let doneTotal = 0
-
-  let reifePercent = 0
-
-  Object.keys(DIAGRAMM).forEach(kategorie => {
-
-    let items = DIAGRAMM[kategorie]
-
-    let done = items.filter(i => s.diagramm[i]).length
-    let percent = Math.round((done / items.length) * 100)
-
-    total += items.length
-    doneTotal += done
-
-    // 🔥 Reife/Test = eine Kategorie
-    if(kategorie.toLowerCase().includes("reife") || 
-       kategorie.toLowerCase().includes("test")){
-      reifePercent = percent
-    }
-
-    let color = "red"
-    if(percent >= 80) color = "green"
-    else if(percent >= 50) color = "orange"
-
-    let div = document.createElement("div")
-    div.className = "progressBlock"
-
-    div.innerHTML = `
-      <div class="progressTitle">${kategorie} (${percent}%)</div>
-      <div class="progressBar">
-        <div class="progressFill ${color}" style="width:${percent}%"></div>
-      </div>
-    `
-
-    container.appendChild(div)
-  })
-
-  let gesamtProzent = Math.round((doneTotal / total) * 100)
-
-  gesamt.textContent = "Gesamt: " + gesamtProzent + "%"
-
-  // 🔥 Sonderfahrten prüfen
-  let drivesOK = false
-
-  if(s.drives){
-    let limits = getDriveLimits(s.klasse)
-
-    drivesOK =
-      s.drives.ul >= limits.ul &&
-      s.drives.ab >= limits.ab &&
-      s.drives.na >= limits.na
-  }
-
-  let pruefungsreif =
-    gesamtProzent >= 80 &&
-    reifePercent === 100 &&
-    drivesOK
-
-  if(pruefungsreif){
-    ampel.textContent = "🟢"
-    status.textContent = "Prüfungsreif"
-  }
-  else if(gesamtProzent >= 50){
-    ampel.textContent = "🟡"
-    status.textContent = "Noch nicht prüfungsreif"
-  }
-  else{
-    ampel.textContent = "🔴"
-    status.textContent = "Ausbildung unzureichend"
-  }
-}
-
-
-// =========================
-// SONDERFAHRTEN
-// =========================
-function getDriveLimits(klasse){
-
-  if(klasse === "B"){
-    return { ul:5, ab:4, na:3 }
-  }
-
-  if(klasse === "BE"){
-    return { ul:3, ab:1, na:1 }
-  }
-
-  return { ul:0, ab:0, na:0 }
-}
-
-function renderDrives(){
-
-  if(currentStudentIndex === null) return
-
-  let s = students[currentStudentIndex]
-
-  if(!s.drives){
-    s.drives = { ul:0, ab:0, na:0 }
-  }
-
-  let limits = getDriveLimits(s.klasse)
-
-  document.getElementById("ulCount").textContent = s.drives.ul
-  document.getElementById("abCount").textContent = s.drives.ab
-  document.getElementById("naCount").textContent = s.drives.na
-
-  document.getElementById("ulMax").textContent = "/ " + limits.ul
-  document.getElementById("abMax").textContent = "/ " + limits.ab
-  document.getElementById("naMax").textContent = "/ " + limits.na
-}
-
-function changeDrive(type, delta){
-
-  if(currentStudentIndex === null) return
-
-  let s = students[currentStudentIndex]
-
-  if(!s.drives){
-    s.drives = { ul:0, ab:0, na:0 }
-  }
-
-  let limits = getDriveLimits(s.klasse)
-
-  s.drives[type] += delta
-
-  if(s.drives[type] < 0) s.drives[type] = 0
-  if(s.drives[type] > limits[type]) s.drives[type] = limits[type]
-
-  localStorage.setItem("students", JSON.stringify(students))
-
-  renderDrives()
+  return R * y
 }
