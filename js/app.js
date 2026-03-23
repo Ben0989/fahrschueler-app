@@ -1,5 +1,3 @@
-Bitte füge den code der App.js hier sauber ein da ich sonst Sachen evtl falsch einsetzte
-
 console.log("APP START")
 
 let students = JSON.parse(localStorage.getItem("students") || "[]")
